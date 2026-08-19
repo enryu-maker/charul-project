@@ -1,32 +1,105 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { Menu, X } from "lucide-react";
+
+const navLinks = [
+    { label: "Practice", href: "#practice" },
+    { label: "Work", href: "#projects" },
+    { label: "Process", href: "#process" },
+    { label: "Contact", href: "#contact" },
+];
+
 export function SiteNav() {
+    const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") {
+                setIsOpen(false);
+            }
+        };
+        if (isOpen) {
+            window.addEventListener("keydown", handleKeyDown);
+        }
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [isOpen]);
+
     return (
-        <nav className="fixed inset-x-0 top-0 z-50 flex items-center justify-between border-b border-border bg-bone/85 px-6 py-4 backdrop-blur md:px-12">
-            <a href="#top" className="flex items-center">
-                <img
-                    src="/charul-logo-light.webp"
-                    alt="Charul Projects Pvt. Ltd."
-                    width={1920}
-                    height={525}
-                    className="h-8 w-auto md:h-9"
-                />
-            </a>
-            <div className="flex items-center gap-6 text-xs tracking-[0.18em] text-foreground uppercase">
-                <a href="#practice" className="hidden hover:text-brand-green sm:inline">
-                    Practice
+        <nav className="fixed inset-x-0 top-0 z-50 border-b border-border bg-bone/85 backdrop-blur">
+            <div className="flex items-center justify-between px-6 py-4 md:px-12">
+                <a
+                    href="#top"
+                    className="flex items-center"
+                    onClick={() => setIsOpen(false)}
+                >
+                    <img
+                        src="/charul-logo-light.webp"
+                        alt="Charul Projects Pvt. Ltd."
+                        width={1920}
+                        height={525}
+                        className="h-8 w-auto md:h-9"
+                    />
                 </a>
-                <a href="#projects" className="hover:text-brand-green">
-                    Work
-                </a>
-                <a href="#process" className="hidden hover:text-brand-green sm:inline">
-                    Process
-                </a>
-                <a href="#contact" className="hover:text-brand-green">
-                    Contact
-                </a>
+
+                {/* Desktop navigation */}
+                <div className="hidden md:flex items-center gap-6 text-xs tracking-[0.18em] text-foreground uppercase">
+                    {navLinks.map((link) => (
+                        <a
+                            key={link.href}
+                            href={link.href}
+                            className="transition-colors hover:text-brand-green"
+                        >
+                            {link.label}
+                        </a>
+                    ))}
+                </div>
+
+                {/* Mobile hamburger menu button */}
+                <button
+                    type="button"
+                    onClick={() => setIsOpen((prev) => !prev)}
+                    aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
+                    aria-expanded={isOpen}
+                    aria-controls="mobile-nav-menu"
+                    className="flex items-center justify-center p-1 text-foreground transition-colors hover:text-brand-green focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green md:hidden"
+                >
+                    {isOpen ? (
+                        <X className="h-6 w-6" aria-hidden="true" />
+                    ) : (
+                        <Menu className="h-6 w-6" aria-hidden="true" />
+                    )}
+                </button>
+            </div>
+
+            {/* Mobile navigation menu */}
+            <div
+                id="mobile-nav-menu"
+                className={`overflow-hidden transition-all duration-300 ease-in-out md:hidden ${
+                    isOpen
+                        ? "max-h-72 border-t border-border opacity-100"
+                        : "max-h-0 border-t-0 opacity-0 pointer-events-none"
+                }`}
+            >
+                <div className="flex flex-col space-y-1 bg-bone/95 px-6 py-4 backdrop-blur-md">
+                    {navLinks.map((link) => (
+                        <a
+                            key={link.href}
+                            href={link.href}
+                            onClick={() => setIsOpen(false)}
+                            className="py-2.5 text-xs tracking-[0.18em] text-foreground uppercase transition-colors hover:text-brand-green"
+                        >
+                            {link.label}
+                        </a>
+                    ))}
+                </div>
             </div>
         </nav>
     );
 }
+
 
 export function Hero() {
     return (
