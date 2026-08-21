@@ -161,12 +161,35 @@ const fallbackPractice = {
     image: "/texture-blueprint.jpg",
 };
 
+const fallbackMissionVision = [
+    {
+        id: "mission",
+        title: "Mission",
+        description:
+            "Turn vision into working buildings — on time, on scope, without compromise.\n\nWe plan, cost, build and commission so industry, healthcare, homes and land perform the way they were promised — and we stay until they do.",
+    },
+    {
+        id: "vision",
+        title: "Vision",
+        description:
+            "The most trusted project partner in and around Nashik.\n\nA practice known for referral-won work, senior engineers on the brief, and buildings that prove the drawings — project after project, decade after decade.",
+    },
+];
+
 export function Practice({ items = [] }: { items?: ApiPractice[] }) {
     const primary = items[0];
     const title = primary?.title || fallbackPractice.title;
     const description = primary?.description || fallbackPractice.description;
     const image = mediaUrl(primary?.image) || fallbackPractice.image;
     const paragraphs = description.split(/\n+/).filter(Boolean);
+    const extras =
+        items.length > 1
+            ? items.slice(1).map((item) => ({
+                  id: String(item.id),
+                  title: item.title,
+                  description: item.description,
+              }))
+            : fallbackMissionVision;
 
     return (
         <section id="practice" className="px-6 py-24 md:px-12 md:py-36">
@@ -197,33 +220,22 @@ export function Practice({ items = [] }: { items?: ApiPractice[] }) {
                     </h2>
                 </figcaption>
             </figure>
+
             <div id="about" className="mt-20 grid gap-4 border-t border-border pt-12 md:grid-cols-2 md:gap-6">
-                <article className="group flex min-h-[260px] flex-col justify-between border border-border bg-card p-7 transition-colors duration-300 hover:border-brand-green md:p-9">
-                    <p className="eyebrow">Mission</p>
-                    <div>
-                        <h3 className="mt-8 text-2xl md:text-3xl">
-                            Turn vision into working buildings — on time, on scope, without compromise.
-                        </h3>
-                        <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-                            We plan, cost, build and commission so industry, healthcare, homes and land perform the
-                            way they were promised — and we stay until they do.
-                        </p>
-                    </div>
-                    <span className="mt-8 h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
-                </article>
-                <article className="group flex min-h-[260px] flex-col justify-between border border-border bg-card p-7 transition-colors duration-300 hover:border-brand-green md:p-9">
-                    <p className="eyebrow">Vision</p>
-                    <div>
-                        <h3 className="mt-8 text-2xl md:text-3xl">
-                            The most trusted project partner in and around Nashik.
-                        </h3>
-                        <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-                            A practice known for referral-won work, senior engineers on the brief, and buildings that
-                            prove the drawings — project after project, decade after decade.
-                        </p>
-                    </div>
-                    <span className="mt-8 h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
-                </article>
+                {extras.map((item) => (
+                    <article
+                        key={item.id}
+                        className="group flex min-h-[260px] flex-col justify-between border border-border bg-card p-7 transition-colors duration-300 hover:border-brand-green md:p-9"
+                    >
+                        <p className="eyebrow">{item.title}</p>
+                        <div>
+                            <p className="mt-8 text-sm leading-relaxed text-muted-foreground whitespace-pre-line">
+                                {item.description}
+                            </p>
+                        </div>
+                        <span className="mt-8 h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
+                    </article>
+                ))}
             </div>
         </section>
     );
@@ -231,52 +243,49 @@ export function Practice({ items = [] }: { items?: ApiPractice[] }) {
 
 const fallbackServices = [
     {
-        n: "01",
-        title: "Turnkey Projects",
-        body: "Project management from the inception of an idea right through to operation and maintenance of the finished asset.",
+        id: 1,
+        name: "Turnkey Projects",
+        description:
+            "Project management from the inception of an idea right through to operation and maintenance of the finished asset.",
     },
     {
-        n: "02",
-        title: "Management Consultancy",
-        body: "Our core discipline. We read the client's need, then configure the exact combination of services that delivers the outcome.",
+        id: 2,
+        name: "Management Consultancy",
+        description:
+            "Our core discipline. We read the client's need, then configure the exact combination of services that delivers the outcome.",
     },
     {
-        n: "03",
-        title: "Construction Management",
-        body: "Professional management applied to planning, design and construction — controlling schedule, scope, cost and quality throughout.",
+        id: 3,
+        name: "Construction Management",
+        description:
+            "Professional management applied to planning, design and construction — controlling schedule, scope, cost and quality throughout.",
     },
     {
-        n: "04",
-        title: "General Contracting",
-        body: "Single-point accountability on site. One team answerable for programme, workmanship, safety and the final handover.",
+        id: 4,
+        name: "General Contracting",
+        description:
+            "Single-point accountability on site. One team answerable for programme, workmanship, safety and the final handover.",
     },
 ];
 
 export function Services({ items = [] }: { items?: ApiService[] }) {
-    const list =
-        items.length > 0
-            ? items.map((s, i) => ({
-                  n: String(i + 1).padStart(2, "0"),
-                  title: s.name,
-                  body: s.description,
-              }))
-            : fallbackServices;
+    const list = items.length > 0 ? items : fallbackServices;
 
     return (
         <section className="px-6 pb-24 md:px-12 md:pb-32">
             <p className="eyebrow">What we do</p>
             <div className="mt-10">
-                {list.map((s) => (
+                {list.map((s, i) => (
                     <div
-                        key={s.n + s.title}
+                        key={s.id}
                         className="rule-line group grid gap-4 py-8 md:grid-cols-12 md:items-baseline md:gap-8"
                     >
-                        <span className="eyebrow md:col-span-1">{s.n}</span>
+                        <span className="eyebrow md:col-span-1">{String(i + 1).padStart(2, "0")}</span>
                         <h3 className="text-2xl transition-transform duration-300 group-hover:translate-x-2 md:col-span-5 md:text-4xl">
-                            {s.title}
+                            {s.name}
                         </h3>
                         <p className="max-w-xl text-sm leading-relaxed text-muted-foreground md:col-span-6">
-                            {s.body}
+                            {s.description}
                         </p>
                     </div>
                 ))}
@@ -285,28 +294,25 @@ export function Services({ items = [] }: { items?: ApiService[] }) {
     );
 }
 
-const fallbackStats: [string, string][] = [
-    ["20+", "Years on site"],
-    ["150+", "Projects delivered"],
-    ["5", "Sectors served"],
-    ["100%", "Repeat-client intent"],
+const fallbackStats = [
+    { id: 1, value: "20+", label: "Years on site" },
+    { id: 2, value: "150+", label: "Projects delivered" },
+    { id: 3, value: "5", label: "Sectors served" },
+    { id: 4, value: "100%", label: "Repeat-client intent" },
 ];
 
 export function Stats({ items = [] }: { items?: ApiStat[] }) {
-    const list =
-        items.length > 0
-            ? items.map((s) => [s.value, s.label] as [string, string])
-            : fallbackStats;
+    const list = items.length > 0 ? items : fallbackStats;
 
     return (
         <section className="ink-panel px-6 py-16 md:px-12">
             <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
-                {list.map(([value, label]) => (
-                    <div key={label}>
+                {list.map((s) => (
+                    <div key={s.id}>
                         <p className="font-display text-5xl tracking-tight text-brand-green md:text-6xl">
-                            {value}
+                            {s.value}
                         </p>
-                        <p className="eyebrow mt-3 text-ink-foreground/60">{label}</p>
+                        <p className="eyebrow mt-3 text-ink-foreground/60">{s.label}</p>
                     </div>
                 ))}
             </div>
@@ -316,45 +322,40 @@ export function Stats({ items = [] }: { items?: ApiStat[] }) {
 
 const fallbackSectors = [
     {
-        n: "01",
-        title: "Commercial",
+        id: 1,
+        name: "Commercial",
         body: "Offices, hospitals and institutional buildings planned for operations from day one — clinical flow, services and finishes that hold up under use.",
     },
     {
-        n: "02",
-        title: "Residential",
+        id: 2,
+        name: "Residential",
         body: "Apartments, bungalows and housing programmes delivered on a fixed schedule, with daylight, ventilation and finishes built for a long life.",
     },
     {
-        n: "03",
-        title: "Industrial",
+        id: 3,
+        name: "Industrial",
         body: "MIDC sheds, foundries and production units sized for crane loads, foundations and machinery dates — not a generic warehouse shell.",
     },
     {
-        n: "04",
-        title: "Farm & hospitality",
+        id: 4,
+        name: "Farm & hospitality",
         body: "Wineries, farmhouses and estate buildings set into the land so production, hospitality and landscape work as one place.",
     },
     {
-        n: "05",
-        title: "Landscape",
+        id: 5,
+        name: "Landscape",
         body: "Grading, water, stone and planting shaped into working estates and outdoor rooms that read as intentional from the first walk.",
     },
 ];
 
-const sectorBodies: Record<string, string> = Object.fromEntries(
-    fallbackSectors.map((s) => [s.title.toLowerCase(), s.body])
-);
-
 export function Sectors({ items = [] }: { items?: ApiCategory[] }) {
     const list =
         items.length > 0
-            ? items.map((c, i) => ({
-                  n: String(i + 1).padStart(2, "0"),
-                  title: c.name,
-                  body:
-                      sectorBodies[c.name.toLowerCase()] ||
-                      `Projects delivered across ${c.name.toLowerCase()} programmes — planned, built and handed over with the same accountable method.`,
+            ? items.map((c) => ({
+                  id: c.id,
+                  name: c.name,
+                  body: fallbackSectors.find((s) => s.name.toLowerCase() === c.name.toLowerCase())
+                      ?.body,
               }))
             : fallbackSectors;
 
@@ -372,17 +373,19 @@ export function Sectors({ items = [] }: { items?: ApiCategory[] }) {
             </div>
 
             <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {list.map((s) => (
+                {list.map((c, i) => (
                     <article
-                        key={s.n + s.title}
+                        key={c.id}
                         className="group flex min-h-[280px] flex-col justify-between border border-border bg-card p-7 transition-colors duration-300 hover:border-brand-green"
                     >
                         <span className="font-display text-5xl tracking-tight text-brand-green md:text-6xl">
-                            {s.n}
+                            {String(i + 1).padStart(2, "0")}
                         </span>
                         <div>
-                            <h3 className="text-2xl md:text-3xl">{s.title}</h3>
-                            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+                            <h3 className="text-2xl md:text-3xl">{c.name}</h3>
+                            {c.body ? (
+                                <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
+                            ) : null}
                         </div>
                         <span className="mt-8 h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
                     </article>
@@ -392,24 +395,26 @@ export function Sectors({ items = [] }: { items?: ApiCategory[] }) {
     );
 }
 
-const fallbackReviews = [
+const fallbackReviews: ApiReview[] = [
     {
         id: 1,
         name: "Client",
         description:
             "We gave Charul the contracting of our office construction. On-time delivery, with no compromise on quality.",
-        photo: null as string | null,
-        video: null as string | null,
-        type: "text" as const,
+        photo: null,
+        video: null,
+        type: "text",
+        created_at: "",
     },
     {
         id: 2,
         name: "Client",
         description:
             "A tagline they actually live up to, and a team that works hard. Trustworthy for any project consultancy.",
-        photo: null as string | null,
-        video: null as string | null,
-        type: "text" as const,
+        photo: null,
+        video: null,
+        type: "text",
+        created_at: "",
     },
 ];
 
@@ -537,7 +542,6 @@ export function Contact({ data }: { data?: ApiContact | null }) {
             </h2>
 
             <div className="mt-16 grid gap-12 border-t border-ink-foreground/20 pt-12 lg:grid-cols-12 lg:gap-16">
-                {/* Contact details */}
                 <div className="flex flex-col gap-10 lg:col-span-5">
                     <p className="eyebrow text-ink-foreground/50">Get in touch</p>
 
@@ -578,7 +582,6 @@ export function Contact({ data }: { data?: ApiContact | null }) {
                     ) : null}
                 </div>
 
-                {/* Lead form */}
                 <form
                     onSubmit={onSubmit}
                     className="flex flex-col gap-4 border border-ink-foreground/15 bg-ink-foreground/5 p-6 md:p-8 lg:col-span-7"
@@ -646,7 +649,6 @@ export function Contact({ data }: { data?: ApiContact | null }) {
                 </form>
             </div>
 
-            {/* Footer bar: company + social */}
             <div className="mt-20 flex flex-col gap-6 border-t border-ink-foreground/20 pt-8 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-8">
                     <p className="eyebrow text-ink-foreground/40">Charul Projects · Est. 2004</p>
@@ -693,4 +695,6 @@ export function Contact({ data }: { data?: ApiContact | null }) {
         </footer>
     );
 }
+
+
 

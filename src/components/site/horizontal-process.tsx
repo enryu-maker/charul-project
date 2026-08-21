@@ -86,7 +86,8 @@ export function HorizontalProcess({ items = [] }: { items?: ApiProcess[] }) {
                                     transform: `translateY(${i === active ? -12 : 0}px)`,
                                     borderColor:
                                         i === active ? "var(--brand-green)" : "var(--border)",
-                                    transition: "opacity 450ms ease, transform 450ms ease, border-color 450ms ease",
+                                    transition:
+                                        "opacity 450ms ease, transform 450ms ease, border-color 450ms ease",
                                 }}
                             >
                                 <span className="font-display text-6xl tracking-tight text-brand-green md:text-7xl">
@@ -112,7 +113,10 @@ export function HorizontalProcess({ items = [] }: { items?: ApiProcess[] }) {
                     <div className="h-px flex-1 bg-border">
                         <div
                             className="h-px bg-brand-green"
-                            style={{ width: `${Math.max(4, progress * 100)}%`, transition: "width 120ms linear" }}
+                            style={{
+                                width: `${Math.max(4, progress * 100)}%`,
+                                transition: "width 120ms linear",
+                            }}
                         />
                     </div>
                 </footer>
