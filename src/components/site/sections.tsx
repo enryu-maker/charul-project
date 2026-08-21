@@ -295,6 +295,69 @@ export function Stats() {
     );
 }
 
+const sectors = [
+    {
+        n: "01",
+        title: "Commercial",
+        body: "Offices, hospitals and institutional buildings planned for operations from day one — clinical flow, services and finishes that hold up under use.",
+    },
+    {
+        n: "02",
+        title: "Residential",
+        body: "Apartments, bungalows and housing programmes delivered on a fixed schedule, with daylight, ventilation and finishes built for a long life.",
+    },
+    {
+        n: "03",
+        title: "Industrial",
+        body: "MIDC sheds, foundries and production units sized for crane loads, foundations and machinery dates — not a generic warehouse shell.",
+    },
+    {
+        n: "04",
+        title: "Farm & hospitality",
+        body: "Wineries, farmhouses and estate buildings set into the land so production, hospitality and landscape work as one place.",
+    },
+    {
+        n: "05",
+        title: "Landscape",
+        body: "Grading, water, stone and planting shaped into working estates and outdoor rooms that read as intentional from the first walk.",
+    },
+];
+
+export function Sectors() {
+    return (
+        <section id="sectors" className="px-6 py-24 md:px-12 md:py-32">
+            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+                <div>
+                    <p className="eyebrow">Sectors</p>
+                    <h2 className="mt-3 max-w-2xl text-4xl md:text-6xl">Kinds of work we deliver.</h2>
+                </div>
+                <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
+                    Commercial and residential at the core — with industrial, hospitality and landscape
+                    programmes carried the same way.
+                </p>
+            </div>
+
+            <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {sectors.map((s) => (
+                    <article
+                        key={s.n}
+                        className="group flex min-h-[280px] flex-col justify-between border border-border bg-card p-7 transition-colors duration-300 hover:border-brand-green"
+                    >
+                        <span className="font-display text-5xl tracking-tight text-brand-green md:text-6xl">
+                            {s.n}
+                        </span>
+                        <div>
+                            <h3 className="text-2xl md:text-3xl">{s.title}</h3>
+                            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+                        </div>
+                        <span className="mt-8 h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
+                    </article>
+                ))}
+            </div>
+        </section>
+    );
+}
+
 export function Testimonials() {
     return (
         <section className="px-6 py-24 md:px-12 md:py-32">
