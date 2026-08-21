@@ -1,9 +1,19 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { stages, type Stage } from "./process-data";
+import { stages as fallbackStages, type Stage } from "./process-data";
+import type { ApiProcess } from "@/lib/api/types";
 
-export function HorizontalProcess() {
+function mapStages(items: ApiProcess[]): Stage[] {
+    return items.map((s) => ({
+        n: String(s.step).padStart(2, "0"),
+        title: s.title,
+        body: s.description,
+    }));
+}
+
+export function HorizontalProcess({ items = [] }: { items?: ApiProcess[] }) {
+    const stages = items.length > 0 ? mapStages(items) : fallbackStages;
     const sectionRef = useRef<HTMLElement | null>(null);
     const trackRef = useRef<HTMLDivElement | null>(null);
     const [progress, setProgress] = useState(0);
@@ -33,7 +43,7 @@ export function HorizontalProcess() {
             window.removeEventListener("scroll", onScroll);
             window.removeEventListener("resize", measure);
         };
-    }, []);
+    }, [stages.length]);
 
     const active = Math.min(stages.length - 1, Math.round(progress * (stages.length - 1)));
 
@@ -49,7 +59,7 @@ export function HorizontalProcess() {
                     <div>
                         <p className="eyebrow text-brand-green">Our process</p>
                         <h2 className="mt-3 max-w-2xl text-4xl md:text-6xl">
-                            Nine stages. One accountable partner.
+                            {stages.length} stages. One accountable partner.
                         </h2>
                     </div>
                     <p className="hidden max-w-xs text-sm text-muted-foreground md:block">
@@ -69,7 +79,7 @@ export function HorizontalProcess() {
                     >
                         {stages.map((s: Stage, i: number) => (
                             <article
-                                key={s.n}
+                                key={s.n + s.title}
                                 className="relative flex h-[52vh] w-[78vw] shrink-0 flex-col justify-between border border-border bg-card p-7 sm:w-[54vw] md:w-[34vw] lg:w-[26vw]"
                                 style={{
                                     opacity: i === active ? 1 : 0.5,

@@ -1,9 +1,25 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { projects, Project } from "./projects-data";
+import { projects as fallbackProjects, type Project } from "./projects-data";
+import { mediaUrl } from "@/lib/api";
+import type { ApiProject } from "@/lib/api/types";
 
-export function HorizontalProjects() {
+function mapProjects(apiProjects: ApiProject[]): Project[] {
+    return apiProjects.map((p, i) => ({
+        index: String(i + 1).padStart(2, "0"),
+        sector: p.category_name || "Project",
+        name: p.name,
+        blurb: p.description,
+        place: p.location,
+        year: String(p.year),
+        scope: p.scope || "—",
+        image: mediaUrl(p.image) || "/hero-construction.jpg",
+    }));
+}
+
+export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
+    const projects = items.length > 0 ? mapProjects(items) : fallbackProjects;
     const sectionRef = useRef<HTMLElement | null>(null);
     const trackRef = useRef<HTMLDivElement | null>(null);
     const [progress, setProgress] = useState(0);
@@ -33,7 +49,7 @@ export function HorizontalProjects() {
             window.removeEventListener("scroll", onScroll);
             window.removeEventListener("resize", measure);
         };
-    }, []);
+    }, [projects.length]);
 
     const active = Math.min(projects.length - 1, Math.round(progress * (projects.length - 1)));
 
@@ -66,7 +82,7 @@ export function HorizontalProjects() {
                     >
                         {projects.map((p: Project, i: number) => (
                             <article
-                                key={p.name}
+                                key={p.name + p.index}
                                 className="group relative flex h-[70vh] w-[82vw] shrink-0 overflow-hidden rounded-sm md:w-[56vw] lg:w-[42vw]"
                                 style={{
                                     opacity: i === active ? 1 : 0.55,
