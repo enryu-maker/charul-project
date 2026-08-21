@@ -5,22 +5,21 @@ import { HorizontalProcess } from "@/components/site/horizontal-process";
 import { fetchSiteData } from "@/lib/api";
 
 export default async function Home() {
-  // Keep API calls warm; UI stays on static content for now.
-  await fetchSiteData();
+  const data = await fetchSiteData();
 
   return (
     <main className="min-h-screen flex flex-col bg-background text-foreground">
       <SiteNav />
-      <Hero />
-      <Stats />
-      <Practice />
+      <Hero image={data.home[0]?.image} />
+      <Stats items={data.stats} />
+      <Practice items={data.practice} />
       <HorizontalValues />
-      <Services />
-      <HorizontalProjects />
-      <HorizontalProcess />
-      <Sectors />
-      <Testimonials />
-      <Contact />
+      <Services items={data.services} />
+      <HorizontalProjects items={data.projects} />
+      <HorizontalProcess items={data.process} />
+      <Sectors items={data.categories} />
+      <Testimonials items={data.reviews} />
+      <Contact data={data.contact} />
     </main>
   );
 }
