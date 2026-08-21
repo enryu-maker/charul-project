@@ -1,4 +1,4 @@
-import { SiteNav, Hero, Practice, About, Services, Stats, Sectors, Testimonials, Contact } from "@/components/site/sections";
+import { SiteNav, Hero, Practice, Services, Stats, Sectors, Testimonials, Contact } from "@/components/site/sections";
 import { HorizontalValues } from "@/components/site/horizontal-values";
 import { HorizontalProjects } from "@/components/site/horizontal-projects";
 import { HorizontalProcess } from "@/components/site/horizontal-process";
@@ -10,7 +10,6 @@ export default function Home() {
       <Hero />
       <Stats />
       <Practice />
-      <About />
       <HorizontalValues />
       <Services />
       <HorizontalProjects />

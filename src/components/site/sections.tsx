@@ -144,7 +144,7 @@ export function Practice() {
         <section id="practice" className="px-6 py-24 md:px-12 md:py-36">
             <div className="grid gap-14 md:grid-cols-12">
                 <div className="md:col-span-4">
-                    <p className="eyebrow">The practice</p>
+                    <p className="eyebrow">About Us</p>
                     <h2 className="mt-6 text-4xl md:text-5xl">Trust is our wealth.</h2>
                 </div>
                 <div className="space-y-6 text-base leading-relaxed text-muted-foreground md:col-span-7 md:col-start-6">
@@ -177,52 +177,38 @@ export function Practice() {
                     </h2>
                 </figcaption>
             </figure>
-        </section>
-    );
-}
-
-export function About() {
-    return (
-        <section id="about" className="px-6 py-24 md:px-12 md:py-36">
-            <div className="grid gap-14 md:grid-cols-12">
-                <div className="md:col-span-4">
-                    <p className="eyebrow">About us</p>
-                    <h2 className="mt-6 text-4xl md:text-5xl">Why we build the way we do.</h2>
-                </div>
-                <div className="space-y-6 text-base leading-relaxed text-muted-foreground md:col-span-7 md:col-start-6">
-                    <p>
-                        Charul Projects Pvt. Ltd. has practised project management, construction management and
-                        contracting in Nashik since 2004. We exist for clients who want a single accountable
-                        partner — not a chain of vendors arguing over who owns the outcome.
-                    </p>
-                </div>
-            </div>
-
-            <div className="mt-20 grid gap-12 border-t border-border pt-12 md:grid-cols-2 md:gap-16">
-                <div>
+            <div className="mt-20 grid gap-4 border-t border-border pt-12 md:grid-cols-2 md:gap-6">
+                <article className="group flex min-h-[260px] flex-col justify-between border border-border bg-card p-7 transition-colors duration-300 hover:border-brand-green md:p-9">
                     <p className="eyebrow">Mission</p>
-                    <h3 className="mt-4 text-2xl md:text-3xl">
-                        Turn vision into working buildings — on time, on scope, without compromise.
-                    </h3>
-                    <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-                        We plan, cost, build and commission so industry, healthcare, homes and land perform the
-                        way they were promised — and we stay until they do.
-                    </p>
-                </div>
-                <div>
+                    <div>
+                        <h3 className="mt-8 text-2xl md:text-3xl">
+                            Turn vision into working buildings — on time, on scope, without compromise.
+                        </h3>
+                        <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
+                            We plan, cost, build and commission so industry, healthcare, homes and land perform the
+                            way they were promised — and we stay until they do.
+                        </p>
+                    </div>
+                    <span className="mt-8 h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
+                </article>
+                <article className="group flex min-h-[260px] flex-col justify-between border border-border bg-card p-7 transition-colors duration-300 hover:border-brand-green md:p-9">
                     <p className="eyebrow">Vision</p>
-                    <h3 className="mt-4 text-2xl md:text-3xl">
-                        The most trusted project partner in and around Nashik.
-                    </h3>
-                    <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-                        A practice known for referral-won work, senior engineers on the brief, and buildings that
-                        prove the drawings — project after project, decade after decade.
-                    </p>
-                </div>
+                    <div>
+                        <h3 className="mt-8 text-2xl md:text-3xl">
+                            The most trusted project partner in and around Nashik.
+                        </h3>
+                        <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
+                            A practice known for referral-won work, senior engineers on the brief, and buildings that
+                            prove the drawings — project after project, decade after decade.
+                        </p>
+                    </div>
+                    <span className="mt-8 h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
+                </article>
             </div>
         </section>
     );
 }
+
 
 const services = [
     {
