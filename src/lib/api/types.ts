@@ -66,6 +66,7 @@ export type ApiContact = {
   maps_url: string | null;
   instagram: string | null;
   facebook: string | null;
+  linkedin?: string | null;
 };
 
 export type LeadPayload = {
@@ -83,6 +84,5 @@ export type SiteData = {
   process: ApiProcess[];
   reviews: ApiReview[];
   stats: ApiStat[];
-  categories: ApiCategory[];
   contact: ApiContact | null;
 };

@@ -5,23 +5,33 @@ import { useEffect, useRef, useState } from "react";
 const values = [
     {
         n: "01",
-        title: "Accountability",
-        body: "One partner, one answer. We own schedule, scope, cost and quality from the first sketch to handover.",
+        title: "Trust",
+        body: "We believe strong projects begin with strong relationships. We communicate openly, take responsibility and earn confidence through consistent delivery.",
     },
     {
         n: "02",
-        title: "Integrity",
-        body: "Trust is our wealth. We say what we will do, then do it — without shortcuts that show up later on site.",
+        title: "Discipline",
+        body: "Good execution requires structure. We bring discipline to planning, scheduling, coordination, resources and site management.",
     },
     {
         n: "03",
-        title: "Craft",
-        body: "Drawings are a promise; site is the proof. Workmanship and detailing are non-negotiable on every programme.",
+        title: "Quality",
+        body: "Quality is not a final inspection. It is a standard maintained throughout the project - from materials and workmanship to execution and handover.",
     },
     {
         n: "04",
-        title: "Clarity",
-        body: "Clients get straight reporting on progress, risk and cost — not committees, jargon or surprises at the end.",
+        title: "Responsibility",
+        body: "We take ownership of the work entrusted to us. We consider safety, site conditions, resources and the long-term performance of what we build.",
+    },
+    {
+        n: "05",
+        title: "Reliability",
+        body: "Clients should know where their project stands and what happens next. We strive for dependable communication, predictable execution and consistent follow-through.",
+    },
+    {
+        n: "06",
+        title: "Excellence",
+        body: "We continuously improve the way we plan, coordinate and execute projects, drawing on more than two decades of experience.",
     },
 ];
 
@@ -70,11 +80,11 @@ export function HorizontalValues() {
                     <div>
                         <p className="eyebrow text-brand-green">Core values</p>
                         <h2 className="mt-3 max-w-2xl text-4xl md:text-6xl">
-                            What we hold on every site.
+                            Trust is our wealth.
                         </h2>
                     </div>
-                    <p className="hidden max-w-xs text-sm text-muted-foreground md:block">
-                        Keep scrolling — each value slides into focus, one principle at a time.
+                    <p className="hidden max-w-md text-sm text-muted-foreground md:block">
+                        At Charul Projects, our values are reflected in how we plan, manage and execute every project.
                     </p>
                 </header>
 

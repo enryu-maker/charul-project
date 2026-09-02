@@ -13,7 +13,7 @@ function mapProjects(apiProjects: ApiProject[]): Project[] {
         blurb: p.description,
         place: p.location,
         year: String(p.year),
-        scope: p.scope || "—",
+        scope: p.scope || "-",
         image: mediaUrl(p.image) || "/hero-construction.jpg",
     }));
 }
@@ -67,7 +67,7 @@ export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
                         <h2 className="mt-3 text-4xl md:text-6xl">Project by project.</h2>
                     </div>
                     <p className="hidden max-w-xs text-sm opacity-70 md:block">
-                        Keep scrolling — the work moves sideways, one project at a time.
+                        Keep scrolling - the work moves sideways, one project at a time.
                     </p>
                 </header>
 
