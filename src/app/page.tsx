@@ -1,4 +1,4 @@
-import { SiteNav, Hero, Practice, Services, Stats, Sectors, Testimonials, Contact } from "@/components/site/sections";
+import { SiteNav, Hero, Practice, Services, Stats, Sectors, Equipment, Testimonials, Contact } from "@/components/site/sections";
 import { HorizontalValues } from "@/components/site/horizontal-values";
 import { HorizontalProjects } from "@/components/site/horizontal-projects";
 import { HorizontalProcess } from "@/components/site/horizontal-process";
@@ -17,7 +17,8 @@ export default async function Home() {
       <Services items={data.services} />
       <HorizontalProjects items={data.projects} />
       <HorizontalProcess items={data.process} />
-      <Sectors items={data.categories} />
+      <Sectors />
+      <Equipment />
       <Testimonials items={data.reviews} />
       <Contact data={data.contact} />
     </main>

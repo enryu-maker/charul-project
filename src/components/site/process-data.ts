@@ -13,7 +13,7 @@ export const stages: Stage[] = [
     {
         n: "02",
         title: "Site Assessment",
-        body: "Geotechnical, topographic and regulatory feasibility to surface risks early — before contracts, not after.",
+        body: "Geotechnical, topographic and regulatory feasibility to surface risks early - before contracts, not after.",
     },
     {
         n: "03",

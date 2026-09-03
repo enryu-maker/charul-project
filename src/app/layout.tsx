@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Charul Projects — Construction & Project Management, Nashik",
+  title: "Charul Projects - Construction & Project Management, Nashik",
   description:
-    "Turnkey projects, construction management and contracting in Nashik since 2004 — hospitals, MIDC industrial units, homes, wineries and landscapes.",
+    "Turnkey projects, construction management and contracting in Nashik since 1997 - hospitals, MIDC industrial units, homes, wineries and landscapes.",
   keywords: [
     "Construction Nashik",
     "Project Management Nashik",
@@ -16,16 +16,16 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Charul Projects" }],
   openGraph: {
-    title: "Charul Projects — Construction & Project Management, Nashik",
+    title: "Charul Projects - Construction & Project Management, Nashik",
     description:
-      "Turnkey projects, construction management and contracting in Nashik since 2004 — hospitals, MIDC industrial units, homes, wineries and landscapes.",
+      "Turnkey projects, construction management and contracting in Nashik since 1997 - hospitals, MIDC industrial units, homes, wineries and landscapes.",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Charul Projects — Construction & Project Management, Nashik",
+    title: "Charul Projects - Construction & Project Management, Nashik",
     description:
-      "Turnkey projects, construction management and contracting in Nashik since 2004 — hospitals, MIDC industrial units, homes, wineries and landscapes.",
+      "Turnkey projects, construction management and contracting in Nashik since 1997 - hospitals, MIDC industrial units, homes, wineries and landscapes.",
   },
 };
 

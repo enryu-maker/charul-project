@@ -52,7 +52,6 @@ export async function fetchSiteData(): Promise<SiteData> {
     process,
     reviews,
     stats,
-    categories,
     contactRaw,
   ] = await Promise.all([
     apiGet<unknown>("/api/home/"),
@@ -62,7 +61,6 @@ export async function fetchSiteData(): Promise<SiteData> {
     apiGet<unknown>("/api/process/"),
     apiGet<unknown>("/api/reviews/"),
     apiGet<unknown>("/api/stats/"),
-    apiGet<unknown>("/api/categories/"),
     apiGet<unknown>("/api/contact/"),
   ]);
 
@@ -76,7 +74,6 @@ export async function fetchSiteData(): Promise<SiteData> {
     process: unwrapList<ApiProcess>(process),
     reviews: unwrapList<ApiReview>(reviews),
     stats: unwrapList<ApiStat>(stats),
-    categories: unwrapList<ApiCategory>(categories),
     contact: contacts[0] ?? null,
   };
 }
