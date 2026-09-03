@@ -129,9 +129,6 @@ export function HorizontalValues() {
                 </div>
 
                 <footer className="flex shrink-0 items-center gap-4 px-6 pt-4 pb-8 md:px-12">
-                    <span className="eyebrow font-mono">
-                        {String(active + 1).padStart(2, "0")} / {String(values.length).padStart(2, "0")}
-                    </span>
                     <div className="h-px flex-1 bg-border">
                         <div
                             className="h-px bg-brand-green"
