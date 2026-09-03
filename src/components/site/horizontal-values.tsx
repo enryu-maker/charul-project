@@ -99,7 +99,7 @@ export function HorizontalValues() {
                     >
                         {values.map((v, i) => (
                             <article
-                                key={v.title}
+                                key={v.n}
                                 className="relative flex h-[52vh] w-[78vw] shrink-0 flex-col justify-between border border-border bg-card p-7 sm:w-[54vw] md:w-[40vw] lg:w-[30vw]"
                                 style={{
                                     opacity: i === active ? 1 : 0.5,
@@ -110,6 +110,9 @@ export function HorizontalValues() {
                                         "opacity 450ms ease, transform 450ms ease, border-color 450ms ease",
                                 }}
                             >
+                                <span className="font-mono text-4xl font-normal tracking-tight text-brand-green leading-none md:text-5xl lg:text-[52px]">
+                                    {v.n}
+                                </span>
                                 <div>
                                     <h3 className="text-[20px] font-medium leading-[1.2] tracking-[-0.02em] md:text-[22px] lg:text-[24px]">{v.title}</h3>
                                     <p className="mt-4 text-[14px] font-normal leading-[1.6] text-muted-foreground md:text-[15px]">
