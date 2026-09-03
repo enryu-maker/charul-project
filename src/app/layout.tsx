@@ -1,5 +1,19 @@
 import type { Metadata } from "next";
+import { Inter, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  weight: ["400", "500", "600"],
+  subsets: ["latin"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Charul Projects - Construction & Project Management, Nashik",
@@ -35,8 +49,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body>{children}</body>
+    <html
+      lang="en"
+      className={`${inter.variable} ${ibmPlexMono.variable}`}
+      suppressHydrationWarning
+    >
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }
