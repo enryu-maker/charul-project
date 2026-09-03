@@ -1,11 +1,21 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { projects as fallbackProjects, type Project } from "./projects-data";
 import { mediaUrl } from "@/lib/api";
 import type { ApiProject } from "@/lib/api/types";
 
-function mapProjects(apiProjects: ApiProject[]): Project[] {
+type MappedProject = {
+    index: string;
+    sector: string;
+    name: string;
+    blurb: string;
+    place: string;
+    year: string;
+    scope: string;
+    image: string | null;
+};
+
+function mapProjects(apiProjects: ApiProject[]): MappedProject[] {
     return apiProjects.map((p, i) => ({
         index: String(i + 1).padStart(2, "0"),
         sector: p.category_name || "Project",
@@ -19,13 +29,15 @@ function mapProjects(apiProjects: ApiProject[]): Project[] {
 }
 
 export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
-    const projects = items.length > 0 ? mapProjects(items) : fallbackProjects;
+    const projects = mapProjects(items);
     const sectionRef = useRef<HTMLElement | null>(null);
     const trackRef = useRef<HTMLDivElement | null>(null);
     const [progress, setProgress] = useState(0);
     const [distance, setDistance] = useState(0);
 
     useEffect(() => {
+        if (projects.length === 0) return;
+
         const measure = () => {
             const track = trackRef.current;
             if (!track) return;
@@ -51,6 +63,20 @@ export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
         };
     }, [projects.length]);
 
+    if (projects.length === 0) {
+        return (
+            <section id="projects" className="relative ink-panel px-6 py-20 md:px-12 md:py-28">
+                <p className="eyebrow opacity-70">Selected work</p>
+                <h2 className="mt-3 text-[36px] font-medium leading-[1.1] tracking-[-0.025em] md:text-[44px] lg:text-[56px]">
+                    Project by project.
+                </h2>
+                <p className="mt-6 max-w-md text-[14px] font-normal leading-[1.5] text-ink-foreground/60 md:text-[15px]">
+                    No projects available at the moment.
+                </p>
+            </section>
+        );
+    }
+
     const active = Math.min(projects.length - 1, Math.round(progress * (projects.length - 1)));
 
     return (
@@ -64,9 +90,9 @@ export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
                 <header className="flex shrink-0 items-end justify-between gap-6 px-6 pt-20 pb-6 md:px-12">
                     <div>
                         <p className="eyebrow opacity-70">Selected work</p>
-                        <h2 className="mt-3 text-4xl md:text-6xl">Project by project.</h2>
+                        <h2 className="mt-3 text-[36px] font-medium leading-[1.1] tracking-[-0.025em] md:text-[44px] lg:text-[56px]">Project by project.</h2>
                     </div>
-                    <p className="hidden max-w-xs text-sm opacity-70 md:block">
+                    <p className="hidden max-w-xs text-[14px] font-normal leading-[1.5] opacity-70 md:block md:text-[15px]">
                         Keep scrolling - the work moves sideways, one project at a time.
                     </p>
                 </header>
@@ -80,7 +106,7 @@ export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
                             transition: "transform 120ms linear",
                         }}
                     >
-                        {projects.map((p: Project, i: number) => (
+                        {projects.map((p: MappedProject, i: number) => (
                             <article
                                 key={p.name + p.index}
                                 className="group relative flex h-[70vh] w-[82vw] shrink-0 overflow-hidden rounded-sm md:w-[56vw] lg:w-[42vw]"
@@ -90,35 +116,39 @@ export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
                                     transition: "opacity 500ms ease, transform 500ms ease",
                                 }}
                             >
-                                <img
-                                    src={typeof p.image === "string" ? p.image : p.image.src}
-                                    alt={`${p.name}, ${p.place}`}
-                                    loading="lazy"
-                                    width={1280}
-                                    height={1600}
-                                    className="absolute inset-0 h-full w-full object-cover"
-                                />
+                                {p.image ? (
+                                    <img
+                                        src={p.image}
+                                        alt={`${p.name}, ${p.place}`}
+                                        loading="lazy"
+                                        width={1280}
+                                        height={1600}
+                                        className="absolute inset-0 h-full w-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="absolute inset-0 bg-ink/70" />
+                                )}
                                 <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/40 to-transparent" />
                                 <div className="relative mt-auto w-full p-6 md:p-9">
                                     <p className="eyebrow text-ink-foreground/70">
                                         {p.index} · {p.sector}
                                     </p>
-                                    <h3 className="mt-3 text-3xl text-ink-foreground md:text-5xl">{p.name}</h3>
-                                    <p className="mt-4 max-w-md text-sm leading-relaxed text-ink-foreground/75">
+                                    <h3 className="mt-3 text-[22px] font-medium leading-[1.15] tracking-[-0.02em] text-ink-foreground sm:text-[24px] md:text-[28px] lg:text-[32px]">{p.name}</h3>
+                                    <p className="mt-4 max-w-md text-[14px] font-normal leading-[1.6] text-ink-foreground/75 md:text-[15px]">
                                         {p.blurb}
                                     </p>
                                     <dl className="mt-6 grid grid-cols-3 gap-4 border-t border-ink-foreground/20 pt-4 text-xs text-ink-foreground/70">
                                         <div>
                                             <dt className="eyebrow text-ink-foreground/50">Place</dt>
-                                            <dd className="mt-1">{p.place}</dd>
+                                            <dd className="mt-1 font-mono text-xs text-ink-foreground/80 md:text-[13px]">{p.place}</dd>
                                         </div>
                                         <div>
                                             <dt className="eyebrow text-ink-foreground/50">Year</dt>
-                                            <dd className="mt-1">{p.year}</dd>
+                                            <dd className="mt-1 font-mono text-xs text-ink-foreground/80 md:text-[13px]">{p.year}</dd>
                                         </div>
                                         <div>
                                             <dt className="eyebrow text-ink-foreground/50">Scope</dt>
-                                            <dd className="mt-1">{p.scope}</dd>
+                                            <dd className="mt-1 font-mono text-xs text-ink-foreground/80 md:text-[13px]">{p.scope}</dd>
                                         </div>
                                     </dl>
                                 </div>
@@ -128,7 +158,7 @@ export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
                 </div>
 
                 <footer className="flex shrink-0 items-center gap-4 px-6 pt-4 pb-8 md:px-12">
-                    <span className="eyebrow text-ink-foreground/60">
+                    <span className="eyebrow font-mono text-ink-foreground/60">
                         {String(active + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
                     </span>
                     <div className="h-px flex-1 bg-ink-foreground/20">
@@ -142,3 +172,4 @@ export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
         </section>
     );
 }
+

@@ -58,11 +58,11 @@ export function HorizontalProcess({ items = [] }: { items?: ApiProcess[] }) {
                 <header className="flex shrink-0 items-end justify-between gap-6 px-6 pt-20 pb-6 md:px-12">
                     <div>
                         <p className="eyebrow text-brand-green">Our process</p>
-                        <h2 className="mt-3 max-w-2xl text-4xl md:text-6xl">
+                        <h2 className="mt-3 max-w-2xl text-[36px] font-medium leading-[1.1] tracking-[-0.025em] md:text-[44px] lg:text-[56px]">
                             {stages.length} stages. One accountable partner.
                         </h2>
                     </div>
-                    <p className="hidden max-w-xs text-sm text-muted-foreground md:block">
+                    <p className="hidden max-w-xs text-[14px] font-normal leading-[1.5] text-muted-foreground md:block md:text-[15px]">
                         A disciplined, transparent process that keeps owners informed, budgets protected and
                         programmes on track.
                     </p>
@@ -90,12 +90,12 @@ export function HorizontalProcess({ items = [] }: { items?: ApiProcess[] }) {
                                         "opacity 450ms ease, transform 450ms ease, border-color 450ms ease",
                                 }}
                             >
-                                <span className="font-display text-6xl tracking-tight text-brand-green md:text-7xl">
+                                <span className="font-mono text-4xl font-normal tracking-tight text-brand-green leading-none md:text-5xl lg:text-[52px]">
                                     {s.n}
                                 </span>
                                 <div>
-                                    <h3 className="text-2xl md:text-3xl">{s.title}</h3>
-                                    <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+                                    <h3 className="text-[20px] font-medium leading-[1.2] tracking-[-0.02em] md:text-[22px] lg:text-[24px]">{s.title}</h3>
+                                    <p className="mt-4 text-[14px] font-normal leading-[1.6] text-muted-foreground md:text-[15px]">{s.body}</p>
                                 </div>
                                 <span
                                     className="h-1 w-14 bg-accent"
@@ -107,7 +107,7 @@ export function HorizontalProcess({ items = [] }: { items?: ApiProcess[] }) {
                 </div>
 
                 <footer className="flex shrink-0 items-center gap-4 px-6 pt-4 pb-8 md:px-12">
-                    <span className="eyebrow">
+                    <span className="eyebrow font-mono">
                         {String(active + 1).padStart(2, "0")} / {String(stages.length).padStart(2, "0")}
                     </span>
                     <div className="h-px flex-1 bg-border">

@@ -92,7 +92,7 @@ export function SiteNav() {
                     />
                 </a>
 
-                <div className="hidden md:flex items-center gap-7 text-xs tracking-[0.18em] uppercase">
+                <div className="hidden md:flex items-center gap-7 font-mono text-xs md:text-[13px] tracking-[0.14em] uppercase">
                     {navLinks.map((link) => {
                         const sectionId = link.href.substring(1);
                         const isActive = activeSection === sectionId;
@@ -102,7 +102,7 @@ export function SiteNav() {
                                 href={link.href}
                                 className={`group relative py-1.5 transition-colors duration-300 ${isActive
                                     ? "text-foreground font-medium"
-                                    : "text-foreground/75 hover:text-foreground"
+                                    : "text-foreground/75 hover:text-foreground font-normal"
                                     }`}
                             >
                                 <span className="relative z-10 transition-transform duration-200 inline-block group-hover:-translate-y-0.5">
@@ -120,7 +120,7 @@ export function SiteNav() {
 
                     <a
                         href="#contact"
-                        className="ml-3 inline-flex items-center gap-2 border border-foreground/20 bg-card/60 px-4 py-2 text-xs tracking-[0.18em] text-foreground uppercase transition-all duration-300 hover:border-brand-green hover:bg-brand-green hover:text-ink hover:shadow-xs active:scale-[0.98]"
+                        className="ml-3 inline-flex items-center gap-2 border border-foreground/20 bg-card/60 px-4 py-2 font-sans text-xs md:text-[13px] font-medium tracking-[0.10em] text-foreground uppercase transition-all duration-300 hover:border-brand-green hover:bg-brand-green hover:text-ink hover:shadow-xs active:scale-[0.98]"
                     >
                         Get in Touch
                     </a>
@@ -158,9 +158,9 @@ export function SiteNav() {
                                 key={link.href}
                                 href={link.href}
                                 onClick={() => setIsOpen(false)}
-                                className={`flex items-center justify-between py-3 text-xs tracking-[0.18em] uppercase transition-all duration-200 border-b border-border/40 last:border-b-0 ${isActive
+                                className={`flex items-center justify-between py-3 font-mono text-xs tracking-[0.14em] uppercase transition-all duration-200 border-b border-border/40 last:border-b-0 ${isActive
                                     ? "text-brand-green font-medium pl-2"
-                                    : "text-foreground hover:text-brand-green hover:pl-2"
+                                    : "text-foreground hover:text-brand-green hover:pl-2 font-normal"
                                     }`}
                             >
                                 <span>{link.label}</span>
@@ -175,7 +175,7 @@ export function SiteNav() {
                         <a
                             href="#contact"
                             onClick={() => setIsOpen(false)}
-                            className="flex items-center justify-center w-full bg-brand-green px-6 py-3 text-xs tracking-[0.18em] text-ink uppercase font-medium transition-opacity hover:opacity-85"
+                            className="flex items-center justify-center w-full bg-brand-green px-6 py-3 font-sans text-xs font-medium tracking-[0.10em] text-ink uppercase transition-opacity hover:opacity-85"
                         >
                             Get in Touch
                         </a>
@@ -214,7 +214,7 @@ export function Hero({ image }: { image?: string | null }) {
                     </p>
                     <a
                         href="#projects"
-                        className="inline-flex w-fit items-center gap-3 bg-brand-green px-6 py-3 text-xs tracking-[0.18em] text-ink uppercase transition-opacity hover:opacity-85"
+                        className="inline-flex w-fit items-center gap-3 bg-brand-green px-6 py-3 font-sans text-xs font-medium tracking-[0.10em] text-ink uppercase transition-opacity hover:opacity-85 md:text-[13px]"
                     >
                         See the work
                     </a>
@@ -266,9 +266,9 @@ export function Practice({ items = [] }: { items?: ApiPractice[] }) {
             <div className="grid gap-14 md:grid-cols-12">
                 <div className="md:col-span-4">
                     <p className="eyebrow">About Us</p>
-                    <h2 className="mt-6 text-4xl md:text-5xl">{title}</h2>
+                    <h2 className="mt-6 text-[36px] font-medium leading-[1.1] tracking-[-0.025em] md:text-[44px] lg:text-[56px]">{title}</h2>
                 </div>
-                <div className="space-y-6 text-base leading-relaxed text-muted-foreground md:col-span-7 md:col-start-6">
+                <div className="space-y-6 text-[15px] font-normal leading-[1.6] text-muted-foreground md:col-span-7 md:col-start-6 md:text-[16px] lg:text-[17px]">
                     {paragraphs.map((p) => (
                         <p key={p.slice(0, 48)}>{p}</p>
                     ))}
@@ -285,27 +285,48 @@ export function Practice({ items = [] }: { items?: ApiPractice[] }) {
                     className="h-[45vh] w-full object-cover md:h-[60vh]"
                 />
                 <figcaption className="absolute inset-0 flex items-end bg-linear-to-t from-ink/80 to-transparent p-6 md:p-12">
-                    <h2 className="max-w-2xl text-3xl text-ink-foreground md:text-5xl">
+                    <h2 className="max-w-2xl text-[26px] font-medium leading-[1.15] tracking-[-0.025em] text-ink-foreground sm:text-[32px] md:text-[38px] lg:text-[42px]">
                         Over two decades of building experience in Nashik.
                     </h2>
                 </figcaption>
             </figure>
 
             <div id="about" className="mt-20 grid gap-4 border-t border-border pt-12 md:grid-cols-2 md:gap-6">
-                {extras.map((item) => (
-                    <article
-                        key={item.id}
-                        className="group flex min-h-[260px] flex-col justify-between border border-border bg-card p-7 transition-colors duration-300 hover:border-brand-green md:p-9"
-                    >
-                        <p className="eyebrow">{item.title}</p>
-                        <div>
-                            <p className="mt-8 text-sm leading-relaxed text-muted-foreground whitespace-pre-line">
-                                {item.description}
-                            </p>
-                        </div>
-                        <span className="mt-8 h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
-                    </article>
-                ))}
+                {extras.map((item) => {
+                    const lines = item.description.split(/\n+/).map((l) => l.trim()).filter(Boolean);
+                    const subheadline = lines.length > 1 ? lines[0] : null;
+                    const body = lines.length > 1 ? lines.slice(1) : lines;
+
+                    return (
+                        <article
+                            key={item.id}
+                            className="group flex min-h-[260px] flex-col justify-between border border-border bg-card p-7 transition-colors duration-300 hover:border-brand-green md:p-9"
+                        >
+                            <p className="eyebrow font-medium text-foreground">{item.title}</p>
+                            <div>
+                                {subheadline ? (
+                                    <>
+                                        <p className="mt-8 text-[15px] font-semibold leading-[1.4] text-foreground md:text-[16px] lg:text-[17px]">
+                                            {subheadline}
+                                        </p>
+                                        <div className="mt-4 space-y-4">
+                                            {body.map((p, idx) => (
+                                                <p key={idx} className="text-[14px] font-normal leading-[1.6] text-muted-foreground md:text-[15px]">
+                                                    {p}
+                                                </p>
+                                            ))}
+                                        </div>
+                                    </>
+                                ) : (
+                                    <p className="mt-8 text-[14px] font-normal leading-[1.6] text-muted-foreground whitespace-pre-line md:text-[15px]">
+                                        {item.description}
+                                    </p>
+                                )}
+                            </div>
+                            <span className="mt-8 h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
+                        </article>
+                    );
+                })}
             </div>
         </section>
     );
@@ -350,11 +371,11 @@ export function Services({ items = [] }: { items?: ApiService[] }) {
                         key={s.id}
                         className="rule-line group grid gap-4 py-8 md:grid-cols-12 md:items-baseline md:gap-8"
                     >
-                        <span className="eyebrow md:col-span-1">{String(i + 1).padStart(2, "0")}</span>
-                        <h3 className="text-2xl transition-transform duration-300 group-hover:translate-x-2 md:col-span-5 md:text-4xl">
+                        <span className="eyebrow font-mono text-[12px] md:col-span-1 md:text-[13px]">{String(i + 1).padStart(2, "0")}</span>
+                        <h3 className="text-[20px] font-medium leading-[1.2] tracking-[-0.02em] transition-transform duration-300 group-hover:translate-x-2 md:col-span-5 md:text-[24px] lg:text-[28px]">
                             {s.name}
                         </h3>
-                        <p className="max-w-xl text-sm leading-relaxed text-muted-foreground md:col-span-6">
+                        <p className="max-w-xl text-[14px] font-normal leading-[1.6] text-muted-foreground md:col-span-6 md:text-[15px]">
                             {s.description}
                         </p>
                     </div>
@@ -379,7 +400,7 @@ export function Stats({ items = [] }: { items?: ApiStat[] }) {
             <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
                 {list.map((s) => (
                     <div key={s.id}>
-                        <p className="font-display text-5xl tracking-tight text-brand-green md:text-6xl">
+                        <p className="font-sans text-4xl font-medium tracking-tight text-brand-green leading-none md:text-5xl lg:text-[56px]">
                             {s.value}
                         </p>
                         <p className="eyebrow mt-3 text-ink-foreground/60">{s.label}</p>
@@ -429,9 +450,9 @@ export function Sectors() {
             <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                 <div>
                     <p className="eyebrow">Industries</p>
-                    <h2 className="mt-3 max-w-2xl text-4xl md:text-6xl">Our Areas of Expertise</h2>
+                    <h2 className="mt-3 max-w-2xl text-[36px] font-medium leading-[1.1] tracking-[-0.025em] md:text-[44px] lg:text-[56px]">Our Areas of Expertise</h2>
                 </div>
-                <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
+                <p className="max-w-sm text-[14px] font-normal leading-[1.5] text-muted-foreground md:text-[15px]">
                     Commercial and residential at the core - with industrial, hospitality and landscape
                     programmes carried the same way.
                 </p>
@@ -443,12 +464,12 @@ export function Sectors() {
                         key={c.id}
                         className="group flex min-h-[280px] flex-col justify-between border border-border bg-card p-7 transition-colors duration-300 hover:border-brand-green"
                     >
-                        <span className="font-display text-5xl tracking-tight text-brand-green md:text-6xl">
+                        <span className="font-mono text-4xl font-normal tracking-tight text-brand-green leading-none md:text-5xl lg:text-[48px]">
                             {String(i + 1).padStart(2, "0")}
                         </span>
                         <div>
-                            <h3 className="text-2xl md:text-3xl">{c.name}</h3>
-                            <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
+                            <h3 className="text-[20px] font-medium leading-[1.2] tracking-[-0.02em] md:text-[22px] lg:text-[24px]">{c.name}</h3>
+                            <p className="mt-4 text-[14px] font-normal leading-[1.6] text-muted-foreground md:text-[15px]">{c.body}</p>
                         </div>
                         <span className="mt-8 h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
                     </article>
@@ -478,11 +499,11 @@ export function Equipment() {
             <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
                 <div>
                     <p className="eyebrow">Plant & Machinery</p>
-                    <h2 className="mt-3 max-w-3xl text-4xl md:text-6xl">
+                    <h2 className="mt-3 max-w-3xl text-[36px] font-medium leading-[1.1] tracking-[-0.025em] md:text-[44px] lg:text-[56px]">
                         Equipment & Materials which we own
                     </h2>
                 </div>
-                <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
+                <p className="max-w-sm text-[14px] font-normal leading-[1.5] text-muted-foreground md:text-[15px]">
                     Dedicated machinery and high-grade shuttering assets ensuring self-reliance, schedule reliability and consistent build quality.
                 </p>
             </div>
@@ -494,23 +515,23 @@ export function Equipment() {
                         className="group flex min-h-[260px] flex-col justify-between border border-border bg-card p-6 md:p-7 transition-colors duration-300 hover:border-brand-green"
                     >
                         <div>
-                            <span className="font-display text-4xl tracking-tight text-brand-green md:text-5xl">
+                            <span className="font-mono text-3xl font-normal tracking-tight text-brand-green leading-none md:text-4xl lg:text-[40px]">
                                 {item.sr}
                             </span>
-                            <h3 className="mt-4 text-xl md:text-2xl">{item.description}</h3>
+                            <h3 className="mt-4 text-[18px] font-medium leading-[1.2] tracking-[-0.02em] md:text-[20px] lg:text-[22px]">{item.description}</h3>
                         </div>
 
                         <div>
                             <div className="mt-6 flex items-center justify-between border-t border-border/60 pt-4 text-sm text-muted-foreground">
                                 <div className="flex items-center gap-2">
-                                    <span>Unit</span>
-                                    <span className="inline-flex items-center rounded bg-brand-green/10 px-2 py-0.5 text-xs font-medium text-brand-green">
+                                    <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">Unit</span>
+                                    <span className="inline-flex items-center rounded bg-brand-green/10 px-2 py-0.5 font-mono text-[11px] font-medium text-brand-green">
                                         {item.unit}
                                     </span>
                                 </div>
                                 <div className="flex items-center gap-1.5">
-                                    <span>Qty</span>
-                                    <span className="font-display text-lg text-foreground md:text-xl">
+                                    <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">Qty</span>
+                                    <span className="font-mono text-[18px] font-medium text-foreground md:text-[20px]">
                                         {item.qty}
                                     </span>
                                 </div>
@@ -596,11 +617,11 @@ export function Testimonials({ items = [] }: { items?: ApiReview[] }) {
                                                 className="h-14 w-14 rounded-full object-cover"
                                             />
                                         ) : null}
-                                        <blockquote className="text-xl leading-snug md:text-xl lg:text-2xl">
+                                        <blockquote className="text-[18px] font-normal leading-[1.4] text-foreground tracking-[-0.01em] md:text-[20px] lg:text-[22px]">
                                             “{r.description}”
                                         </blockquote>
                                     </div>
-                                    <p className="eyebrow">{r.name}</p>
+                                    <p className="eyebrow text-muted-foreground">{r.name}</p>
                                 </article>
                             </CarouselItem>
                         );
@@ -683,7 +704,7 @@ export function Contact({ data }: { data?: ApiContact | null }) {
 
     return (
         <footer id="contact" className="ink-panel relative overflow-hidden px-6 py-24 md:px-12 md:py-32">
-            <h2 className="max-w-3xl text-5xl text-ink-foreground md:text-6xl lg:text-7xl">
+            <h2 className="max-w-3xl text-[36px] font-medium leading-[1.1] tracking-[-0.025em] text-ink-foreground md:text-[44px] lg:text-[56px]">
                 Have a project to build?
             </h2>
 
@@ -694,7 +715,7 @@ export function Contact({ data }: { data?: ApiContact | null }) {
                     {contact.phone ? (
                         <a href={telHref} className="group block">
                             <p className="eyebrow text-ink-foreground/50">Call</p>
-                            <p className="mt-2 text-2xl text-ink-foreground transition-colors group-hover:text-brand-green md:text-3xl">
+                            <p className="mt-2 text-[20px] font-medium tracking-[-0.02em] text-ink-foreground transition-colors group-hover:text-brand-green md:text-[24px] lg:text-[26px]">
                                 {contact.phone}
                             </p>
                         </a>
@@ -703,7 +724,7 @@ export function Contact({ data }: { data?: ApiContact | null }) {
                     {contact.email ? (
                         <a href={mailHref} className="group block">
                             <p className="eyebrow text-ink-foreground/50">Email</p>
-                            <p className="mt-2 break-all text-2xl text-ink-foreground transition-colors group-hover:text-brand-green md:text-3xl">
+                            <p className="mt-2 break-all text-[20px] font-medium tracking-[-0.02em] text-ink-foreground transition-colors group-hover:text-brand-green md:text-[24px] lg:text-[26px]">
                                 {contact.email}
                             </p>
                         </a>
@@ -711,18 +732,18 @@ export function Contact({ data }: { data?: ApiContact | null }) {
 
                     <div>
                         <p className="eyebrow text-ink-foreground/50">Location</p>
-                        <p className="mt-2 text-2xl text-ink-foreground md:text-3xl">Nashik</p>
+                        <p className="mt-2 text-[20px] font-medium tracking-[-0.02em] text-ink-foreground md:text-[24px] lg:text-[26px]">Nashik</p>
                         {contact.maps_url ? (
                             <a
                                 href={contact.maps_url}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="mt-1 block text-sm text-brand-green transition-colors hover:underline"
+                                className="mt-1 block font-mono text-xs text-brand-green transition-colors hover:underline md:text-[13px]"
                             >
                                 Google Maps location
                             </a>
                         ) : (
-                            <p className="mt-1 text-sm text-ink-foreground/50">Google Maps location</p>
+                            <p className="mt-1 font-mono text-xs text-ink-foreground/50 md:text-[13px]">Google Maps location</p>
                         )}
                     </div>
                 </div>
@@ -733,7 +754,7 @@ export function Contact({ data }: { data?: ApiContact | null }) {
                 >
                     <div className="mb-2">
                         <p className="eyebrow text-brand-green">Project Details</p>
-                        <p className="mt-3 text-sm leading-relaxed text-ink-foreground/60">
+                        <p className="mt-3 text-[14px] font-normal leading-[1.5] text-ink-foreground/60 md:text-[15px]">
                             Tell us about the project, location, approximate size, timeline or anything else we should know.
                         </p>
                     </div>
@@ -745,7 +766,7 @@ export function Contact({ data }: { data?: ApiContact | null }) {
                                 name="name"
                                 required
                                 placeholder="Your name"
-                                className="mt-2 w-full border border-ink-foreground/20 bg-transparent px-4 py-3 text-sm text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none"
+                                className="mt-2 w-full border border-ink-foreground/20 bg-transparent px-4 py-3 font-sans text-[14px] text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none md:text-[15px]"
                             />
                         </label>
                         <label className="block">
@@ -753,7 +774,7 @@ export function Contact({ data }: { data?: ApiContact | null }) {
                             <input
                                 name="phone"
                                 placeholder="Mobile number"
-                                className="mt-2 w-full border border-ink-foreground/20 bg-transparent px-4 py-3 text-sm text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none"
+                                className="mt-2 w-full border border-ink-foreground/20 bg-transparent px-4 py-3 font-sans text-[14px] text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none md:text-[15px]"
                             />
                         </label>
                     </div>
@@ -765,7 +786,7 @@ export function Contact({ data }: { data?: ApiContact | null }) {
                                 name="email"
                                 type="email"
                                 placeholder="you@company.com"
-                                className="mt-2 w-full border border-ink-foreground/20 bg-transparent px-4 py-3 text-sm text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none"
+                                className="mt-2 w-full border border-ink-foreground/20 bg-transparent px-4 py-3 font-sans text-[14px] text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none md:text-[15px]"
                             />
                         </label>
                         <label className="block">
@@ -773,7 +794,7 @@ export function Contact({ data }: { data?: ApiContact | null }) {
                             <input
                                 name="firm_name"
                                 placeholder="Company / Architecture firm"
-                                className="mt-2 w-full border border-ink-foreground/20 bg-transparent px-4 py-3 text-sm text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none"
+                                className="mt-2 w-full border border-ink-foreground/20 bg-transparent px-4 py-3 font-sans text-[14px] text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none md:text-[15px]"
                             />
                         </label>
                     </div>
@@ -783,7 +804,7 @@ export function Contact({ data }: { data?: ApiContact | null }) {
                         <input
                             name="city"
                             placeholder="Nashik, Pune, Mumbai…"
-                            className="mt-2 w-full border border-ink-foreground/20 bg-transparent px-4 py-3 text-sm text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none"
+                            className="mt-2 w-full border border-ink-foreground/20 bg-transparent px-4 py-3 font-sans text-[14px] text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none md:text-[15px]"
                         />
                     </label>
 
@@ -793,7 +814,7 @@ export function Contact({ data }: { data?: ApiContact | null }) {
                             name="message"
                             rows={4}
                             placeholder="Sector, location, approximate size, timeline or anything else we should know…"
-                            className="mt-2 w-full resize-y border border-ink-foreground/20 bg-transparent px-4 py-3 text-sm text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none"
+                            className="mt-2 w-full resize-y border border-ink-foreground/20 bg-transparent px-4 py-3 font-sans text-[14px] text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none md:text-[15px]"
                         />
                     </label>
 
@@ -801,14 +822,14 @@ export function Contact({ data }: { data?: ApiContact | null }) {
                         <button
                             type="submit"
                             disabled={status === "sending"}
-                            className="inline-flex w-fit items-center gap-3 bg-brand-green px-6 py-3 text-xs font-medium tracking-[0.18em] text-ink uppercase transition-opacity hover:opacity-85 disabled:opacity-60"
+                            className="inline-flex w-fit items-center gap-3 bg-brand-green px-6 py-3 font-sans text-xs font-medium tracking-[0.10em] text-ink uppercase transition-opacity hover:opacity-85 disabled:opacity-60 md:text-[13px]"
                         >
                             {status === "sending" ? "Sending…" : "START YOUR PROJECT"}
                         </button>
                         {status === "sent" ? (
-                            <p className="text-sm text-brand-green">Received - we&apos;ll get back to you.</p>
+                            <p className="font-mono text-sm text-brand-green">Received - we&apos;ll get back to you.</p>
                         ) : null}
-                        {status === "error" ? <p className="text-sm text-red-300">{error}</p> : null}
+                        {status === "error" ? <p className="font-mono text-sm text-red-300">{error}</p> : null}
                     </div>
                 </form>
             </div>
@@ -816,11 +837,11 @@ export function Contact({ data }: { data?: ApiContact | null }) {
             <div className="mt-20 flex flex-col gap-6 border-t border-ink-foreground/20 pt-8 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-8">
                     <p className="eyebrow text-ink-foreground/40">Charul Projects · Est. 1997</p>
-                    <p className="text-sm text-ink-foreground/50">Nashik</p>
+                    <p className="font-mono text-xs text-ink-foreground/50 md:text-[13px]">Nashik</p>
                     {contact.email ? (
                         <a
                             href={mailHref}
-                            className="text-sm text-ink-foreground/50 transition-colors hover:text-brand-green"
+                            className="font-mono text-xs text-ink-foreground/50 transition-colors hover:text-brand-green md:text-[13px]"
                         >
                             {contact.email}
                         </a>
