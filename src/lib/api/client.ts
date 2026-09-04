@@ -1,6 +1,7 @@
 import type {
   ApiCategory,
   ApiContact,
+  ApiEquipment,
   ApiHome,
   ApiPractice,
   ApiProcess,
@@ -53,6 +54,7 @@ export async function fetchSiteData(): Promise<SiteData> {
     reviews,
     stats,
     contactRaw,
+    equipment,
   ] = await Promise.all([
     apiGet<unknown>("/api/home/"),
     apiGet<unknown>("/api/practice/"),
@@ -62,6 +64,7 @@ export async function fetchSiteData(): Promise<SiteData> {
     apiGet<unknown>("/api/reviews/"),
     apiGet<unknown>("/api/stats/"),
     apiGet<unknown>("/api/contact/"),
+    apiGet<unknown>("/api/equipment/"),
   ]);
 
   const contacts = unwrapList<ApiContact>(contactRaw);
@@ -74,6 +77,7 @@ export async function fetchSiteData(): Promise<SiteData> {
     process: unwrapList<ApiProcess>(process),
     reviews: unwrapList<ApiReview>(reviews),
     stats: unwrapList<ApiStat>(stats),
+    equipment: unwrapList<ApiEquipment>(equipment),
     contact: contacts[0] ?? null,
   };
 }

@@ -76,6 +76,14 @@ export type LeadPayload = {
   message?: string;
 };
 
+export type ApiEquipment = {
+  id: number;
+  name: string;
+  unit: string;
+  quantity: number;
+  image: string | null;
+};
+
 export type SiteData = {
   home: ApiHome[];
   practice: ApiPractice[];
@@ -84,5 +92,7 @@ export type SiteData = {
   process: ApiProcess[];
   reviews: ApiReview[];
   stats: ApiStat[];
+  equipment: ApiEquipment[];
   contact: ApiContact | null;
 };
+

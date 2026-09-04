@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import { createLead, mediaUrl } from "@/lib/api";
 import type {
     ApiContact,
+    ApiEquipment,
     ApiPractice,
     ApiReview,
     ApiService,
@@ -479,21 +480,7 @@ export function Sectors() {
     );
 }
 
-const staticEquipment = [
-    { sr: "01", description: "Auto Level", unit: "No.", qty: 3 },
-    { sr: "02", description: "Compactor", unit: "No.", qty: 1 },
-    { sr: "03", description: "Concrete Mixture", unit: "No.", qty: 4 },
-    { sr: "04", description: "Concrete Needle Vibrator", unit: "No.", qty: 15 },
-    { sr: "05", description: "Electrical Lift", unit: "No.", qty: 3 },
-    { sr: "06", description: "Power Breaker", unit: "No.", qty: 6 },
-    { sr: "07", description: "Rebarring Machine", unit: "No.", qty: 3 },
-    { sr: "08", description: "Shuttering and Centring Material (Steel)", unit: "Brass", qty: 400 },
-    { sr: "09", description: "Tower Crane", unit: "No.", qty: 1 },
-    { sr: "10", description: "Wall Form Shuttering", unit: "Brass", qty: 40 },
-    { sr: "11", description: "Water Pump", unit: "No.", qty: 10 },
-];
-
-export function Equipment() {
+export function Equipment({ items = [] }: { items?: ApiEquipment[] }) {
     return (
         <section id="equipment" className="px-6 py-24 md:px-12 md:py-32">
             <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
@@ -509,37 +496,62 @@ export function Equipment() {
             </div>
 
             <div className="mt-14 grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
-                {staticEquipment.map((item) => (
-                    <article
-                        key={item.sr}
-                        className="group flex min-h-[260px] flex-col justify-between border border-border bg-card p-6 md:p-7 transition-colors duration-300 hover:border-brand-green"
-                    >
-                        <div>
-                            <span className="font-mono text-3xl font-normal tracking-tight text-brand-green leading-none md:text-4xl lg:text-[40px]">
-                                {item.sr}
-                            </span>
-                            <h3 className="mt-4 text-[18px] font-medium leading-[1.2] tracking-[-0.02em] md:text-[20px] lg:text-[22px]">{item.description}</h3>
-                        </div>
+                {items.map((item, index) => {
+                    const sr = String(index + 1).padStart(2, "0");
+                    const imageSrc = mediaUrl(item.image);
 
-                        <div>
-                            <div className="mt-6 flex items-center justify-between border-t border-border/60 pt-4 text-sm text-muted-foreground">
-                                <div className="flex items-center gap-2">
-                                    <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">Unit</span>
-                                    <span className="inline-flex items-center rounded bg-brand-green/10 px-2 py-0.5 font-mono text-[11px] font-medium text-brand-green">
-                                        {item.unit}
-                                    </span>
-                                </div>
-                                <div className="flex items-center gap-1.5">
-                                    <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">Qty</span>
-                                    <span className="font-mono text-[18px] font-medium text-foreground md:text-[20px]">
-                                        {item.qty}
-                                    </span>
-                                </div>
+                    return (
+                        <article
+                            key={item.id ?? sr}
+                            className="group relative flex min-h-[260px] flex-col justify-between overflow-hidden border border-border bg-card p-6 md:p-7 transition-colors duration-300 hover:border-brand-green"
+                        >
+                            {imageSrc ? (
+                                <img
+                                    src={imageSrc}
+                                    alt={item.name}
+                                    loading="lazy"
+                                    width={800}
+                                    height={600}
+                                    className="absolute inset-0 h-full w-full object-cover"
+                                />
+                            ) : null}
+                            {imageSrc ? (
+                                <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/65 to-ink/40" />
+                            ) : null}
+
+                            <div className="relative z-10">
+                                <span className="font-mono text-3xl font-normal tracking-tight text-brand-green leading-none md:text-4xl lg:text-[40px]">
+                                    {sr}
+                                </span>
+                                <h3 className={`mt-4 text-[18px] font-medium leading-[1.2] tracking-[-0.02em] md:text-[20px] lg:text-[22px] ${imageSrc ? "text-ink-foreground" : ""}`}>
+                                    {item.name}
+                                </h3>
                             </div>
-                            <span className="mt-4 block h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
-                        </div>
-                    </article>
-                ))}
+
+                            <div className="relative z-10">
+                                <div className={`mt-6 flex items-center justify-between border-t pt-4 text-sm ${imageSrc ? "border-ink-foreground/20 text-ink-foreground/75" : "border-border/60 text-muted-foreground"}`}>
+                                    <div className="flex items-center gap-2">
+                                        <span className={`font-mono text-[11px] uppercase tracking-[0.12em] ${imageSrc ? "text-ink-foreground/60" : "text-muted-foreground"}`}>
+                                            Unit
+                                        </span>
+                                        <span className="inline-flex items-center rounded bg-brand-green/10 px-2 py-0.5 font-mono text-[11px] font-medium text-brand-green">
+                                            {item.unit}
+                                        </span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                        <span className={`font-mono text-[11px] uppercase tracking-[0.12em] ${imageSrc ? "text-ink-foreground/60" : "text-muted-foreground"}`}>
+                                            Qty
+                                        </span>
+                                        <span className={`font-mono text-[18px] font-medium md:text-[20px] ${imageSrc ? "text-ink-foreground" : "text-foreground"}`}>
+                                            {item.quantity}
+                                        </span>
+                                    </div>
+                                </div>
+                                <span className="mt-4 block h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
+                            </div>
+                        </article>
+                    );
+                })}
             </div>
         </section>
     );

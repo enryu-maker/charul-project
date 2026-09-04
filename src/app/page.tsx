@@ -18,7 +18,7 @@ export default async function Home() {
       <HorizontalProjects items={data.projects} />
       <HorizontalProcess items={data.process} />
       <Sectors />
-      <Equipment />
+      <Equipment items={data.equipment} />
       <Testimonials items={data.reviews} />
       <Contact data={data.contact} />
     </main>
