@@ -13,7 +13,7 @@ import type {
   SiteData,
 } from "./types";
 
-export const API_BASE_URL = "http://217.216.58.183:8000";
+export const API_BASE_URL = "https://app.charulprojects.com";
 
 /** Resolve relative media paths from Django to absolute URLs. */
 export function mediaUrl(path: string | null | undefined): string | null {
