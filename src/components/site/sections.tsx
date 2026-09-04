@@ -502,55 +502,65 @@ export function Equipment({ items = [] }: { items?: ApiEquipment[] }) {
                     const imageSrc = mediaUrl(item.image);
 
                     return (
-                        <article
+                        <div
                             key={item.id ?? sr}
-                            className="group relative flex min-h-[260px] flex-col justify-between overflow-hidden border border-border bg-card p-6 md:p-7 transition-colors duration-300 hover:border-brand-green"
+                            className="equipment-card-perspective group relative min-h-[260px] w-full"
                         >
-                            {imageSrc ? (
-                                <img
-                                    src={imageSrc}
-                                    alt={item.name}
-                                    loading="lazy"
-                                    width={800}
-                                    height={600}
-                                    className="absolute inset-0 h-full w-full object-cover"
-                                />
-                            ) : null}
-                            {imageSrc ? (
-                                <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/65 to-ink/40" />
-                            ) : null}
-
-                            <div className="relative z-10">
-                                <span className="font-mono text-3xl font-normal tracking-tight text-brand-green leading-none md:text-4xl lg:text-[40px]">
-                                    {sr}
-                                </span>
-                                <h3 className={`mt-4 text-[18px] font-medium leading-[1.2] tracking-[-0.02em] md:text-[20px] lg:text-[22px] ${imageSrc ? "text-ink-foreground" : ""}`}>
-                                    {item.name}
-                                </h3>
-                            </div>
-
-                            <div className="relative z-10">
-                                <div className={`mt-6 flex items-center justify-between border-t pt-4 text-sm ${imageSrc ? "border-ink-foreground/20 text-ink-foreground/75" : "border-border/60 text-muted-foreground"}`}>
-                                    <div className="flex items-center gap-2">
-                                        <span className={`font-mono text-[11px] uppercase tracking-[0.12em] ${imageSrc ? "text-ink-foreground/60" : "text-muted-foreground"}`}>
-                                            Unit
+                            <div className="equipment-card-inner">
+                                <article className="equipment-card-front flex min-h-[260px] w-full flex-col justify-between border border-border bg-card p-6 transition-colors duration-300 group-hover:border-brand-green md:p-7">
+                                    <div>
+                                        <span className="font-mono text-3xl font-normal leading-none tracking-tight text-brand-green md:text-4xl lg:text-[40px]">
+                                            {sr}
                                         </span>
-                                        <span className="inline-flex items-center rounded bg-brand-green/10 px-2 py-0.5 font-mono text-[11px] font-medium text-brand-green">
-                                            {item.unit}
-                                        </span>
+                                        <h3 className="mt-4 text-[18px] font-medium leading-[1.2] tracking-[-0.02em] text-foreground md:text-[20px] lg:text-[22px]">
+                                            {item.name}
+                                        </h3>
                                     </div>
-                                    <div className="flex items-center gap-1.5">
-                                        <span className={`font-mono text-[11px] uppercase tracking-[0.12em] ${imageSrc ? "text-ink-foreground/60" : "text-muted-foreground"}`}>
-                                            Qty
-                                        </span>
-                                        <span className={`font-mono text-[18px] font-medium md:text-[20px] ${imageSrc ? "text-ink-foreground" : "text-foreground"}`}>
-                                            {item.quantity}
-                                        </span>
+
+                                    <div>
+                                        <div className="mt-6 flex items-center justify-between border-t border-border/60 pt-4 text-sm text-muted-foreground">
+                                            <div className="flex items-center gap-2">
+                                                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
+                                                    Unit
+                                                </span>
+                                                <span className="inline-flex items-center rounded bg-brand-green/10 px-2 py-0.5 font-mono text-[11px] font-medium text-brand-green">
+                                                    {item.unit}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center gap-1.5">
+                                                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
+                                                    Qty
+                                                </span>
+                                                <span className="font-mono text-[18px] font-medium text-foreground md:text-[20px]">
+                                                    {item.quantity}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <span className="mt-4 block h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
                                     </div>
+                                </article>
+
+                                <div className="equipment-card-back overflow-hidden border border-border bg-card transition-colors duration-300 group-hover:border-brand-green">
+                                    {imageSrc ? (
+                                        <>
+                                            <img
+                                                src={imageSrc}
+                                                alt={item.name}
+                                                loading="lazy"
+                                                width={800}
+                                                height={600}
+                                                className="absolute inset-0 h-full w-full object-cover"
+                                            />
+                                            <div className="absolute inset-0 bg-ink/30" />
+                                        </>
+                                    ) : (
+                                        <div className="flex h-full w-full items-center justify-center p-6 text-center font-mono text-xs uppercase tracking-wider text-muted-foreground">
+                                            {item.name}
+                                        </div>
+                                    )}
                                 </div>
-                                <span className="mt-4 block h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
                             </div>
-                        </article>
+                        </div>
                     );
                 })}
             </div>
