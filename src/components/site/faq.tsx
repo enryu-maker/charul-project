@@ -58,14 +58,17 @@ export function FAQ() {
 
             <div className="mt-14 divide-y divide-border border-t border-border">
                 {faqs.map((f) => (
-                    <div key={f.question} className="py-8">
-                        <h3 className="text-[18px] font-medium leading-[1.3] tracking-[-0.02em] md:text-[20px]">
+                    <details key={f.question} className="group py-8">
+                        <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[18px] font-medium leading-[1.3] tracking-[-0.02em] md:text-[20px]">
                             {f.question}
-                        </h3>
+                            <span className="shrink-0 text-2xl leading-none text-muted-foreground transition-transform duration-200 group-open:rotate-45">
+                                +
+                            </span>
+                        </summary>
                         <p className="mt-3 max-w-2xl text-[14px] font-normal leading-[1.6] text-muted-foreground md:text-[15px]">
                             {f.answer}
                         </p>
-                    </div>
+                    </details>
                 ))}
             </div>
         </section>
