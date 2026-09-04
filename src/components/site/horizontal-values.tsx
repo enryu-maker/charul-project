@@ -38,27 +38,44 @@ const values = [
 export function HorizontalValues() {
     const sectionRef = useRef<HTMLElement | null>(null);
     const trackRef = useRef<HTMLDivElement | null>(null);
-    const [progress, setProgress] = useState(0);
-    const [distance, setDistance] = useState(0);
+    const barRef = useRef<HTMLDivElement | null>(null);
+    const [active, setActive] = useState(0);
 
     useEffect(() => {
+        const section = sectionRef.current;
+        const track = trackRef.current;
+        if (!section || !track) return;
+
+        let distance = 0;
+        let lastActive = -1;
+        let ticking = false;
+
         const measure = () => {
-            const track = trackRef.current;
-            if (!track) return;
-            setDistance(Math.max(0, track.scrollWidth - window.innerWidth));
+            distance = Math.max(0, track.scrollWidth - window.innerWidth);
         };
 
-        const onScroll = () => {
-            const section = sectionRef.current;
-            if (!section) return;
+        const apply = () => {
+            ticking = false;
             const rect = section.getBoundingClientRect();
             const scrollable = section.offsetHeight - window.innerHeight;
             const p = scrollable > 0 ? Math.min(1, Math.max(0, -rect.top / scrollable)) : 0;
-            setProgress(p);
+            track.style.transform = `translate3d(${-(p * distance)}px, 0, 0)`;
+            if (barRef.current) barRef.current.style.width = `${Math.max(4, p * 100)}%`;
+            const i = Math.min(values.length - 1, Math.round(p * (values.length - 1)));
+            if (i !== lastActive) {
+                lastActive = i;
+                setActive(i);
+            }
+        };
+
+        const onScroll = () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(apply);
         };
 
         measure();
-        onScroll();
+        apply();
         window.addEventListener("scroll", onScroll, { passive: true });
         window.addEventListener("resize", measure);
         return () => {
@@ -67,15 +84,13 @@ export function HorizontalValues() {
         };
     }, []);
 
-    const active = Math.min(values.length - 1, Math.round(progress * (values.length - 1)));
-
     return (
         <section
             ref={sectionRef}
             className="relative"
-            style={{ height: `${(values.length + 1) * 70}vh` }}
+            style={{ height: `${(values.length + 1) * 70}dvh` }}
         >
-            <div className="sticky top-0 flex h-screen flex-col overflow-hidden bg-background">
+            <div className="sticky top-0 flex h-dvh flex-col overflow-hidden bg-background">
                 <header className="flex shrink-0 items-end justify-between gap-6 px-6 pt-20 pb-6 md:px-12">
                     <div>
                         <p className="eyebrow text-brand-green">Core values</p>
@@ -92,10 +107,6 @@ export function HorizontalValues() {
                     <div
                         ref={trackRef}
                         className="flex h-full items-center gap-6 px-6 will-change-transform md:gap-8 md:px-12"
-                        style={{
-                            transform: `translate3d(-${progress * distance}px, 0, 0)`,
-                            transition: "transform 120ms linear",
-                        }}
                     >
                         {values.map((v, i) => (
                             <article
@@ -130,13 +141,7 @@ export function HorizontalValues() {
 
                 <footer className="flex shrink-0 items-center gap-4 px-6 pt-4 pb-8 md:px-12">
                     <div className="h-px flex-1 bg-border">
-                        <div
-                            className="h-px bg-brand-green"
-                            style={{
-                                width: `${Math.max(4, progress * 100)}%`,
-                                transition: "width 120ms linear",
-                            }}
-                        />
+                        <div ref={barRef} className="h-px bg-brand-green" style={{ width: "4%" }} />
                     </div>
                 </footer>
             </div>
