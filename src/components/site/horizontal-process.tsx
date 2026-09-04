@@ -47,6 +47,19 @@ export function HorizontalProcess({ items = [] }: { items?: ApiProcess[] }) {
 
     const active = Math.min(stages.length - 1, Math.round(progress * (stages.length - 1)));
 
+    const howToSchema = {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        name: "How Charul Projects executes a construction project",
+        description: "The stage-by-stage process Charul Projects follows to deliver a construction project from consultation to post-handover maintenance.",
+        step: stages.map((s) => ({
+            "@type": "HowToStep",
+            position: Number(s.n),
+            name: s.title,
+            text: s.body,
+        })),
+    };
+
     return (
         <section
             id="process"
@@ -54,6 +67,10 @@ export function HorizontalProcess({ items = [] }: { items?: ApiProcess[] }) {
             className="relative"
             style={{ height: `${(stages.length + 1) * 70}vh` }}
         >
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+            />
             <div className="sticky top-0 flex h-screen flex-col overflow-hidden bg-background">
                 <header className="flex shrink-0 items-end justify-between gap-6 px-6 pt-20 pb-6 md:px-12">
                     <div>
