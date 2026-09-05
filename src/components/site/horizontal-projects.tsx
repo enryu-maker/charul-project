@@ -118,48 +118,73 @@ export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
                         {projects.map((p: MappedProject, i: number) => (
                             <article
                                 key={p.name + p.index}
-                                className="group relative flex h-[70vh] w-[82vw] shrink-0 overflow-hidden rounded-sm md:w-[56vw] lg:w-[42vw]"
+                                className="group project-card-perspective relative flex h-[70vh] w-[82vw] shrink-0 rounded-sm md:w-[56vw] lg:w-[42vw]"
                                 style={{
                                     opacity: i === active ? 1 : 0.55,
                                     transform: `scale(${i === active ? 1 : 0.94})`,
                                     transition: "opacity 500ms ease, transform 500ms ease",
                                 }}
                             >
-                                {p.image ? (
-                                    <img
-                                        src={p.image}
-                                        alt={`${p.name}, ${p.place}`}
-                                        loading="lazy"
-                                        width={1280}
-                                        height={1600}
-                                        className="absolute inset-0 h-full w-full object-cover"
-                                    />
-                                ) : (
-                                    <div className="absolute inset-0 bg-ink/70" />
-                                )}
-                                <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/40 to-transparent" />
-                                <div className="relative mt-auto w-full p-6 md:p-9">
-                                    <p className="eyebrow text-ink-foreground/70">
-                                        {p.index} · {p.sector}
-                                    </p>
-                                    <h3 className="mt-3 text-[22px] font-medium leading-[1.15] tracking-[-0.02em] text-ink-foreground sm:text-[24px] md:text-[28px] lg:text-[32px]">{p.name}</h3>
-                                    <p className="mt-4 max-w-md text-[14px] font-normal leading-[1.6] text-ink-foreground/75 md:text-[15px]">
-                                        {p.blurb}
-                                    </p>
-                                    <dl className="mt-6 grid grid-cols-3 gap-4 border-t border-ink-foreground/20 pt-4 text-xs text-ink-foreground/70">
-                                        <div>
-                                            <dt className="eyebrow text-ink-foreground/50">Place</dt>
-                                            <dd className="mt-1 font-mono text-xs text-ink-foreground/80 md:text-[13px]">{p.place}</dd>
+                                <div className="project-card-inner">
+                                    {/* FRONT SIDE - Full image with Category, Name, Place, Year, Scope */}
+                                    <div className="project-card-front flex flex-col justify-end overflow-hidden rounded-sm border border-ink-foreground/10 bg-ink p-6 md:p-9">
+                                        {p.image ? (
+                                            <img
+                                                src={p.image}
+                                                alt={`${p.name}, ${p.place}`}
+                                                loading="lazy"
+                                                width={1280}
+                                                height={1600}
+                                                className="absolute inset-0 h-full w-full object-cover"
+                                            />
+                                        ) : (
+                                            <div className="absolute inset-0 bg-ink/70" />
+                                        )}
+                                        <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/50 to-transparent" />
+                                        <div className="relative z-10 w-full">
+                                            <p className="eyebrow text-ink-foreground/70">
+                                                {p.index} · {p.sector}
+                                            </p>
+                                            <h3 className="mt-3 text-[22px] font-medium leading-[1.15] tracking-[-0.02em] text-ink-foreground sm:text-[24px] md:text-[28px] lg:text-[32px]">
+                                                {p.name}
+                                            </h3>
+                                            <dl className="mt-6 grid grid-cols-3 gap-4 border-t border-ink-foreground/20 pt-4 text-xs text-ink-foreground/70">
+                                                <div>
+                                                    <dt className="eyebrow text-ink-foreground/50">Place</dt>
+                                                    <dd className="mt-1 font-mono text-xs text-ink-foreground/80 md:text-[13px]">{p.place}</dd>
+                                                </div>
+                                                <div>
+                                                    <dt className="eyebrow text-ink-foreground/50">Year</dt>
+                                                    <dd className="mt-1 font-mono text-xs text-ink-foreground/80 md:text-[13px]">{p.year}</dd>
+                                                </div>
+                                                <div>
+                                                    <dt className="eyebrow text-ink-foreground/50">Scope</dt>
+                                                    <dd className="mt-1 font-mono text-xs text-ink-foreground/80 md:text-[13px]">{p.scope}</dd>
+                                                </div>
+                                            </dl>
                                         </div>
-                                        <div>
-                                            <dt className="eyebrow text-ink-foreground/50">Year</dt>
-                                            <dd className="mt-1 font-mono text-xs text-ink-foreground/80 md:text-[13px]">{p.year}</dd>
+                                    </div>
+
+                                    {/* BACK SIDE - Image background with Description centered */}
+                                    <div className="project-card-back flex flex-col items-center justify-center overflow-hidden rounded-sm border border-ink-foreground/15 bg-ink p-8 text-center md:p-12">
+                                        {p.image ? (
+                                            <img
+                                                src={p.image}
+                                                alt=""
+                                                aria-hidden="true"
+                                                loading="lazy"
+                                                width={1280}
+                                                height={1600}
+                                                className="absolute inset-0 h-full w-full scale-110 object-cover blur-lg"
+                                            />
+                                        ) : null}
+                                        <div className="absolute inset-0 bg-ink/85" />
+                                        <div className="relative z-10 flex w-full max-w-md items-center justify-center">
+                                            <p className="text-center text-[15px] font-normal leading-[1.75] text-ink-foreground/90 sm:text-[16px] md:text-[18px]">
+                                                {p.blurb}
+                                            </p>
                                         </div>
-                                        <div>
-                                            <dt className="eyebrow text-ink-foreground/50">Scope</dt>
-                                            <dd className="mt-1 font-mono text-xs text-ink-foreground/80 md:text-[13px]">{p.scope}</dd>
-                                        </div>
-                                    </dl>
+                                    </div>
                                 </div>
                             </article>
                         ))}
