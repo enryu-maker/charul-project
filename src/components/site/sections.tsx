@@ -481,6 +481,158 @@ export function Sectors() {
     );
 }
 
+function EquipmentCardItem({
+    sr,
+    item,
+    imageSrc,
+}: {
+    sr: string;
+    item: ApiEquipment;
+    imageSrc: string | null;
+}) {
+    const [isFlipped, setIsFlipped] = useState(false);
+    const touchStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
+    const isScrollingRef = useRef(false);
+    const lastTouchEndRef = useRef(0);
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        if (e.touches.length === 1) {
+            const touch = e.touches[0];
+            touchStartRef.current = {
+                x: touch.clientX,
+                y: touch.clientY,
+                time: Date.now(),
+            };
+            isScrollingRef.current = false;
+        }
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (!touchStartRef.current || e.touches.length !== 1) return;
+        const touch = e.touches[0];
+        const dx = touch.clientX - touchStartRef.current.x;
+        const dy = touch.clientY - touchStartRef.current.y;
+        if (Math.hypot(dx, dy) > 8) {
+            isScrollingRef.current = true;
+        }
+    };
+
+    const handleTouchEnd = (e: React.TouchEvent) => {
+        if (!touchStartRef.current) return;
+        const target = e.target as HTMLElement;
+        const isInteractive = target.closest("a, button, input, textarea, select");
+        if (isInteractive) {
+            touchStartRef.current = null;
+            return;
+        }
+
+        const duration = Date.now() - touchStartRef.current.time;
+        if (!isScrollingRef.current && duration < 500) {
+            lastTouchEndRef.current = Date.now();
+            setIsFlipped((prev) => !prev);
+        }
+        touchStartRef.current = null;
+    };
+
+    const handleClick = (e: React.MouseEvent) => {
+        const target = e.target as HTMLElement;
+        const isInteractive = target.closest("a, button, input, textarea, select");
+        if (isInteractive) return;
+
+        // Prevent double toggling if touchend just triggered
+        if (Date.now() - lastTouchEndRef.current < 600) {
+            return;
+        }
+
+        setIsFlipped((prev) => !prev);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === "Enter" || e.key === " ") {
+            const target = e.target as HTMLElement;
+            const isInteractive = target.closest("a, button, input, textarea, select");
+            if (isInteractive && target !== e.currentTarget) return;
+
+            e.preventDefault();
+            setIsFlipped((prev) => !prev);
+        }
+    };
+
+    return (
+        <div
+            className={`equipment-card-perspective group relative min-h-[260px] w-full cursor-pointer select-none outline-none focus-visible:ring-2 focus-visible:ring-brand-green ${
+                isFlipped ? "is-flipped" : ""
+            }`}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={0}
+            role="button"
+            aria-label={`${item.name}, ${item.quantity} ${item.unit}. Click or tap to ${
+                isFlipped ? "view details" : "view image"
+            }.`}
+            aria-pressed={isFlipped}
+        >
+            <div className={`equipment-card-inner ${isFlipped ? "is-flipped" : ""}`}>
+                <article className="equipment-card-front flex min-h-[260px] w-full flex-col justify-between border border-border bg-card p-6 transition-colors duration-300 group-hover:border-brand-green md:p-7">
+                    <div>
+                        <span className="font-mono text-3xl font-normal leading-none tracking-tight text-brand-green md:text-4xl lg:text-[40px]">
+                            {sr}
+                        </span>
+                        <h3 className="mt-4 text-[18px] font-medium leading-[1.2] tracking-[-0.02em] text-foreground md:text-[20px] lg:text-[22px]">
+                            {item.name}
+                        </h3>
+                    </div>
+
+                    <div>
+                        <div className="mt-6 flex items-center justify-between border-t border-border/60 pt-4 text-sm text-muted-foreground">
+                            <div className="flex items-center gap-2">
+                                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
+                                    Unit
+                                </span>
+                                <span className="inline-flex items-center rounded bg-brand-green/10 px-2 py-0.5 font-mono text-[11px] font-medium text-brand-green">
+                                    {item.unit}
+                                </span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
+                                    Qty
+                                </span>
+                                <span className="font-mono text-[18px] font-medium text-foreground md:text-[20px]">
+                                    {item.quantity}
+                                </span>
+                            </div>
+                        </div>
+                        <span className="mt-4 block h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
+                    </div>
+                </article>
+
+                <div className="equipment-card-back overflow-hidden border border-border bg-card transition-colors duration-300 group-hover:border-brand-green">
+                    {imageSrc ? (
+                        <>
+                            <img
+                                src={imageSrc}
+                                alt={item.name}
+                                loading="lazy"
+                                width={800}
+                                height={600}
+                                className="absolute inset-0 h-full w-full object-cover"
+                            />
+                            <div className="absolute inset-0 bg-ink/30" />
+                        </>
+                    ) : (
+                        <div className="flex h-full w-full items-center justify-center p-6 text-center font-mono text-xs uppercase tracking-wider text-muted-foreground">
+                            {item.name}
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
+
 export function Equipment({ items = [] }: { items?: ApiEquipment[] }) {
     return (
         <section id="equipment" className="px-6 py-24 md:px-12 md:py-32">
@@ -502,65 +654,12 @@ export function Equipment({ items = [] }: { items?: ApiEquipment[] }) {
                     const imageSrc = mediaUrl(item.image);
 
                     return (
-                        <div
+                        <EquipmentCardItem
                             key={item.id ?? sr}
-                            className="equipment-card-perspective group relative min-h-[260px] w-full"
-                        >
-                            <div className="equipment-card-inner">
-                                <article className="equipment-card-front flex min-h-[260px] w-full flex-col justify-between border border-border bg-card p-6 transition-colors duration-300 group-hover:border-brand-green md:p-7">
-                                    <div>
-                                        <span className="font-mono text-3xl font-normal leading-none tracking-tight text-brand-green md:text-4xl lg:text-[40px]">
-                                            {sr}
-                                        </span>
-                                        <h3 className="mt-4 text-[18px] font-medium leading-[1.2] tracking-[-0.02em] text-foreground md:text-[20px] lg:text-[22px]">
-                                            {item.name}
-                                        </h3>
-                                    </div>
-
-                                    <div>
-                                        <div className="mt-6 flex items-center justify-between border-t border-border/60 pt-4 text-sm text-muted-foreground">
-                                            <div className="flex items-center gap-2">
-                                                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
-                                                    Unit
-                                                </span>
-                                                <span className="inline-flex items-center rounded bg-brand-green/10 px-2 py-0.5 font-mono text-[11px] font-medium text-brand-green">
-                                                    {item.unit}
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center gap-1.5">
-                                                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
-                                                    Qty
-                                                </span>
-                                                <span className="font-mono text-[18px] font-medium text-foreground md:text-[20px]">
-                                                    {item.quantity}
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <span className="mt-4 block h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
-                                    </div>
-                                </article>
-
-                                <div className="equipment-card-back overflow-hidden border border-border bg-card transition-colors duration-300 group-hover:border-brand-green">
-                                    {imageSrc ? (
-                                        <>
-                                            <img
-                                                src={imageSrc}
-                                                alt={item.name}
-                                                loading="lazy"
-                                                width={800}
-                                                height={600}
-                                                className="absolute inset-0 h-full w-full object-cover"
-                                            />
-                                            <div className="absolute inset-0 bg-ink/30" />
-                                        </>
-                                    ) : (
-                                        <div className="flex h-full w-full items-center justify-center p-6 text-center font-mono text-xs uppercase tracking-wider text-muted-foreground">
-                                            {item.name}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
+                            sr={sr}
+                            item={item}
+                            imageSrc={imageSrc}
+                        />
                     );
                 })}
             </div>
