@@ -9,7 +9,7 @@ type MappedProject = {
     sector: string;
     name: string;
     blurb: string;
-    place: string;
+    location: string;
     year: string;
     scope: string;
     image: string | null;
@@ -21,11 +21,179 @@ function mapProjects(apiProjects: ApiProject[]): MappedProject[] {
         sector: p.category_name || "Project",
         name: p.name,
         blurb: p.description,
-        place: p.location,
+        location: p.location,
         year: String(p.year),
         scope: p.scope || "-",
         image: mediaUrl(p.image) || "/hero-construction.jpg",
     }));
+}
+
+function ProjectCardItem({
+    project,
+    isActive,
+}: {
+    project: MappedProject;
+    isActive: boolean;
+}) {
+    const [isFlipped, setIsFlipped] = useState(false);
+    const touchStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
+    const isScrollingRef = useRef(false);
+    const lastTouchEndRef = useRef(0);
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        if (e.touches.length === 1) {
+            const touch = e.touches[0];
+            touchStartRef.current = {
+                x: touch.clientX,
+                y: touch.clientY,
+                time: Date.now(),
+            };
+            isScrollingRef.current = false;
+        }
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (!touchStartRef.current || e.touches.length !== 1) return;
+        const touch = e.touches[0];
+        const dx = touch.clientX - touchStartRef.current.x;
+        const dy = touch.clientY - touchStartRef.current.y;
+        if (Math.hypot(dx, dy) > 8) {
+            isScrollingRef.current = true;
+        }
+    };
+
+    const handleTouchEnd = (e: React.TouchEvent) => {
+        if (!touchStartRef.current) return;
+        const target = e.target as HTMLElement;
+        const isInteractive = target.closest("a, button, input, textarea, select");
+        if (isInteractive) {
+            touchStartRef.current = null;
+            return;
+        }
+
+        const duration = Date.now() - touchStartRef.current.time;
+        if (!isScrollingRef.current && duration < 500) {
+            lastTouchEndRef.current = Date.now();
+            setIsFlipped((prev) => !prev);
+        }
+        touchStartRef.current = null;
+    };
+
+    const handleClick = (e: React.MouseEvent) => {
+        const target = e.target as HTMLElement;
+        const isInteractive = target.closest("a, button, input, textarea, select");
+        if (isInteractive) return;
+
+        // Prevent double toggling if touchend just triggered
+        if (Date.now() - lastTouchEndRef.current < 600) {
+            return;
+        }
+
+        setIsFlipped((prev) => !prev);
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.key === "Enter" || e.key === " ") {
+            const target = e.target as HTMLElement;
+            const isInteractive = target.closest("a, button, input, textarea, select");
+            if (isInteractive && target !== e.currentTarget) return;
+
+            e.preventDefault();
+            setIsFlipped((prev) => !prev);
+        }
+    };
+
+    return (
+        <article
+            className={`group project-card-perspective relative flex h-[70vh] w-[82vw] shrink-0 cursor-pointer select-none rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-brand-green md:w-[56vw] lg:w-[42vw] ${
+                isFlipped ? "is-flipped" : ""
+            }`}
+            style={{
+                opacity: isActive ? 1 : 0.55,
+                transform: `scale(${isActive ? 1 : 0.94})`,
+                transition: "opacity 500ms ease, transform 500ms ease",
+            }}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            tabIndex={0}
+            role="button"
+            aria-label={`${project.name}, ${project.sector}. Click or tap to ${
+                isFlipped ? "view front details" : "read project description"
+            }.`}
+            aria-pressed={isFlipped}
+        >
+            <div className={`project-card-inner ${isFlipped ? "is-flipped" : ""}`}>
+                {/* FRONT SIDE - Full image with Category, Name, Place, Year, Scope */}
+                <div className="project-card-front flex flex-col justify-end overflow-hidden rounded-sm border border-ink-foreground/10 bg-ink p-6 md:p-9">
+                    {project.image ? (
+                        <img
+                            src={project.image}
+                            alt={`${project.name}, ${project.location}`}
+                            loading="lazy"
+                            width={1280}
+                            height={1600}
+                            className="absolute inset-0 h-full w-full object-cover"
+                        />
+                    ) : (
+                        <div className="absolute inset-0 bg-ink/70" />
+                    )}
+                    <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/50 to-transparent" />
+                    <div className="relative z-10 w-full">
+                        <p className="eyebrow text-ink-foreground/70">
+                            {project.index} · {project.sector}
+                        </p>
+                        <h3 className="mt-3 text-[22px] font-medium leading-[1.15] tracking-[-0.02em] text-ink-foreground sm:text-[24px] md:text-[28px] lg:text-[32px]">
+                            {project.name}
+                        </h3>
+                        <dl className="mt-6 grid grid-cols-3 gap-4 border-t border-ink-foreground/20 pt-4 text-xs text-ink-foreground/70">
+                            <div>
+                                <dt className="eyebrow text-ink-foreground/50">Location</dt>
+                                <dd className="mt-1 font-mono text-xs text-ink-foreground/80 md:text-[13px]">
+                                    {project.location}
+                                </dd>
+                            </div>
+                            <div>
+                                <dt className="eyebrow text-ink-foreground/50">Year</dt>
+                                <dd className="mt-1 font-mono text-xs text-ink-foreground/80 md:text-[13px]">
+                                    {project.year}
+                                </dd>
+                            </div>
+                            <div>
+                                <dt className="eyebrow text-ink-foreground/50">Scope</dt>
+                                <dd className="mt-1 font-mono text-xs text-ink-foreground/80 md:text-[13px]">
+                                    {project.scope}
+                                </dd>
+                            </div>
+                        </dl>
+                    </div>
+                </div>
+
+                {/* BACK SIDE - Image background with Description centered */}
+                <div className="project-card-back flex flex-col items-center justify-center overflow-hidden rounded-sm border border-ink-foreground/15 bg-ink p-8 text-center md:p-12">
+                    {project.image ? (
+                        <img
+                            src={project.image}
+                            alt=""
+                            aria-hidden="true"
+                            loading="lazy"
+                            width={1280}
+                            height={1600}
+                            className="absolute inset-0 h-full w-full scale-110 object-cover blur-lg"
+                        />
+                    ) : null}
+                    <div className="absolute inset-0 bg-ink/85" />
+                    <div className="relative z-10 flex w-full max-w-md items-center justify-center">
+                        <p className="text-center text-[15px] font-normal leading-[1.75] text-ink-foreground/90 sm:text-[16px] md:text-[18px]">
+                            {project.blurb}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </article>
+    );
 }
 
 export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
@@ -103,7 +271,9 @@ export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
                 <header className="flex shrink-0 items-end justify-between gap-6 px-6 pt-20 pb-6 md:px-12">
                     <div>
                         <p className="eyebrow opacity-70">Selected work</p>
-                        <h2 className="mt-3 text-[36px] font-medium leading-[1.1] tracking-[-0.025em] md:text-[44px] lg:text-[56px]">Project by project.</h2>
+                        <h2 className="mt-3 text-[36px] font-medium leading-[1.1] tracking-[-0.025em] md:text-[44px] lg:text-[56px]">
+                            Project by project.
+                        </h2>
                     </div>
                     <p className="hidden max-w-xs text-[14px] font-normal leading-[1.5] opacity-70 md:block md:text-[15px]">
                         Keep scrolling - the work moves sideways, one project at a time.
@@ -116,77 +286,11 @@ export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
                         className="flex h-full items-center gap-6 px-6 will-change-transform md:gap-10 md:px-12"
                     >
                         {projects.map((p: MappedProject, i: number) => (
-                            <article
+                            <ProjectCardItem
                                 key={p.name + p.index}
-                                className="group project-card-perspective relative flex h-[70vh] w-[82vw] shrink-0 rounded-sm md:w-[56vw] lg:w-[42vw]"
-                                style={{
-                                    opacity: i === active ? 1 : 0.55,
-                                    transform: `scale(${i === active ? 1 : 0.94})`,
-                                    transition: "opacity 500ms ease, transform 500ms ease",
-                                }}
-                            >
-                                <div className="project-card-inner">
-                                    {/* FRONT SIDE - Full image with Category, Name, Place, Year, Scope */}
-                                    <div className="project-card-front flex flex-col justify-end overflow-hidden rounded-sm border border-ink-foreground/10 bg-ink p-6 md:p-9">
-                                        {p.image ? (
-                                            <img
-                                                src={p.image}
-                                                alt={`${p.name}, ${p.place}`}
-                                                loading="lazy"
-                                                width={1280}
-                                                height={1600}
-                                                className="absolute inset-0 h-full w-full object-cover"
-                                            />
-                                        ) : (
-                                            <div className="absolute inset-0 bg-ink/70" />
-                                        )}
-                                        <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/50 to-transparent" />
-                                        <div className="relative z-10 w-full">
-                                            <p className="eyebrow text-ink-foreground/70">
-                                                {p.index} · {p.sector}
-                                            </p>
-                                            <h3 className="mt-3 text-[22px] font-medium leading-[1.15] tracking-[-0.02em] text-ink-foreground sm:text-[24px] md:text-[28px] lg:text-[32px]">
-                                                {p.name}
-                                            </h3>
-                                            <dl className="mt-6 grid grid-cols-3 gap-4 border-t border-ink-foreground/20 pt-4 text-xs text-ink-foreground/70">
-                                                <div>
-                                                    <dt className="eyebrow text-ink-foreground/50">Place</dt>
-                                                    <dd className="mt-1 font-mono text-xs text-ink-foreground/80 md:text-[13px]">{p.place}</dd>
-                                                </div>
-                                                <div>
-                                                    <dt className="eyebrow text-ink-foreground/50">Year</dt>
-                                                    <dd className="mt-1 font-mono text-xs text-ink-foreground/80 md:text-[13px]">{p.year}</dd>
-                                                </div>
-                                                <div>
-                                                    <dt className="eyebrow text-ink-foreground/50">Scope</dt>
-                                                    <dd className="mt-1 font-mono text-xs text-ink-foreground/80 md:text-[13px]">{p.scope}</dd>
-                                                </div>
-                                            </dl>
-                                        </div>
-                                    </div>
-
-                                    {/* BACK SIDE - Image background with Description centered */}
-                                    <div className="project-card-back flex flex-col items-center justify-center overflow-hidden rounded-sm border border-ink-foreground/15 bg-ink p-8 text-center md:p-12">
-                                        {p.image ? (
-                                            <img
-                                                src={p.image}
-                                                alt=""
-                                                aria-hidden="true"
-                                                loading="lazy"
-                                                width={1280}
-                                                height={1600}
-                                                className="absolute inset-0 h-full w-full scale-110 object-cover blur-lg"
-                                            />
-                                        ) : null}
-                                        <div className="absolute inset-0 bg-ink/85" />
-                                        <div className="relative z-10 flex w-full max-w-md items-center justify-center">
-                                            <p className="text-center text-[15px] font-normal leading-[1.75] text-ink-foreground/90 sm:text-[16px] md:text-[18px]">
-                                                {p.blurb}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </article>
+                                project={p}
+                                isActive={i === active}
+                            />
                         ))}
                     </div>
                 </div>

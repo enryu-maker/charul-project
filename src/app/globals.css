@@ -242,7 +242,7 @@
   min-height: 260px;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
-  transition: transform 1.25s cubic-bezier(0.25, 1, 0.35, 1);
+  transition: transform 600ms cubic-bezier(0.25, 1, 0.35, 1);
   will-change: transform;
 }
 
@@ -251,6 +251,17 @@
     transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg);
   }
+}
+
+.equipment-card-perspective.is-flipped .equipment-card-inner,
+.equipment-card-inner.is-flipped {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
+
+.equipment-card-perspective.is-flipped .equipment-card-front,
+.equipment-card-perspective.is-flipped .equipment-card-back {
+  border-color: var(--color-brand-green);
 }
 
 @utility equipment-card-front {
@@ -281,7 +292,7 @@
   height: 100%;
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
-  transition: transform 1.25s cubic-bezier(0.25, 1, 0.35, 1);
+  transition: transform 600ms cubic-bezier(0.25, 1, 0.35, 1);
   will-change: transform;
 }
 
@@ -290,6 +301,12 @@
     transform: rotateY(180deg);
     -webkit-transform: rotateY(180deg);
   }
+}
+
+.project-card-perspective.is-flipped .project-card-inner,
+.project-card-inner.is-flipped {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
 }
 
 @utility project-card-front {
@@ -313,4 +330,5 @@
   transform: rotateY(180deg);
   -webkit-transform: rotateY(180deg);
 }
+
 
