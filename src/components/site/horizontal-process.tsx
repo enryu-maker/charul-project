@@ -29,7 +29,8 @@ export function HorizontalProcess({ items = [] }: { items?: ApiProcess[] }) {
         let ticking = false;
 
         const measure = () => {
-            distance = Math.max(0, track.scrollWidth - window.innerWidth);
+            const trackWidth = Math.max(track.scrollWidth, track.offsetWidth);
+            distance = Math.max(0, trackWidth - window.innerWidth);
         };
 
         const apply = () => {
@@ -103,7 +104,7 @@ export function HorizontalProcess({ items = [] }: { items?: ApiProcess[] }) {
                 <div className="relative flex-1">
                     <div
                         ref={trackRef}
-                        className="flex h-full items-center gap-6 px-6 will-change-transform md:gap-8 md:px-12"
+                        className="flex h-full w-max items-center gap-6 px-6 will-change-transform md:gap-8 md:px-12"
                     >
                         {stages.map((s: Stage, i: number) => (
                             <article
