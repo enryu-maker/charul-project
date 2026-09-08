@@ -213,7 +213,8 @@ export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
         let ticking = false;
 
         const measure = () => {
-            distance = Math.max(0, track.scrollWidth - window.innerWidth);
+            const trackWidth = Math.max(track.scrollWidth, track.offsetWidth);
+            distance = Math.max(0, trackWidth - window.innerWidth);
         };
 
         const apply = () => {
@@ -283,7 +284,7 @@ export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
                 <div className="relative flex-1">
                     <div
                         ref={trackRef}
-                        className="flex h-full items-center gap-6 px-6 will-change-transform md:gap-10 md:px-12"
+                        className="flex h-full w-max items-center gap-6 px-6 will-change-transform md:gap-10 md:px-12"
                     >
                         {projects.map((p: MappedProject, i: number) => (
                             <ProjectCardItem
