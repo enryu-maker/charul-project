@@ -31,7 +31,7 @@ const values = [
     {
         n: "06",
         title: "Excellence",
-        body: "We continuously improve the way we plan, coordinate and execute projects, drawing on more than two decades of experience.",
+        body: "We continuously improve the way we plan, coordinate and execute projects, drawing on more than three decades of experience.",
     },
 ];
 

@@ -202,7 +202,7 @@ export function Hero({ image }: { image?: string | null }) {
             />
             <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/55 to-ink/25" />
             <div className="relative w-full px-6 pb-16 md:px-12 md:pb-20">
-                <p className="eyebrow animate-rise text-brand-green">
+                <p className="w-[260px] eyebrow animate-rise text-brand-green font-bold backdrop-blur-xs">
                     Since 1997 · Nashik, Maharashtra
                 </p>
                 <h1 className="animate-rise mt-6 max-w-5xl text-[15vw] text-ink-foreground md:text-[9vw]">
@@ -229,7 +229,7 @@ export function Hero({ image }: { image?: string | null }) {
 const fallbackPractice = {
     title: "About Charul Projects",
     description:
-        "Established in 1997, Charul Projects is a Nashik-based construction and project execution firm serving industrial, healthcare, residential, commercial and hospitality projects.\n\nOur experience spans industrial facilities and MIDC projects, hospitals, apartments, bungalows, wineries, farmhouses, and landscape developments across Nashik and surrounding regions of Maharashtra.\n\nOver the years, our capabilities have grown through the projects we have undertaken, the challenges we have solved and the relationships we have built with clients, consultants, vendors and execution partners.\n\nToday, we bring this experience together to provide clients with a dependable partner for construction execution, project management and site coordination.\n\nMuch of our growth has come through referrals and repeat relationships, a reflection of the trust built through our work.",
+        "Established in 1997, Charul Projects is a Nashik-based construction and project execution firm serving industrial, healthcare, residential, commercial and hospitality projects.\n Our experience spans industrial facilities and MIDC projects, hospitals, apartments, bungalows, wineries, farmhouses, and landscape developments across Nashik and surrounding regions of Maharashtra.\n Over the years, our capabilities have grown through the projects we have undertaken, the challenges we have solved and the relationships we have built with clients, consultants, vendors and execution partners.\n Today, we bring this experience together to provide clients with a dependable partner for construction execution.\n Much of our growth has come through referrals and repeat relationships, a reflection of the trust built through our work. ",
     image: "/texture-blueprint.jpg",
 };
 
@@ -244,7 +244,7 @@ const fallbackMissionVision = [
         id: "mission",
         title: "MISSION",
         description:
-            "To deliver every project with discipline, quality, and accountability.\n\nThrough structured planning, responsible execution, and strong project management, we strive to deliver reliable outcomes and build lasting trust with every client.",
+            "To deliver every project with discipline, quality, and accountability, on time and with value for money. \n\nThrough structured planning, responsible execution, and a commitment to quality, we strive to deliver projects on time, with accountability and value, while building lasting trust with every client. x.",
     },
 ];
 
@@ -288,7 +288,7 @@ export function Practice({ items = [] }: { items?: ApiPractice[] }) {
                 />
                 <figcaption className="absolute inset-0 flex items-end bg-linear-to-t from-ink/80 to-transparent p-6 md:p-12">
                     <h2 className="max-w-2xl text-[26px] font-medium leading-[1.15] tracking-[-0.025em] text-ink-foreground sm:text-[32px] md:text-[38px] lg:text-[42px]">
-                        Over two decades of building experience in Nashik.
+                        Over three decades of building experience in Nashik.
                     </h2>
                 </figcaption>
             </figure>
@@ -416,14 +416,15 @@ export function Stats({ items = [] }: { items?: ApiStat[] }) {
 const staticIndustries = [
     {
         id: 1,
-        name: "Commercial",
-        body: "Offices, hospitals and institutional buildings delivered around operational needs - with coordinated services, durable finishes and execution planned from day one.",
-    },
-    {
-        id: 2,
         name: "Residential",
         body: "Apartments, bungalows and housing developments delivered with disciplined planning, quality execution and attention to comfort, durability and timelines.",
     },
+    {
+        id: 2,
+        name: "Commercial",
+        body: "Offices, hospitals and institutional buildings delivered around operational needs - with coordinated services, durable finishes and execution planned from day one.",
+    },
+
     {
         id: 3,
         name: "Industrial",
@@ -431,18 +432,24 @@ const staticIndustries = [
     },
     {
         id: 4,
-        name: "Farmhouses",
-        body: "Farmhouses, estates and rural properties developed with careful attention to the land, access, utilities, outdoor spaces and the way the property is meant to be used.",
-    },
-    {
-        id: 5,
         name: "Hospitality",
         body: "Hotels, resorts, wineries and hospitality spaces delivered with coordinated infrastructure, guest experience, operational requirements and long-term durability in mind.",
     },
     {
+        id: 5,
+        name: "Farmhouses",
+        body: "Farmhouses, estates and rural properties developed with careful attention to the land, access, utilities, outdoor spaces and the way the property is meant to be used.",
+    },
+
+    {
         id: 6,
         name: "Landscape & Site Development",
         body: "Grading, drainage, water systems, hardscape and planting integrated with the site - creating functional, durable and cohesive outdoor spaces.",
+    },
+    {
+        id: 7,
+        name: "Hospitals ",
+        body: "Hospital construction executed with attention to functional requirements, quality construction, finishing and the specific needs of the facility. ",
     },
 ];
 
@@ -560,9 +567,8 @@ function EquipmentCardItem({
 
     return (
         <div
-            className={`equipment-card-perspective group relative min-h-[260px] w-full cursor-pointer select-none outline-none focus-visible:ring-2 focus-visible:ring-brand-green ${
-                isFlipped ? "is-flipped" : ""
-            }`}
+            className={`equipment-card-perspective group relative min-h-[260px] w-full cursor-pointer select-none outline-none focus-visible:ring-2 focus-visible:ring-brand-green ${isFlipped ? "is-flipped" : ""
+                }`}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
@@ -570,9 +576,8 @@ function EquipmentCardItem({
             onKeyDown={handleKeyDown}
             tabIndex={0}
             role="button"
-            aria-label={`${item.name}, ${item.quantity} ${item.unit}. Click or tap to ${
-                isFlipped ? "view details" : "view image"
-            }.`}
+            aria-label={`${item.name}, ${item.quantity} ${item.unit}. Click or tap to ${isFlipped ? "view details" : "view image"
+                }.`}
             aria-pressed={isFlipped}
         >
             <div className={`equipment-card-inner ${isFlipped ? "is-flipped" : ""}`}>
