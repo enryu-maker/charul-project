@@ -366,19 +366,19 @@ export function Services({ items = [] }: { items?: ApiService[] }) {
     const list = items.length > 0 ? items : fallbackServices;
 
     return (
-        <section className="px-6 pb-24 md:px-12 md:pb-32">
-            <p className="eyebrow">What we do</p>
+        <section className="ink-panel px-6 py-24 md:px-12 md:py-32">
+            <p className="eyebrow text-brand-green">What we do</p>
             <div className="mt-10">
                 {list.map((s, i) => (
                     <div
                         key={s.id}
-                        className="rule-line group grid gap-4 py-8 md:grid-cols-12 md:items-baseline md:gap-8"
+                        className="group grid gap-4 border-t border-ink-foreground/20 py-8 md:grid-cols-12 md:items-baseline md:gap-8"
                     >
-                        <span className="eyebrow font-mono text-[12px] md:col-span-1 md:text-[13px]">{String(i + 1).padStart(2, "0")}</span>
-                        <h3 className="text-[20px] font-medium leading-[1.2] tracking-[-0.02em] transition-transform duration-300 group-hover:translate-x-2 md:col-span-5 md:text-[24px] lg:text-[28px]">
+                        <span className="eyebrow font-mono text-[12px] text-brand-green md:col-span-1 md:text-[13px]">{String(i + 1).padStart(2, "0")}</span>
+                        <h3 className="text-[20px] font-medium leading-[1.2] tracking-[-0.02em] text-ink-foreground transition-transform duration-300 group-hover:translate-x-2 md:col-span-5 md:text-[24px] lg:text-[28px]">
                             {s.name}
                         </h3>
-                        <p className="max-w-xl text-[14px] font-normal leading-[1.6] text-muted-foreground md:col-span-6 md:text-[15px]">
+                        <p className="max-w-xl text-[14px] font-normal leading-[1.6] text-ink-foreground/75 md:col-span-6 md:text-[15px]">
                             {s.description}
                         </p>
                     </div>
