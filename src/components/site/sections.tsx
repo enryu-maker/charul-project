@@ -201,14 +201,14 @@ export function Hero({ image }: { image?: string | null }) {
             />
             <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/55 to-ink/25" />
             <div className="relative w-full px-6 pb-16 md:px-12 md:pb-20">
-                <p className="w-[260px] eyebrow animate-rise text-brand-green font-bold backdrop-blur-xs">
-                    Since 1997 · Nashik, Maharashtra
-                </p>
-                <h1 className="animate-rise mt-6 max-w-5xl text-[15vw] text-ink-foreground md:text-[9vw]">
+                <h1 className="animate-rise max-w-5xl text-[15vw] leading-[1.05] text-ink-foreground md:text-[9vw]">
                     Building
                     <br />
                     your vision
                 </h1>
+                <p className="w-[259px] mt-8 md:mt-12 eyebrow animate-rise text-brand-green font-bold backdrop-blur-xs">
+                    Since 1997 · Nashik, Maharashtra
+                </p>
                 <div className="mt-10 flex flex-col gap-8 border-t border-ink-foreground/20 pt-8 md:flex-row md:items-end md:justify-between">
                     <p className="max-w-xl text-sm leading-relaxed text-ink-foreground/75">
                         Construction contracting and project execution, managed by one accountable partner from planning to handover.
