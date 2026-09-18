@@ -21,7 +21,6 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 
 const navLinks = [
-    { label: "Practice", href: "#practice" },
     { label: "About", href: "#about" },
     { label: "Work", href: "#projects" },
     { label: "Process", href: "#process" },
@@ -244,7 +243,7 @@ const fallbackMissionVision = [
         id: "mission",
         title: "MISSION",
         description:
-            "To deliver every project with discipline, quality, and accountability, on time and with value for money. \n\nThrough structured planning, responsible execution, and a commitment to quality, we strive to deliver projects on time, with accountability and value, while building lasting trust with every client. x.",
+            "To deliver every project with discipline, quality, and accountability, on time and with value for money. \n\nThrough structured planning, responsible execution, and a commitment to quality, we strive to deliver projects on time, with accountability and value, while building lasting trust with every client.",
     },
 ];
 
@@ -264,7 +263,7 @@ export function Practice({ items = [] }: { items?: ApiPractice[] }) {
             : fallbackMissionVision;
 
     return (
-        <section id="practice" className="px-6 py-24 md:px-12 md:py-36">
+        <section id="about" className="px-6 py-24 md:px-12 md:py-36">
             <div className="grid gap-14 md:grid-cols-12">
                 <div className="md:col-span-4">
                     <p className="eyebrow">About Us</p>
@@ -293,7 +292,7 @@ export function Practice({ items = [] }: { items?: ApiPractice[] }) {
                 </figcaption>
             </figure>
 
-            <div id="about" className="mt-20 grid gap-4 border-t border-border pt-12 md:grid-cols-2 md:gap-6">
+            <div className="mt-20 grid gap-4 border-t border-border pt-12 md:grid-cols-2 md:gap-6">
                 {extras.map((item) => {
                     const lines = item.description.split(/\n+/).map((l) => l.trim()).filter(Boolean);
                     const subheadline = lines.length > 1 ? lines[0] : null;
@@ -333,6 +332,8 @@ export function Practice({ items = [] }: { items?: ApiPractice[] }) {
         </section>
     );
 }
+
+export const About = Practice;
 
 const fallbackServices = [
     {
