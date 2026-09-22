@@ -191,31 +191,31 @@ export function Hero({ image }: { image?: string | null }) {
     const src = mediaUrl(image) || "/hero-construction.jpg";
 
     return (
-        <header id="top" className="relative flex min-h-screen items-end overflow-hidden">
+        <header id="top" className="relative flex min-h-screen min-h-[100dvh] flex-col justify-end overflow-hidden px-0 pt-28 pb-12 sm:pt-32 sm:pb-16 md:pt-36 md:pb-20">
             <img
                 src={src}
                 alt="Concrete structure under construction at golden hour with a tower crane"
                 width={1920}
                 height={1280}
-                className="absolute inset-0 h-full w-full object-cover"
+                className="absolute inset-0 h-full w-full object-cover object-[center_30%] sm:object-[center_32%] md:object-[center_35%]"
             />
-            <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/55 to-ink/25" />
-            <div className="relative w-full px-6 pb-16 md:px-12 md:pb-20">
-                <h1 className="animate-rise max-w-5xl text-[15vw] leading-[1.05] text-ink-foreground md:text-[9vw]">
+            <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/60 to-ink/25" />
+            <div className="relative w-full px-6 md:px-12">
+                <h1 className="animate-rise max-w-5xl text-5xl sm:text-6xl md:text-7xl lg:text-[7.2vw] xl:text-[7.6vw] 2xl:text-[7.5rem] leading-[1.04] text-ink-foreground">
                     Building
                     <br />
                     your vision
                 </h1>
-                <p className="w-[259px] mt-8 md:mt-12 eyebrow animate-rise text-brand-green font-bold backdrop-blur-xs">
+                <p className="mt-6 md:mt-8 eyebrow animate-rise text-brand-green font-bold backdrop-blur-xs w-fit">
                     Since 1997 · Nashik, Maharashtra
                 </p>
-                <div className="mt-10 flex flex-col gap-8 border-t border-ink-foreground/20 pt-8 md:flex-row md:items-end md:justify-between">
+                <div className="mt-8 md:mt-10 flex flex-col gap-6 border-t border-ink-foreground/20 pt-6 md:flex-row md:items-end md:justify-between md:gap-8 md:pt-8">
                     <p className="max-w-xl text-sm leading-relaxed text-ink-foreground/75">
                         Construction contracting and project execution, managed by one accountable partner from planning to handover.
                     </p>
                     <a
                         href="#projects"
-                        className="inline-flex w-fit items-center gap-3 bg-brand-green px-6 py-3 font-sans text-xs font-medium tracking-[0.10em] text-ink uppercase transition-opacity hover:opacity-85 md:text-[13px]"
+                        className="inline-flex w-fit shrink-0 items-center gap-3 bg-brand-green px-6 py-3 font-sans text-xs font-medium tracking-[0.10em] text-ink uppercase transition-opacity hover:opacity-85 md:text-[13px]"
                     >
                         See the work
                     </a>
