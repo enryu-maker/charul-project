@@ -183,6 +183,7 @@ export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
                         </div>
                     );
                 })}
+                <div className="h-[60vh] md:h-[75vh]" aria-hidden="true" />
             </div>
         </section>
     );
