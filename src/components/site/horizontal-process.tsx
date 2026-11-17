@@ -108,7 +108,14 @@ const nineStages: ProcessStage[] = [
     },
 ];
 
-export function HorizontalProcess({}: { items?: ApiProcess[] } = {}) {
+export function HorizontalProcess({ items = [] }: { items?: ApiProcess[] } = {}) {
+    // API supplies all copy; nineStages only provides phase styling by position.
+    const stages: ProcessStage[] = [...items].sort((a, b) => a.step - b.step).map((p, i) => ({
+        ...nineStages[Math.min(i, nineStages.length - 1)],
+        n: String(p.step).padStart(2, "0"),
+        title: p.title,
+        body: p.description,
+    }));
     const [selectedStage, setSelectedStage] = useState<ProcessStage | null>(null);
 
     const howToSchema = {
@@ -117,7 +124,7 @@ export function HorizontalProcess({}: { items?: ApiProcess[] } = {}) {
         name: "How Charul Projects executes a construction project",
         description:
             "The stage-by-stage process Charul Projects follows to deliver a construction project from consultation to post-handover maintenance.",
-        step: nineStages.map((s) => ({
+        step: stages.map((s) => ({
             "@type": "HowToStep",
             position: Number(s.n),
             name: s.title,
@@ -169,7 +176,7 @@ export function HorizontalProcess({}: { items?: ApiProcess[] } = {}) {
 
                 {/* 3x3 Grid of 9 Stages matching Attachment 2 */}
                 <div className="mt-12 sm:mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
-                    {nineStages.map((stage) => (
+                    {stages.map((stage) => (
                         <article
                             key={stage.n}
                             onClick={() => setSelectedStage(stage)}

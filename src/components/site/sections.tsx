@@ -2,9 +2,10 @@
 
 import { useState, useEffect, FormEvent } from "react";
 import { Menu, X } from "lucide-react";
-import { createLead } from "@/lib/api";
+import { createLead, mediaUrl } from "@/lib/api";
 import type {
     ApiContact,
+    ApiEquipment,
     ApiPractice,
     ApiReview,
     ApiService,
@@ -180,28 +181,29 @@ export function SiteNav() {
     );
 }
 
-export function Hero({}: { image?: string | null } = {}) {
+export function Hero({ image }: { image?: string | null } = {}) {
+    const bg = mediaUrl(image);
     return (
         <header
             id="top"
             className="relative flex min-h-screen min-h-[100dvh] flex-col justify-between overflow-hidden px-6 md:px-12 pt-28 pb-10 sm:pt-32 sm:pb-12 md:pt-36 md:pb-16"
             style={{
                 backgroundColor: "#070e1e",
-                backgroundImage: `repeating-linear-gradient(
+                backgroundImage: bg
+                    ? `linear-gradient(rgba(7,14,30,0.55), rgba(7,14,30,0.85)), url("${bg}")`
+                    : `repeating-linear-gradient(
                     -45deg,
                     #0b162f 0px,
                     #0b162f 28px,
                     #060c1b 28px,
                     #060c1b 56px
                 )`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
             }}
         >
             {/* Top row: Right-aligned badge matching Attachment 2 */}
-            <div className="relative z-10 w-full max-w-[1550px] mx-auto flex justify-end">
-                <div className="inline-flex items-center border border-white/20 bg-transparent px-3 sm:px-4 py-1.5 sm:py-2 text-[9px] sm:text-[10px] md:text-[11px] font-mono tracking-[0.14em] sm:tracking-[0.16em] text-white/70 uppercase">
-                    HERO VIDEO / PHOTO · CONSTRUCTION SITE
-                </div>
-            </div>
+            <div className="relative z-10 w-full max-w-[1550px] mx-auto flex justify-end" />
 
             {/* Main Center/Lower content grid */}
             <div className="relative z-10 w-full max-w-[1550px] mx-auto my-auto py-8 sm:py-12 md:py-16">
@@ -251,40 +253,12 @@ export function Hero({}: { image?: string | null } = {}) {
     );
 }
 
-const fallbackPractice = {
-    title: "About Charul Projects",
-    description:
-        "Charul Projects Pvt. Ltd. has delivered residential, commercial, industrial and hospitality projects across Maharashtra and Gujarat for more than three decades. Our clients return, and refer others, because we plan carefully and stay accountable until handover.",
-    image: "/project-industrial.jpg",
-};
-
-const fallbackMissionVision = [
-    {
-        id: "vision",
-        title: "VISION",
-        description:
-            "To set a trusted benchmark for construction execution.\n\nTo be recognized for reliable delivery, disciplined project management, quality construction, and responsible building practices, creating lasting value for our clients and the communities we build for.",
-    },
-    {
-        id: "mission",
-        title: "MISSION",
-        description:
-            "To deliver every project with discipline, quality, and accountability, on time and with value for money.\n\nThrough structured planning, responsible execution, and a commitment to quality, we strive to deliver projects on time, with accountability and value, while building lasting trust with every client.",
-    },
-];
-
 export function Practice({ items = [] }: { items?: ApiPractice[] }) {
     const [showFullStory, setShowFullStory] = useState(false);
     const primary = items[0];
-    const aboutText = primary?.description || fallbackPractice.description;
-    const extras =
-        items.length > 1
-            ? items.slice(1).map((item) => ({
-                id: String(item.id),
-                title: item.title,
-                description: item.description,
-            }))
-            : fallbackMissionVision;
+    const aboutText = primary?.description ?? "";
+    const aboutImage = mediaUrl(primary?.image);
+    const extras = items.slice(1);
 
     return (
         <section id="about" className="relative bg-white text-slate-900 px-6 sm:px-12 md:px-16 py-20 sm:py-24 md:py-28">
@@ -307,6 +281,7 @@ export function Practice({ items = [] }: { items?: ApiPractice[] }) {
                             {aboutText}
                         </p>
 
+                        {extras.length > 0 && (
                         <div className="mt-8">
                             <button
                                 type="button"
@@ -319,6 +294,7 @@ export function Practice({ items = [] }: { items?: ApiPractice[] }) {
                                 </span>
                             </button>
                         </div>
+                        )}
                     </div>
 
                     {/* Right Column: Architectural Media Container matching Attachment 1 */}
@@ -327,24 +303,19 @@ export function Practice({ items = [] }: { items?: ApiPractice[] }) {
                             className="relative aspect-[16/10] w-full overflow-hidden border border-slate-200/90 shadow-sm"
                             style={{
                                 backgroundColor: "#dbe2ea",
-                                backgroundImage: `
-                                    repeating-linear-gradient(
+                                backgroundImage: aboutImage
+                                    ? `url("${aboutImage}")`
+                                    : `repeating-linear-gradient(
                                         -45deg,
                                         #d0d9e4 0px,
                                         #d0d9e4 22px,
                                         #edf2f7 22px,
                                         #edf2f7 44px
-                                    )
-                                `,
+                                    )`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
                             }}
-                        >
-                            {/* Badge matching Attachment 1 at bottom-left */}
-                            <div className="absolute bottom-4 left-4 z-10">
-                                <div className="bg-white px-4 py-1.5 text-[10px] md:text-[11px] font-mono tracking-[0.16em] text-slate-800 uppercase font-semibold shadow-xs border border-slate-200/80">
-                                    PHOTO · BUILDING
-                                </div>
-                            </div>
-                        </div>
+                        />
                     </div>
                 </div>
 
@@ -392,28 +363,8 @@ export function Practice({ items = [] }: { items?: ApiPractice[] }) {
 
 export const About = Practice;
 
-const servicesData = [
-    {
-        num: "01",
-        name: "Turnkey Execution",
-        description:
-            "End-to-end delivery from planning and design coordination to construction and handover, under one contract.",
-    },
-    {
-        num: "02",
-        name: "Construction Management",
-        description:
-            "Site supervision, scheduling, budget control and quality inspection on behalf of owners and developers.",
-    },
-    {
-        num: "03",
-        name: "General Contracting",
-        description:
-            "Disciplined execution of civil works against approved drawings, specifications and timelines.",
-    },
-];
-
-export function Services({}: { items?: ApiService[] } = {}) {
+export function Services({ items = [] }: { items?: ApiService[] } = {}) {
+    const list = items.map((s, i) => ({ num: String(i + 1).padStart(2, "0"), name: s.name, description: s.description }));
     return (
         <section id="services" className="bg-white text-slate-900 py-20 sm:py-24 md:py-28 px-6 sm:px-12 md:px-16">
             <div className="max-w-[1550px] mx-auto">
@@ -431,7 +382,7 @@ export function Services({}: { items?: ApiService[] } = {}) {
 
                 {/* 3-Column Cards Grid matching Attachment 2 */}
                 <div className="mt-12 sm:mt-14 grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 lg:gap-8">
-                    {servicesData.map((s) => (
+                    {list.map((s) => (
                         <article
                             key={s.num}
                             className="group flex flex-col bg-white border border-slate-200/80 overflow-hidden shadow-xs hover:shadow-md transition-all duration-300"
@@ -473,15 +424,8 @@ export function Services({}: { items?: ApiService[] } = {}) {
     );
 }
 
-const fallbackStats = [
-    { id: 1, value: "30+", label: "Years of experience, since 1997" },
-    { id: 2, value: "75+", label: "Projects delivered" },
-    { id: 3, value: "8+", label: "Sectors served" },
-    { id: 4, value: "25 L+", label: "Sq. ft. constructed" },
-];
-
 export function Stats({ items = [] }: { items?: ApiStat[] }) {
-    const list = items.length === 4 && items[0].value.includes("30") ? items : fallbackStats;
+    const list = items;
 
     return (
         <section className="bg-[#0b1426] py-14 sm:py-16 md:py-20 px-6 sm:px-12 md:px-16 border-y border-white/5">
@@ -731,43 +675,10 @@ export function CharulEdge() {
     );
 }
 
-const equipmentCategories = [
-    {
-        title: "CONCRETE & FORMWORK",
-        items: [
-            { name: "Needle vibrators", count: 15 },
-            { name: "Concrete mixers", count: 4 },
-            { name: "Water pumps", count: 10 },
-        ],
-    },
-    {
-        title: "LIFTING & VERTICAL",
-        items: [
-            { name: "Electric lifts", count: 4 },
-            { name: "Material lifts, 100 m", count: 2 },
-            { name: "Tower crane", count: 1 },
-        ],
-    },
-    {
-        title: "REBAR & STEEL",
-        items: [
-            { name: "Rebar machines", count: 3 },
-            { name: "Bar bending machines", count: 3 },
-            { name: "Bar cutting machines", count: 3 },
-        ],
-    },
-];
-
-const surveyCategory = {
-    title: "SURVEY, SITE & POWER",
-    items: [
-        { name: "Auto levels", count: 3 },
-        { name: "Compactor", count: 1 },
-        { name: "Power breakers", count: 6 },
-    ],
-};
-
-export function EquipmentFleet() {
+export function EquipmentFleet({ items = [] }: { items?: ApiEquipment[] } = {}) {
+    // Largest-quantity item gets the feature card; the rest list below.
+    const [featured, ...rest] = [...items].sort((a, b) => b.quantity - a.quantity);
+    const featuredImage = mediaUrl(featured?.image);
     return (
         <section id="equipment" className="bg-[#050a17] text-white py-20 sm:py-24 md:py-28 px-6 sm:px-12 md:px-16 border-t border-white/5">
             <div className="max-w-[1550px] mx-auto">
@@ -793,13 +704,13 @@ export function EquipmentFleet() {
                     <div className="lg:col-span-7 xl:col-span-8 bg-[#091224] border border-white/10 overflow-hidden grid grid-cols-1 sm:grid-cols-2">
                         <div className="p-6 sm:p-8 md:p-10 flex flex-col justify-center">
                             <span className="font-sans text-5xl sm:text-6xl md:text-7xl font-bold text-[#4ade80] leading-none">
-                                400
+                                {featured?.quantity}
                             </span>
                             <h3 className="mt-4 text-lg sm:text-xl font-bold text-white tracking-tight">
-                                Steel shuttering units
+                                {featured?.name}
                             </h3>
                             <p className="mt-1 text-xs sm:text-sm text-slate-400">
-                                plus 40 wall-form shuttering units
+                                {featured?.unit}
                             </p>
                         </div>
 
@@ -808,20 +719,19 @@ export function EquipmentFleet() {
                             className="relative aspect-auto min-h-[200px] sm:min-h-full w-full overflow-hidden border-t sm:border-t-0 sm:border-l border-white/10"
                             style={{
                                 backgroundColor: "#070e1e",
-                                backgroundImage: `repeating-linear-gradient(
+                                backgroundImage: featuredImage
+                                    ? `url("${featuredImage}")`
+                                    : `repeating-linear-gradient(
                                     -45deg,
                                     #0b162f 0px,
                                     #0b162f 26px,
                                     #060c1b 26px,
                                     #060c1b 52px
                                 )`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
                             }}
                         >
-                            <div className="absolute bottom-4 left-4 z-10">
-                                <div className="border border-white/20 bg-black/40 backdrop-blur-xs text-[10px] sm:text-[11px] font-mono tracking-[0.16em] text-white/80 uppercase px-3 py-1 font-medium">
-                                    PHOTO · SHUTTERING
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -842,60 +752,24 @@ export function EquipmentFleet() {
                     </div>
                 </div>
 
-                {/* Bottom Categories: 3 Columns in Row 1 matching Attachment 1 */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 mt-8">
-                    {equipmentCategories.map((cat) => (
-                        <div
-                            key={cat.title}
-                            className="bg-[#091224] border border-white/10 p-6 sm:p-7 flex flex-col justify-between"
-                        >
-                            <div className="w-full h-[2px] bg-[#4ade80] mb-5" />
-                            <h4 className="font-mono text-xs font-bold tracking-wider text-slate-400 uppercase mb-4">
-                                {cat.title}
-                            </h4>
-                            <div className="flex flex-col">
-                                {cat.items.map((item) => (
-                                    <div
-                                        key={item.name}
-                                        className="flex items-center justify-between py-3.5 border-b border-white/10 last:border-b-0"
-                                    >
-                                        <span className="text-sm sm:text-[15px] text-slate-200 font-normal">
-                                            {item.name}
-                                        </span>
-                                        <span className="font-mono text-xl sm:text-2xl font-bold text-white">
-                                            {item.count}
-                                        </span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Category 4 matching Attachment 2 (SURVEY, SITE & POWER) */}
-                <div className="mt-8">
-                    <div className="w-full h-[2px] bg-[#4ade80] mb-8" />
-                    <div className="bg-[#091224] border border-white/10 p-6 sm:p-8">
-                        <h4 className="font-mono text-xs font-bold tracking-wider text-slate-400 uppercase mb-4">
-                            {surveyCategory.title}
-                        </h4>
-                        <div className="flex flex-col">
-                            {surveyCategory.items.map((item) => (
+                {rest.length > 0 && (
+                    <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+                        {rest.map((item) => (
+                            <div key={item.id} className="bg-[#091224] border border-white/10 overflow-hidden flex flex-col">
                                 <div
-                                    key={item.name}
-                                    className="flex items-center justify-between py-3.5 border-b border-white/10 last:border-b-0"
-                                >
-                                    <span className="text-sm sm:text-[15px] text-slate-200 font-normal">
-                                        {item.name}
-                                    </span>
-                                    <span className="font-mono text-xl sm:text-2xl font-bold text-white">
-                                        {item.count}
+                                    className="aspect-[16/10] w-full border-b border-white/10 bg-[#070e1e]"
+                                    style={item.image ? { backgroundImage: `url("${mediaUrl(item.image)}")`, backgroundSize: "cover", backgroundPosition: "center" } : undefined}
+                                />
+                                <div className="flex items-center justify-between gap-4 p-5 sm:p-6">
+                                    <span className="text-sm sm:text-[15px] text-slate-200">{item.name}</span>
+                                    <span className="font-mono text-xl sm:text-2xl font-bold text-white whitespace-nowrap">
+                                        {item.quantity} <span className="text-xs font-normal text-slate-400">{item.unit}</span>
                                     </span>
                                 </div>
-                            ))}
-                        </div>
+                            </div>
+                        ))}
                     </div>
-                </div>
+                )}
             </div>
         </section>
     );
@@ -903,31 +777,8 @@ export function EquipmentFleet() {
 
 export const Equipment = EquipmentFleet;
 
-const fallbackReviews: ApiReview[] = [
-    {
-        id: 1,
-        name: "Client",
-        description:
-            "We gave Charul the contracting of our office construction. On-time delivery, with no compromise on quality.",
-        photo: null,
-        video: null,
-        type: "text",
-        created_at: "",
-    },
-    {
-        id: 2,
-        name: "Client",
-        description:
-            "A tagline they actually live up to, and a team that works hard. Trustworthy for any project consultancy.",
-        photo: null,
-        video: null,
-        type: "text",
-        created_at: "",
-    },
-];
-
 export function Testimonials({ items = [] }: { items?: ApiReview[] }) {
-    const list = items.length > 0 ? items : fallbackReviews;
+    const list = items;
 
     return (
         <section id="clients" className="bg-[#f8fafc] text-slate-900 py-20 sm:py-24 md:py-28 px-6 sm:px-12 md:px-16 border-t border-slate-200/80">
@@ -944,9 +795,9 @@ export function Testimonials({ items = [] }: { items?: ApiReview[] }) {
 
                 {/* 2-Column Cards Grid matching Attachment 1 */}
                 <div className="mt-12 sm:mt-14 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-                    {list.slice(0, 2).map((r, idx) => (
+                    {list.map((r) => (
                         <article
-                            key={r.id || idx}
+                            key={r.id}
                             className="bg-white border border-slate-200/80 shadow-xs p-8 sm:p-10 flex flex-col justify-between transition-all duration-300 hover:shadow-md"
                             style={{
                                 borderLeftWidth: "4px",
@@ -954,14 +805,21 @@ export function Testimonials({ items = [] }: { items?: ApiReview[] }) {
                             }}
                         >
                             <div>
+                                {r.type === "video" && r.video && (
+                                    <video src={mediaUrl(r.video) ?? undefined} controls preload="metadata" className="mb-6 w-full aspect-video bg-black" />
+                                )}
                                 <blockquote className="text-lg sm:text-xl md:text-[22px] font-bold text-slate-900 tracking-tight leading-snug">
                                     “{r.description}”
                                 </blockquote>
                             </div>
 
-                            <div className="mt-8 pt-4">
+                            <div className="mt-8 pt-4 flex items-center gap-3">
+                                {r.photo && (
+                                    // eslint-disable-next-line @next/next/no-img-element
+                                    <img src={mediaUrl(r.photo) ?? undefined} alt={r.name} className="h-10 w-10 rounded-full object-cover" />
+                                )}
                                 <p className="text-xs sm:text-[13px] font-medium text-slate-500">
-                                    {r.name || "Client name"} · {idx === 0 ? "Office Construction" : "Project Consultancy"}
+                                    {r.name}
                                 </p>
                             </div>
                         </article>
@@ -972,18 +830,8 @@ export function Testimonials({ items = [] }: { items?: ApiReview[] }) {
     );
 }
 
-const fallbackContact: ApiContact = {
-    id: 0,
-    phone: "+91 942 227 2181",
-    email: "info@charulprojects.com",
-    location: "Nashik, Maharashtra",
-    maps_url: null,
-    instagram: "https://www.instagram.com/charulprojects?igsi=a3hicnA5OHFpejR2",
-    facebook: "https://www.linkedin.com/in/chinmay-deshpande-aa583375/?skipRedirect=true",
-};
-
 export function Contact({ data }: { data?: ApiContact | null }) {
-    const contact = data || fallbackContact;
+    const contact: Partial<ApiContact> = data ?? {};
     const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
     const [error, setError] = useState("");
 
@@ -1028,8 +876,11 @@ export function Contact({ data }: { data?: ApiContact | null }) {
 
     const telHref = contact.phone ? `tel:${contact.phone.replace(/\s+/g, "")}` : undefined;
     const mailHref = contact.email ? `mailto:${contact.email}` : undefined;
-    const instagramUrl = contact.instagram || "https://www.instagram.com/charulprojects?igsi=a3hicnA5OHFpejR2";
-    const linkedinUrl = contact.facebook || "https://www.linkedin.com/in/chinmay-deshpande-aa583375/?skipRedirect=true";
+    const socials = [
+        { label: "Instagram", href: contact.instagram },
+        { label: "Facebook", href: contact.facebook },
+        { label: "LinkedIn", href: contact.linkedin },
+    ].filter((l): l is { label: string; href: string } => Boolean(l.href));
 
     return (
         <footer id="contact" className="bg-[#050a17] text-white pt-20 sm:pt-24 md:pt-28 pb-12 sm:pb-16 px-6 sm:px-12 md:px-16 border-t border-white/5">
@@ -1070,9 +921,15 @@ export function Contact({ data }: { data?: ApiContact | null }) {
                                 </a>
                             ) : null}
 
-                            <p className="text-sm sm:text-base text-slate-400">
-                                Nashik, Maharashtra
-                            </p>
+                            {contact.location ? (
+                                contact.maps_url ? (
+                                    <a href={contact.maps_url} target="_blank" rel="noreferrer" className="text-sm sm:text-base text-slate-400 hover:text-white transition-colors">
+                                        {contact.location}
+                                    </a>
+                                ) : (
+                                    <p className="text-sm sm:text-base text-slate-400">{contact.location}</p>
+                                )
+                            ) : null}
                         </div>
                     </div>
 
@@ -1227,31 +1084,20 @@ export function Contact({ data }: { data?: ApiContact | null }) {
                         {/* Column 3 (Contact & Social) */}
                         <div className="lg:col-span-3">
                             <ul className="flex flex-col gap-3 text-xs sm:text-sm text-slate-300">
-                                <li>
-                                    <a href={`mailto:${contact.email}`} className="hover:text-white transition-colors">
-                                        {contact.email}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href={instagramUrl}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        Instagram
-                                    </a>
-                                </li>
-                                <li>
-                                    <a
-                                        href={linkedinUrl}
-                                        target="_blank"
-                                        rel="noreferrer"
-                                        className="hover:text-white transition-colors"
-                                    >
-                                        LinkedIn
-                                    </a>
-                                </li>
+                                {contact.email && (
+                                    <li>
+                                        <a href={mailHref} className="hover:text-white transition-colors">
+                                            {contact.email}
+                                        </a>
+                                    </li>
+                                )}
+                                {socials.map((l) => (
+                                    <li key={l.label}>
+                                        <a href={l.href} target="_blank" rel="noreferrer" className="hover:text-white transition-colors">
+                                            {l.label}
+                                        </a>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                     </div>
