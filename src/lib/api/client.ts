@@ -1,5 +1,4 @@
 import type {
-  ApiCategory,
   ApiContact,
   ApiEquipment,
   ApiHome,

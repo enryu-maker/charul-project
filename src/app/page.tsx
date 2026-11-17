@@ -1,8 +1,6 @@
-import { SiteNav, Hero, Practice, Services, Stats, Sectors, Equipment, Testimonials, Contact } from "@/components/site/sections";
-import { HorizontalValues } from "@/components/site/horizontal-values";
+import { SiteNav, Hero, Practice, Services, Stats, WhatWeStandFor, Sectors, CharulEdge, EquipmentFleet, Testimonials, Contact } from "@/components/site/sections";
 import { HorizontalProjects } from "@/components/site/horizontal-projects";
 import { HorizontalProcess } from "@/components/site/horizontal-process";
-import { FAQ } from "@/components/site/faq";
 import { fetchSiteData } from "@/lib/api";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://charul-project.vercel.app";
@@ -29,22 +27,34 @@ export default async function Home() {
   const data = await fetchSiteData();
 
   return (
-    <main className="min-h-screen flex flex-col bg-background text-foreground">
+    <main className="min-h-screen flex flex-col bg-background text-foreground overflow-x-hidden">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
       />
+      {/* Page 1: Hero, About, Stats, Values */}
       <SiteNav />
       <Hero image={data.home[0]?.image} />
-      <Stats items={data.stats} />
       <Practice items={data.practice} />
-      <HorizontalValues />
-      <Services items={data.services} />
+      <Stats items={data.stats} />
+      <WhatWeStandFor />
+
+      {/* Page 2: Selected Work (Landmark developments) */}
       <HorizontalProjects items={data.projects} />
-      <HorizontalProcess items={data.process} />
+
+      {/* Page 3: Sectors we serve & Unparalleled construction expertise */}
       <Sectors />
-      <Equipment items={data.equipment} />
+      <Services items={data.services} />
+
+      {/* Page 4: The Charul edge & Nine stages process */}
+      <CharulEdge />
+      <HorizontalProcess items={data.process} />
+
+      {/* Page 5: Equipment fleet & What clients say */}
+      <EquipmentFleet />
       <Testimonials items={data.reviews} />
+
+      {/* Page 6: Contact & Footer */}
       <Contact data={data.contact} />
     </main>
   );

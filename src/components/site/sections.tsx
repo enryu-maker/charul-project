@@ -1,30 +1,23 @@
 "use client";
 
-import { useState, useEffect, useRef, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { Menu, X } from "lucide-react";
-import { createLead, mediaUrl } from "@/lib/api";
+import { createLead } from "@/lib/api";
 import type {
     ApiContact,
-    ApiEquipment,
     ApiPractice,
     ApiReview,
     ApiService,
     ApiStat,
 } from "@/lib/api/types";
-import {
-    Carousel,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-    CarouselPrevious,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
 
 const navLinks = [
-    { label: "About", href: "#about" },
-    { label: "Work", href: "#projects" },
+    { label: "About Us", href: "#about" },
+    { label: "Sectors", href: "#sectors" },
+    { label: "Services", href: "#services" },
+    { label: "Projects", href: "#projects" },
     { label: "Process", href: "#process" },
-    { label: "FAQ", href: "#faq" },
+    { label: "Clients", href: "#clients" },
     { label: "Contact", href: "#contact" },
 ];
 
@@ -74,11 +67,11 @@ export function SiteNav() {
     return (
         <nav
             className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${scrolled
-                ? "border-b border-border/80 bg-bone/90 shadow-xs backdrop-blur-md py-3.5 md:py-4"
-                : "border-b border-border/40 bg-bone/75 backdrop-blur-sm py-4 md:py-5"
+                ? "border-b border-white/10 bg-[#070e1e]/95 shadow-lg backdrop-blur-md py-3.5 md:py-4"
+                : "border-b border-white/5 bg-[#070e1e]/85 backdrop-blur-sm py-4 md:py-5"
                 }`}
         >
-            <div className="flex items-center justify-between px-6 md:px-12">
+            <div className="flex items-center justify-between px-6 md:px-12 max-w-[1600px] mx-auto">
                 <a
                     href="#top"
                     className="group flex items-center transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
@@ -93,7 +86,7 @@ export function SiteNav() {
                     />
                 </a>
 
-                <div className="hidden md:flex items-center gap-7 font-mono text-xs md:text-[13px] tracking-[0.14em] uppercase">
+                <div className="hidden lg:flex items-center gap-7 text-[13px] md:text-[14px]">
                     {navLinks.map((link) => {
                         const sectionId = link.href.substring(1);
                         const isActive = activeSection === sectionId;
@@ -101,16 +94,16 @@ export function SiteNav() {
                             <a
                                 key={link.href}
                                 href={link.href}
-                                className={`group relative py-1.5 transition-colors duration-300 ${isActive
-                                    ? "text-foreground font-medium"
-                                    : "text-foreground/75 hover:text-foreground font-normal"
+                                className={`group relative py-1.5 transition-colors duration-200 ${isActive
+                                    ? "text-white font-medium"
+                                    : "text-white/80 hover:text-white font-normal"
                                     }`}
                             >
                                 <span className="relative z-10 transition-transform duration-200 inline-block group-hover:-translate-y-0.5">
                                     {link.label}
                                 </span>
                                 <span
-                                    className={`absolute bottom-0 left-0 h-[2px] bg-brand-green transition-all duration-300 ease-out ${isActive
+                                    className={`absolute bottom-0 left-0 h-[2px] bg-emerald-400 transition-all duration-300 ease-out ${isActive
                                         ? "w-full"
                                         : "w-0 group-hover:w-full"
                                         }`}
@@ -121,7 +114,7 @@ export function SiteNav() {
 
                     <a
                         href="#contact"
-                        className="ml-3 inline-flex items-center gap-2 border border-foreground/20 bg-card/60 px-4 py-2 font-sans text-xs md:text-[13px] font-medium tracking-[0.10em] text-foreground uppercase transition-all duration-300 hover:border-brand-green hover:bg-brand-green hover:text-ink hover:shadow-xs active:scale-[0.98]"
+                        className="ml-3 inline-flex items-center gap-2 border border-emerald-500/70 hover:border-emerald-400 bg-transparent hover:bg-emerald-500/10 px-4 py-2 text-xs md:text-[13px] font-medium tracking-wide text-emerald-400 hover:text-emerald-300 transition-all duration-200 rounded-xs hover:shadow-xs active:scale-[0.98]"
                     >
                         Get in Touch
                     </a>
@@ -133,7 +126,7 @@ export function SiteNav() {
                     aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
                     aria-expanded={isOpen}
                     aria-controls="mobile-nav-menu"
-                    className="flex items-center justify-center p-2 text-foreground transition-all duration-300 hover:text-brand-green hover:bg-foreground/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green md:hidden"
+                    className="flex items-center justify-center p-2 text-white/90 transition-all duration-200 hover:text-emerald-400 hover:bg-white/5 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 lg:hidden"
                 >
                     {isOpen ? (
                         <X className="h-6 w-6 transition-transform duration-300 rotate-0 hover:rotate-90" aria-hidden="true" />
@@ -145,12 +138,12 @@ export function SiteNav() {
 
             <div
                 id="mobile-nav-menu"
-                className={`overflow-hidden transition-all duration-300 ease-in-out md:hidden ${isOpen
-                    ? "max-h-96 border-t border-border opacity-100"
+                className={`overflow-hidden transition-all duration-300 ease-in-out lg:hidden ${isOpen
+                    ? "max-h-[480px] border-t border-white/10 opacity-100"
                     : "max-h-0 border-t-0 opacity-0 pointer-events-none"
                     }`}
             >
-                <div className="flex flex-col space-y-1 bg-bone/95 px-6 py-5 backdrop-blur-md">
+                <div className="flex flex-col space-y-1 bg-[#070e1e]/98 px-6 py-5 backdrop-blur-xl">
                     {navLinks.map((link) => {
                         const sectionId = link.href.substring(1);
                         const isActive = activeSection === sectionId;
@@ -159,14 +152,14 @@ export function SiteNav() {
                                 key={link.href}
                                 href={link.href}
                                 onClick={() => setIsOpen(false)}
-                                className={`flex items-center justify-between py-3 font-mono text-xs tracking-[0.14em] uppercase transition-all duration-200 border-b border-border/40 last:border-b-0 ${isActive
-                                    ? "text-brand-green font-medium pl-2"
-                                    : "text-foreground hover:text-brand-green hover:pl-2 font-normal"
+                                className={`flex items-center justify-between py-3 text-sm tracking-wide transition-all duration-200 border-b border-white/5 last:border-b-0 ${isActive
+                                    ? "text-emerald-400 font-medium pl-2"
+                                    : "text-white/80 hover:text-emerald-400 hover:pl-2 font-normal"
                                     }`}
                             >
                                 <span>{link.label}</span>
                                 <span
-                                    className={`h-1.5 w-1.5 rounded-full bg-brand-green transition-opacity duration-200 ${isActive ? "opacity-100" : "opacity-0"
+                                    className={`h-1.5 w-1.5 rounded-full bg-emerald-400 transition-opacity duration-200 ${isActive ? "opacity-100" : "opacity-0"
                                         }`}
                                 />
                             </a>
@@ -176,7 +169,7 @@ export function SiteNav() {
                         <a
                             href="#contact"
                             onClick={() => setIsOpen(false)}
-                            className="flex items-center justify-center w-full bg-brand-green px-6 py-3 font-sans text-xs font-medium tracking-[0.10em] text-ink uppercase transition-opacity hover:opacity-85"
+                            className="flex items-center justify-center w-full border border-emerald-500/70 hover:border-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 px-6 py-3 text-xs font-semibold tracking-wide text-emerald-400 hover:text-white uppercase transition-all duration-200"
                         >
                             Get in Touch
                         </a>
@@ -187,38 +180,71 @@ export function SiteNav() {
     );
 }
 
-export function Hero({ image }: { image?: string | null }) {
-    const src = mediaUrl(image) || "/hero-construction.jpg";
-
+export function Hero({}: { image?: string | null } = {}) {
     return (
-        <header id="top" className="relative flex min-h-screen min-h-[100dvh] flex-col justify-end overflow-hidden px-0 pt-28 pb-12 sm:pt-32 sm:pb-16 md:pt-36 md:pb-20">
-            <img
-                src={src}
-                alt="Concrete structure under construction at golden hour with a tower crane"
-                width={1920}
-                height={1280}
-                className="absolute inset-0 h-full w-full object-cover object-[center_30%] sm:object-[center_32%] md:object-[center_35%]"
-            />
-            <div className="absolute inset-0 bg-linear-to-t from-ink via-ink/60 to-ink/25" />
-            <div className="relative w-full px-6 md:px-12">
-                <h1 className="animate-rise max-w-5xl text-5xl sm:text-6xl md:text-7xl lg:text-[7.2vw] xl:text-[7.6vw] 2xl:text-[7.5rem] leading-[1.04] text-ink-foreground">
-                    Building
-                    <br />
-                    your vision
-                </h1>
-                <p className="mt-6 md:mt-8 eyebrow animate-rise text-brand-green font-bold backdrop-blur-xs w-fit">
-                    Since 1997 · Nashik, Maharashtra
-                </p>
-                <div className="mt-8 md:mt-10 flex flex-col gap-6 border-t border-ink-foreground/20 pt-6 md:flex-row md:items-end md:justify-between md:gap-8 md:pt-8">
-                    <p className="max-w-xl text-sm leading-relaxed text-ink-foreground/75">
-                        Construction contracting and project execution, managed by one accountable partner from planning to handover.
-                    </p>
-                    <a
-                        href="#projects"
-                        className="inline-flex w-fit shrink-0 items-center gap-3 bg-brand-green px-6 py-3 font-sans text-xs font-medium tracking-[0.10em] text-ink uppercase transition-opacity hover:opacity-85 md:text-[13px]"
-                    >
-                        See the work
-                    </a>
+        <header
+            id="top"
+            className="relative flex min-h-screen min-h-[100dvh] flex-col justify-between overflow-hidden px-6 md:px-12 pt-28 pb-10 sm:pt-32 sm:pb-12 md:pt-36 md:pb-16"
+            style={{
+                backgroundColor: "#070e1e",
+                backgroundImage: `repeating-linear-gradient(
+                    -45deg,
+                    #0b162f 0px,
+                    #0b162f 28px,
+                    #060c1b 28px,
+                    #060c1b 56px
+                )`,
+            }}
+        >
+            {/* Top row: Right-aligned badge matching Attachment 2 */}
+            <div className="relative z-10 w-full max-w-[1550px] mx-auto flex justify-end">
+                <div className="inline-flex items-center border border-white/20 bg-transparent px-3 sm:px-4 py-1.5 sm:py-2 text-[9px] sm:text-[10px] md:text-[11px] font-mono tracking-[0.14em] sm:tracking-[0.16em] text-white/70 uppercase">
+                    HERO VIDEO / PHOTO · CONSTRUCTION SITE
+                </div>
+            </div>
+
+            {/* Main Center/Lower content grid */}
+            <div className="relative z-10 w-full max-w-[1550px] mx-auto my-auto py-8 sm:py-12 md:py-16">
+                <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-12 lg:gap-8">
+                    {/* Left Column: Heading, Eyebrow, Subtext, CTA */}
+                    <div className="max-w-3xl">
+                        <p className="font-mono text-xs md:text-sm font-semibold tracking-[0.18em] text-[#4ade80] uppercase">
+                            CONSTRUCTION MASTERY
+                        </p>
+
+                        <h1 className="mt-5 text-4xl sm:text-6xl md:text-7xl lg:text-[84px] font-bold leading-[1.05] tracking-[-0.03em] text-white">
+                            Building
+                            <br />
+                            your vision.
+                        </h1>
+
+                        <p className="mt-6 max-w-xl text-base sm:text-lg md:text-xl font-normal leading-relaxed text-slate-300">
+                            One accountable partner from planning to handover, from Nashik.
+                        </p>
+
+                        <div className="mt-8">
+                            <a
+                                href="#about"
+                                className="group inline-flex items-center gap-2.5 bg-[#4ade80] px-6 py-3.5 font-sans text-sm md:text-base font-semibold text-slate-950 transition-all duration-200 hover:bg-[#34d399] hover:shadow-lg hover:shadow-emerald-500/20 active:scale-[0.98]"
+                            >
+                                <span>Explore Our Legacy</span>
+                                <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* Bottom Right feature matching Attachment 2: SINCE 1997 */}
+                    <div className="flex items-center gap-4 self-start lg:self-end pb-2">
+                        <div className="w-[3px] h-12 md:h-14 bg-[#4ade80]" />
+                        <div className="flex flex-col">
+                            <span className="font-mono text-[11px] md:text-xs font-semibold tracking-[0.2em] text-white/60 uppercase">
+                                SINCE
+                            </span>
+                            <span className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-none mt-0.5">
+                                1997
+                            </span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </header>
@@ -228,8 +254,8 @@ export function Hero({ image }: { image?: string | null }) {
 const fallbackPractice = {
     title: "About Charul Projects",
     description:
-        "Established in 1997, Charul Projects is a Nashik-based construction and project execution firm serving industrial, healthcare, residential, commercial and hospitality projects.\n Our experience spans industrial facilities and MIDC projects, hospitals, apartments, bungalows, wineries, farmhouses, and landscape developments across Nashik and surrounding regions of Maharashtra.\n Over the years, our capabilities have grown through the projects we have undertaken, the challenges we have solved and the relationships we have built with clients, consultants, vendors and execution partners.\n Today, we bring this experience together to provide clients with a dependable partner for construction execution.\n Much of our growth has come through referrals and repeat relationships, a reflection of the trust built through our work. ",
-    image: "/texture-blueprint.jpg",
+        "Charul Projects Pvt. Ltd. has delivered residential, commercial, industrial and hospitality projects across Maharashtra and Gujarat for more than three decades. Our clients return, and refer others, because we plan carefully and stay accountable until handover.",
+    image: "/project-industrial.jpg",
 };
 
 const fallbackMissionVision = [
@@ -243,16 +269,14 @@ const fallbackMissionVision = [
         id: "mission",
         title: "MISSION",
         description:
-            "To deliver every project with discipline, quality, and accountability, on time and with value for money. \n\nThrough structured planning, responsible execution, and a commitment to quality, we strive to deliver projects on time, with accountability and value, while building lasting trust with every client.",
+            "To deliver every project with discipline, quality, and accountability, on time and with value for money.\n\nThrough structured planning, responsible execution, and a commitment to quality, we strive to deliver projects on time, with accountability and value, while building lasting trust with every client.",
     },
 ];
 
 export function Practice({ items = [] }: { items?: ApiPractice[] }) {
+    const [showFullStory, setShowFullStory] = useState(false);
     const primary = items[0];
-    const title = primary?.title || fallbackPractice.title;
-    const description = primary?.description || fallbackPractice.description;
-    const image = mediaUrl(primary?.image) || fallbackPractice.image;
-    const paragraphs = description.split(/\n+/).filter(Boolean);
+    const aboutText = primary?.description || fallbackPractice.description;
     const extras =
         items.length > 1
             ? items.slice(1).map((item) => ({
@@ -263,71 +287,104 @@ export function Practice({ items = [] }: { items?: ApiPractice[] }) {
             : fallbackMissionVision;
 
     return (
-        <section id="about" className="px-6 py-24 md:px-12 md:py-36">
-            <div className="grid gap-14 md:grid-cols-12">
-                <div className="md:col-span-4">
-                    <p className="eyebrow">About Us</p>
-                    <h2 className="mt-6 text-[36px] font-medium leading-[1.1] tracking-[-0.025em] md:text-[44px] lg:text-[56px]">{title}</h2>
-                </div>
-                <div className="space-y-6 text-[15px] font-normal leading-[1.6] text-muted-foreground md:col-span-7 md:col-start-6 md:text-[16px] lg:text-[17px]">
-                    {paragraphs.map((p) => (
-                        <p key={p.slice(0, 48)}>{p}</p>
-                    ))}
-                </div>
-            </div>
+        <section id="about" className="relative bg-white text-slate-900 px-6 sm:px-12 md:px-16 py-20 sm:py-24 md:py-28">
+            <div className="max-w-[1550px] mx-auto">
+                {/* 2-Column Section matching Attachment 1 */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                    {/* Left Column */}
+                    <div className="lg:col-span-6 xl:col-span-7 flex flex-col justify-center">
+                        <p className="font-mono text-xs sm:text-[13px] font-bold tracking-[0.18em] text-[#1d4ed8] uppercase">
+                            ABOUT US
+                        </p>
 
-            <figure className="relative mt-20 overflow-hidden">
-                <img
-                    src={image}
-                    alt={title}
-                    loading="lazy"
-                    width={1600}
-                    height={1008}
-                    className="h-[45vh] w-full object-cover md:h-[60vh]"
-                />
-                <figcaption className="absolute inset-0 flex items-end bg-linear-to-t from-ink/80 to-transparent p-6 md:p-12">
-                    <h2 className="max-w-2xl text-[26px] font-medium leading-[1.15] tracking-[-0.025em] text-ink-foreground sm:text-[32px] md:text-[38px] lg:text-[42px]">
-                        Over three decades of building experience in Nashik.
-                    </h2>
-                </figcaption>
-            </figure>
+                        <h2 className="mt-4 text-3xl sm:text-4xl md:text-[44px] lg:text-[50px] font-bold leading-[1.12] tracking-[-0.025em] text-slate-900">
+                            Leading construction and
+                            <br className="hidden sm:inline" />
+                            {" "}project execution specialist.
+                        </h2>
 
-            <div className="mt-20 grid gap-4 border-t border-border pt-12 md:grid-cols-2 md:gap-6">
-                {extras.map((item) => {
-                    const lines = item.description.split(/\n+/).map((l) => l.trim()).filter(Boolean);
-                    const subheadline = lines.length > 1 ? lines[0] : null;
-                    const body = lines.length > 1 ? lines.slice(1) : lines;
+                        <p className="mt-6 text-base sm:text-lg md:text-[17px] font-normal leading-[1.7] text-slate-600 max-w-xl">
+                            {aboutText}
+                        </p>
 
-                    return (
-                        <article
-                            key={item.id}
-                            className="group flex min-h-[260px] flex-col justify-between border border-border bg-card p-7 transition-colors duration-300 hover:border-brand-green md:p-9"
+                        <div className="mt-8">
+                            <button
+                                type="button"
+                                onClick={() => setShowFullStory((prev) => !prev)}
+                                className="group inline-flex items-center gap-2 font-semibold text-sm sm:text-base text-[#1d4ed8] hover:text-[#1e40af] border-b-2 border-blue-600/30 hover:border-blue-600 pb-0.5 transition-all duration-200 cursor-pointer"
+                            >
+                                <span>{showFullStory ? "Close story details" : "Read our story"}</span>
+                                <span className={`inline-block transition-transform duration-200 ${showFullStory ? "-rotate-90" : "group-hover:translate-x-1"}`}>
+                                    →
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Right Column: Architectural Media Container matching Attachment 1 */}
+                    <div className="lg:col-span-6 xl:col-span-5">
+                        <div
+                            className="relative aspect-[16/10] w-full overflow-hidden border border-slate-200/90 shadow-sm"
+                            style={{
+                                backgroundColor: "#dbe2ea",
+                                backgroundImage: `
+                                    repeating-linear-gradient(
+                                        -45deg,
+                                        #d0d9e4 0px,
+                                        #d0d9e4 22px,
+                                        #edf2f7 22px,
+                                        #edf2f7 44px
+                                    )
+                                `,
+                            }}
                         >
-                            <p className="eyebrow font-medium text-foreground">{item.title}</p>
-                            <div>
-                                {subheadline ? (
-                                    <>
-                                        <p className="mt-8 text-[15px] font-semibold leading-[1.4] text-foreground md:text-[16px] lg:text-[17px]">
-                                            {subheadline}
-                                        </p>
-                                        <div className="mt-4 space-y-4">
-                                            {body.map((p, idx) => (
-                                                <p key={idx} className="text-[14px] font-normal leading-[1.6] text-muted-foreground md:text-[15px]">
-                                                    {p}
-                                                </p>
-                                            ))}
-                                        </div>
-                                    </>
-                                ) : (
-                                    <p className="mt-8 text-[14px] font-normal leading-[1.6] text-muted-foreground whitespace-pre-line md:text-[15px]">
-                                        {item.description}
-                                    </p>
-                                )}
+                            {/* Badge matching Attachment 1 at bottom-left */}
+                            <div className="absolute bottom-4 left-4 z-10">
+                                <div className="bg-white px-4 py-1.5 text-[10px] md:text-[11px] font-mono tracking-[0.16em] text-slate-800 uppercase font-semibold shadow-xs border border-slate-200/80">
+                                    PHOTO · BUILDING
+                                </div>
                             </div>
-                            <span className="mt-8 h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
-                        </article>
-                    );
-                })}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Collapsible / Expandable Legacy & Vision/Mission */}
+                {showFullStory && (
+                    <div className="mt-16 pt-16 border-t border-slate-200 animate-in fade-in duration-300">
+                        <div className="grid gap-12 lg:grid-cols-12">
+                            <div className="lg:col-span-5">
+                                <span className="font-mono text-xs uppercase tracking-widest text-[#1d4ed8] font-semibold">
+                                    Our Heritage & Practice
+                                </span>
+                                <h3 className="mt-3 text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+                                    Over three decades of building experience in Nashik.
+                                </h3>
+                                <p className="mt-4 text-slate-600 leading-relaxed text-sm sm:text-base">
+                                    Established in 1997, Charul Projects is a Nashik-based construction and project execution firm serving industrial, healthcare, residential, commercial and hospitality projects across Maharashtra and Gujarat.
+                                </p>
+                            </div>
+
+                            <div className="lg:col-span-7 grid gap-6 sm:grid-cols-2">
+                                {extras.map((item) => (
+                                    <div
+                                        key={item.id}
+                                        className="border border-slate-200 bg-slate-50/60 p-6 sm:p-8 flex flex-col justify-between"
+                                    >
+                                        <div>
+                                            <span className="font-mono text-xs uppercase tracking-wider text-emerald-600 font-semibold">
+                                                {item.title}
+                                            </span>
+                                            <p className="mt-4 text-sm sm:text-[15px] text-slate-700 leading-relaxed whitespace-pre-line">
+                                                {item.description}
+                                            </p>
+                                        </div>
+                                        <div className="mt-6 h-1 w-12 bg-[#4ade80]" />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </section>
     );
@@ -335,78 +392,109 @@ export function Practice({ items = [] }: { items?: ApiPractice[] }) {
 
 export const About = Practice;
 
-const fallbackServices = [
+const servicesData = [
     {
-        id: 1,
+        num: "01",
         name: "Turnkey Execution",
         description:
-            "We manage the complete construction journey - coordinating planning, procurement, site execution, quality, commissioning and handover under one accountable partner.",
+            "End-to-end delivery from planning and design coordination to construction and handover, under one contract.",
     },
     {
-        id: 2,
+        num: "02",
         name: "Construction Management",
         description:
-            "We manage the day-to-day construction process across schedule, cost, quality, resources and coordination, keeping the project moving from one stage to the next.",
+            "Site supervision, scheduling, budget control and quality inspection on behalf of owners and developers.",
     },
     {
-        id: 3,
+        num: "03",
         name: "General Contracting",
         description:
-            "We take responsibility for the agreed construction scope and coordinate the teams, trades, materials and site activities required to deliver it safely and to the required standard.",
-    },
-    {
-        id: 4,
-        name: "Project Management",
-        description:
-            "We bring structure to planning, coordination, progress monitoring and stakeholder management - helping clients make timely decisions and maintain control throughout execution.",
+            "Disciplined execution of civil works against approved drawings, specifications and timelines.",
     },
 ];
 
-export function Services({ items = [] }: { items?: ApiService[] }) {
-    const list = items.length > 0 ? items : fallbackServices;
-
+export function Services({}: { items?: ApiService[] } = {}) {
     return (
-        <section className="ink-panel px-6 py-24 md:px-12 md:py-32">
-            <p className="eyebrow text-brand-green">What we do</p>
-            <div className="mt-10">
-                {list.map((s, i) => (
-                    <div
-                        key={s.id}
-                        className="group grid gap-4 border-t border-ink-foreground/20 py-8 md:grid-cols-12 md:items-baseline md:gap-8"
-                    >
-                        <span className="eyebrow font-mono text-[12px] text-brand-green md:col-span-1 md:text-[13px]">{String(i + 1).padStart(2, "0")}</span>
-                        <h3 className="text-[20px] font-medium leading-[1.2] tracking-[-0.02em] text-ink-foreground transition-transform duration-300 group-hover:translate-x-2 md:col-span-5 md:text-[24px] lg:text-[28px]">
-                            {s.name}
-                        </h3>
-                        <p className="max-w-xl text-[14px] font-normal leading-[1.6] text-ink-foreground/75 md:col-span-6 md:text-[15px]">
-                            {s.description}
-                        </p>
-                    </div>
-                ))}
+        <section id="services" className="bg-white text-slate-900 py-20 sm:py-24 md:py-28 px-6 sm:px-12 md:px-16">
+            <div className="max-w-[1550px] mx-auto">
+                {/* Header matching Attachment 2 */}
+                <div>
+                    <p className="font-mono text-xs sm:text-[13px] font-bold tracking-[0.18em] text-[#1d4ed8] uppercase">
+                        WHAT WE DO
+                    </p>
+                    <h2 className="mt-3 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-slate-900">
+                        Unparalleled construction
+                        <br />
+                        expertise.
+                    </h2>
+                </div>
+
+                {/* 3-Column Cards Grid matching Attachment 2 */}
+                <div className="mt-12 sm:mt-14 grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 lg:gap-8">
+                    {servicesData.map((s) => (
+                        <article
+                            key={s.num}
+                            className="group flex flex-col bg-white border border-slate-200/80 overflow-hidden shadow-xs hover:shadow-md transition-all duration-300"
+                        >
+                            {/* Media container with diagonal stripes pattern */}
+                            <div
+                                className="relative aspect-[16/10] w-full overflow-hidden border-b border-slate-100"
+                                style={{
+                                    backgroundColor: "#dbe2ea",
+                                    backgroundImage: `repeating-linear-gradient(
+                                        -45deg,
+                                        #d0d9e4 0px,
+                                        #d0d9e4 20px,
+                                        #edf2f7 20px,
+                                        #edf2f7 40px
+                                    )`,
+                                }}
+                            />
+
+                            {/* Content area */}
+                            <div className="p-6 sm:p-8 flex flex-col flex-1 justify-between bg-white">
+                                <div>
+                                    <span className="font-mono text-xs sm:text-[13px] font-semibold text-[#1d4ed8]">
+                                        {s.num}
+                                    </span>
+                                    <h3 className="mt-2 text-xl sm:text-[22px] font-bold text-slate-900 tracking-tight transition-colors duration-200 group-hover:text-[#1d4ed8]">
+                                        {s.name}
+                                    </h3>
+                                    <p className="mt-3 text-sm sm:text-[15px] font-normal leading-relaxed text-slate-600">
+                                        {s.description}
+                                    </p>
+                                </div>
+                            </div>
+                        </article>
+                    ))}
+                </div>
             </div>
         </section>
     );
 }
 
 const fallbackStats = [
-    { id: 1, value: "25+", label: "Years on site" },
-    { id: 2, value: "150+", label: "Projects delivered" },
-    { id: 3, value: "5", label: "Sectors served" },
-    { id: 4, value: "100%", label: "Repeat-client intent" },
+    { id: 1, value: "30+", label: "Years of experience, since 1997" },
+    { id: 2, value: "75+", label: "Projects delivered" },
+    { id: 3, value: "8+", label: "Sectors served" },
+    { id: 4, value: "25 L+", label: "Sq. ft. constructed" },
 ];
 
 export function Stats({ items = [] }: { items?: ApiStat[] }) {
-    const list = items.length > 0 ? items : fallbackStats;
+    const list = items.length === 4 && items[0].value.includes("30") ? items : fallbackStats;
 
     return (
-        <section className="ink-panel px-6 py-16 md:px-12">
-            <div className="grid grid-cols-2 gap-10 md:grid-cols-4">
+        <section className="bg-[#0b1426] py-14 sm:py-16 md:py-20 px-6 sm:px-12 md:px-16 border-y border-white/5">
+            <div className="max-w-[1550px] mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
                 {list.map((s) => (
-                    <div key={s.id}>
-                        <p className="font-sans text-4xl font-medium tracking-tight text-brand-green leading-none md:text-5xl lg:text-[56px]">
+                    <div key={s.id} className="flex flex-col">
+                        <div className="w-full h-[2px] bg-[#4ade80] mb-6 opacity-90" />
+                        <p className="font-sans text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-none">
                             {s.value}
                         </p>
-                        <p className="eyebrow mt-3 text-ink-foreground/60">{s.label}</p>
+                        <p className="mt-3 text-xs sm:text-sm font-normal text-slate-400">
+                            {s.label}
+                        </p>
                     </div>
                 ))}
             </div>
@@ -414,264 +502,406 @@ export function Stats({ items = [] }: { items?: ApiStat[] }) {
     );
 }
 
-const staticIndustries = [
-    {
-        id: 1,
-        name: "Residential",
-        body: "Apartments, bungalows and housing developments delivered with disciplined planning, quality execution and attention to comfort, durability and timelines.",
-    },
-    {
-        id: 2,
-        name: "Commercial",
-        body: "Offices, hospitals and institutional buildings delivered around operational needs - with coordinated services, durable finishes and execution planned from day one.",
-    },
+const standForValues = [
+    "Trust",
+    "Discipline",
+    "Quality",
+    "Responsibility",
+    "Reliability",
+    "Excellence",
+];
 
-    {
-        id: 3,
-        name: "Industrial",
-        body: "MIDC sheds, factories, foundries and production facilities built around structural requirements, crane loads, foundations and machinery installation - not a generic shell.",
-    },
-    {
-        id: 4,
-        name: "Hospitality",
-        body: "Hotels, resorts, wineries and hospitality spaces delivered with coordinated infrastructure, guest experience, operational requirements and long-term durability in mind.",
-    },
-    {
-        id: 5,
-        name: "Farmhouses",
-        body: "Farmhouses, estates and rural properties developed with careful attention to the land, access, utilities, outdoor spaces and the way the property is meant to be used.",
-    },
+export function WhatWeStandFor() {
+    return (
+        <section className="bg-white border-b border-slate-200/80 py-8 md:py-10 px-6 sm:px-12 md:px-16">
+            <div className="max-w-[1550px] mx-auto flex flex-col md:flex-row md:items-center md:justify-between gap-6 md:gap-8">
+                <span className="font-mono text-xs sm:text-[13px] font-bold tracking-[0.18em] text-[#1d4ed8] uppercase shrink-0">
+                    WHAT WE STAND FOR
+                </span>
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-3 sm:gap-8 md:gap-10 lg:gap-14 w-full md:w-auto">
+                    {standForValues.map((val) => (
+                        <span
+                            key={val}
+                            className="font-sans text-sm sm:text-base font-semibold text-slate-900 tracking-tight"
+                        >
+                            {val}
+                        </span>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
 
-    {
-        id: 6,
-        name: "Landscape & Site Development",
-        body: "Grading, drainage, water systems, hardscape and planting integrated with the site - creating functional, durable and cohesive outdoor spaces.",
-    },
-    {
-        id: 7,
-        name: "Hospitals ",
-        body: "Hospital construction executed with attention to functional requirements, quality construction, finishing and the specific needs of the facility. ",
-    },
+const sectorsList = [
+    { id: 1, name: "Residential" },
+    { id: 2, name: "Commercial" },
+    { id: 3, name: "Industrial" },
+    { id: 4, name: "Hospitality" },
+    { id: 5, name: "Farmhouses" },
+    { id: 6, name: "Landscape & Site Development" },
+    { id: 7, name: "Hospitals" },
 ];
 
 export function Sectors() {
     return (
-        <section id="sectors" className="px-6 py-24 md:px-12 md:py-32">
-            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-                <div>
-                    <p className="eyebrow">Industries</p>
-                    <h2 className="mt-3 max-w-2xl text-[36px] font-medium leading-[1.1] tracking-[-0.025em] md:text-[44px] lg:text-[56px]">Our Areas of Expertise</h2>
-                </div>
-                <p className="max-w-sm text-[14px] font-normal leading-[1.5] text-muted-foreground md:text-[15px]">
-                    Commercial and residential at the core - with industrial, hospitality and landscape
-                    programmes carried the same way.
-                </p>
-            </div>
+        <section id="sectors" className="bg-[#edf2f7] text-slate-900 py-20 sm:py-24 md:py-28 px-6 sm:px-12 md:px-16 border-t border-slate-200/60">
+            <div className="max-w-[1550px] mx-auto">
+                {/* Header matching Attachment 1 */}
+                <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 pb-10">
+                    <div>
+                        <p className="font-mono text-xs sm:text-[13px] font-bold tracking-[0.18em] text-[#1d4ed8] uppercase">
+                            AREAS OF EXPERTISE
+                        </p>
+                        <h2 className="mt-3 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-slate-900">
+                            Sectors we serve.
+                        </h2>
+                    </div>
 
-            <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {staticIndustries.map((c, i) => (
-                    <article
-                        key={c.id}
-                        className="group flex min-h-[280px] flex-col justify-between border border-border bg-card p-7 transition-colors duration-300 hover:border-brand-green"
-                    >
-                        <span className="font-mono text-4xl font-normal tracking-tight text-brand-green leading-none md:text-5xl lg:text-[48px]">
-                            {String(i + 1).padStart(2, "0")}
-                        </span>
+                    <div>
+                        <a
+                            href="#contact"
+                            className="group inline-flex items-center gap-1.5 font-semibold text-sm sm:text-base text-[#1d4ed8] hover:text-[#1e40af] border-b border-blue-600/30 hover:border-blue-600 pb-0.5 transition-all duration-200"
+                        >
+                            <span>Know more</span>
+                            <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                {/* Row 1: 4 Cards across matching Attachment 1 */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7">
+                    {sectorsList.slice(0, 4).map((sector) => (
+                        <div key={sector.id} className="group flex flex-col">
+                            {/* Media container with diagonal stripes pattern */}
+                            <div
+                                className="relative aspect-[16/10] w-full overflow-hidden border border-slate-200/90 shadow-2xs"
+                                style={{
+                                    backgroundColor: "#dbe2ea",
+                                    backgroundImage: `repeating-linear-gradient(
+                                        -45deg,
+                                        #d0d9e4 0px,
+                                        #d0d9e4 20px,
+                                        #edf2f7 20px,
+                                        #edf2f7 40px
+                                    )`,
+                                }}
+                            >
+                                <div className="absolute bottom-3 left-3 z-10">
+                                    <span className="inline-block bg-white/95 text-slate-700 text-[10px] font-mono font-semibold tracking-wider uppercase px-2.5 py-1 border border-slate-200/60 shadow-xs">
+                                        PHOTO
+                                    </span>
+                                </div>
+                            </div>
+                            {/* Label */}
+                            <h3 className="mt-3 font-semibold text-base sm:text-[17px] text-slate-900 tracking-tight transition-colors duration-200 group-hover:text-[#1d4ed8]">
+                                {sector.name}
+                            </h3>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Row 2: 3 Cards across matching Attachment 1 */}
+                <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+                    {sectorsList.slice(4, 7).map((sector) => (
+                        <div key={sector.id} className="group flex flex-col">
+                            {/* Media container with diagonal stripes pattern */}
+                            <div
+                                className="relative aspect-[16/10] w-full overflow-hidden border border-slate-200/90 shadow-2xs"
+                                style={{
+                                    backgroundColor: "#dbe2ea",
+                                    backgroundImage: `repeating-linear-gradient(
+                                        -45deg,
+                                        #d0d9e4 0px,
+                                        #d0d9e4 20px,
+                                        #edf2f7 20px,
+                                        #edf2f7 40px
+                                    )`,
+                                }}
+                            >
+                                <div className="absolute bottom-3 left-3 z-10">
+                                    <span className="inline-block bg-white/95 text-slate-700 text-[10px] font-mono font-semibold tracking-wider uppercase px-2.5 py-1 border border-slate-200/60 shadow-xs">
+                                        PHOTO
+                                    </span>
+                                </div>
+                            </div>
+                            {/* Label */}
+                            <h3 className="mt-3 font-semibold text-base sm:text-[17px] text-slate-900 tracking-tight transition-colors duration-200 group-hover:text-[#1d4ed8]">
+                                {sector.name}
+                            </h3>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
+
+export function CharulEdge() {
+    return (
+        <section id="edge" className="bg-[#070e1e] text-white py-20 sm:py-24 md:py-28 px-6 sm:px-12 md:px-16 border-t border-white/5">
+            <div className="max-w-[1550px] mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+                    {/* Left Column matching Attachment 1 */}
+                    <div className="lg:col-span-7 flex flex-col justify-center">
+                        <p className="font-mono text-xs sm:text-[13px] font-bold tracking-[0.18em] text-[#4ade80] uppercase">
+                            DISCIPLINE & PRECISION
+                        </p>
+
+                        <h2 className="mt-3 text-4xl sm:text-5xl md:text-[56px] font-bold tracking-tight text-white leading-tight">
+                            The Charul edge.
+                        </h2>
+
+                        {/* Top horizontal divider */}
+                        <div className="w-full h-px bg-white/15 my-8 sm:my-10" />
+
+                        {/* 2x2 Features Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-8">
+                            {/* Discipline */}
+                            <div>
+                                <h3 className="text-lg sm:text-[19px] font-bold text-white tracking-tight">
+                                    Discipline
+                                </h3>
+                                <p className="mt-2 text-xs sm:text-sm text-slate-300/80 leading-relaxed max-w-xs">
+                                    Planned schedules, budgets and site routines, followed through to handover.
+                                </p>
+                            </div>
+
+                            {/* Quality */}
+                            <div>
+                                <h3 className="text-lg sm:text-[19px] font-bold text-white tracking-tight">
+                                    Quality
+                                </h3>
+                                <p className="mt-2 text-xs sm:text-sm text-slate-300/80 leading-relaxed max-w-xs">
+                                    Inspection at every stage before work moves on.
+                                </p>
+                            </div>
+
+                            {/* Middle horizontal divider line */}
+                            <div className="col-span-full h-px bg-white/10" />
+
+                            {/* Accountability */}
+                            <div>
+                                <h3 className="text-lg sm:text-[19px] font-bold text-white tracking-tight">
+                                    Accountability
+                                </h3>
+                                <p className="mt-2 text-xs sm:text-sm text-slate-300/80 leading-relaxed max-w-xs">
+                                    One partner answerable for the whole job, planning to handover.
+                                </p>
+                            </div>
+
+                            {/* Own equipment */}
+                            <div>
+                                <h3 className="text-lg sm:text-[19px] font-bold text-white tracking-tight">
+                                    Own equipment
+                                </h3>
+                                <p className="mt-2 text-xs sm:text-sm text-slate-300/80 leading-relaxed max-w-xs">
+                                    Shuttering, lifts, mixers and a tower crane owned and deployed by us.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right Column: Dark Diagonal Stripes Box matching Attachment 1 */}
+                    <div className="lg:col-span-5">
+                        <div
+                            className="relative aspect-[4/3] w-full overflow-hidden border border-white/10 shadow-lg"
+                            style={{
+                                backgroundColor: "#070e1e",
+                                backgroundImage: `repeating-linear-gradient(
+                                    -45deg,
+                                    #0b162f 0px,
+                                    #0b162f 26px,
+                                    #060c1b 26px,
+                                    #060c1b 52px
+                                )`,
+                            }}
+                        >
+                            {/* Bottom-left Badge */}
+                            <div className="absolute bottom-4 left-4 z-10">
+                                <div className="border border-white/20 bg-black/40 backdrop-blur-xs text-[10px] sm:text-[11px] font-mono tracking-[0.16em] text-white/80 uppercase px-3.5 py-1.5 font-medium">
+                                    PHOTO · SITE TEAM
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+const equipmentCategories = [
+    {
+        title: "CONCRETE & FORMWORK",
+        items: [
+            { name: "Needle vibrators", count: 15 },
+            { name: "Concrete mixers", count: 4 },
+            { name: "Water pumps", count: 10 },
+        ],
+    },
+    {
+        title: "LIFTING & VERTICAL",
+        items: [
+            { name: "Electric lifts", count: 4 },
+            { name: "Material lifts, 100 m", count: 2 },
+            { name: "Tower crane", count: 1 },
+        ],
+    },
+    {
+        title: "REBAR & STEEL",
+        items: [
+            { name: "Rebar machines", count: 3 },
+            { name: "Bar bending machines", count: 3 },
+            { name: "Bar cutting machines", count: 3 },
+        ],
+    },
+];
+
+const surveyCategory = {
+    title: "SURVEY, SITE & POWER",
+    items: [
+        { name: "Auto levels", count: 3 },
+        { name: "Compactor", count: 1 },
+        { name: "Power breakers", count: 6 },
+    ],
+};
+
+export function EquipmentFleet() {
+    return (
+        <section id="equipment" className="bg-[#050a17] text-white py-20 sm:py-24 md:py-28 px-6 sm:px-12 md:px-16 border-t border-white/5">
+            <div className="max-w-[1550px] mx-auto">
+                {/* Header matching Attachment 1 */}
+                <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 pb-10">
+                    <div>
+                        <p className="font-mono text-xs sm:text-[13px] font-bold tracking-[0.18em] text-[#4ade80] uppercase">
+                            EQUIPMENT & MATERIALS OWNED
+                        </p>
+                        <h2 className="mt-2 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white">
+                            Our own fleet, on every site.
+                        </h2>
+                    </div>
+
+                    <p className="text-xs sm:text-sm text-slate-400 max-w-xs text-left sm:text-right leading-relaxed">
+                        Owning the formwork, lifts and machines keeps schedules in our hands.
+                    </p>
+                </div>
+
+                {/* Top Feature Highlights: 2 Cards matching Attachment 1 */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mt-4">
+                    {/* Left Card: 400 Steel shuttering units + Media box */}
+                    <div className="lg:col-span-7 xl:col-span-8 bg-[#091224] border border-white/10 overflow-hidden grid grid-cols-1 sm:grid-cols-2">
+                        <div className="p-6 sm:p-8 md:p-10 flex flex-col justify-center">
+                            <span className="font-sans text-5xl sm:text-6xl md:text-7xl font-bold text-[#4ade80] leading-none">
+                                400
+                            </span>
+                            <h3 className="mt-4 text-lg sm:text-xl font-bold text-white tracking-tight">
+                                Steel shuttering units
+                            </h3>
+                            <p className="mt-1 text-xs sm:text-sm text-slate-400">
+                                plus 40 wall-form shuttering units
+                            </p>
+                        </div>
+
+                        {/* Diagonal stripes media box */}
+                        <div
+                            className="relative aspect-auto min-h-[200px] sm:min-h-full w-full overflow-hidden border-t sm:border-t-0 sm:border-l border-white/10"
+                            style={{
+                                backgroundColor: "#070e1e",
+                                backgroundImage: `repeating-linear-gradient(
+                                    -45deg,
+                                    #0b162f 0px,
+                                    #0b162f 26px,
+                                    #060c1b 26px,
+                                    #060c1b 52px
+                                )`,
+                            }}
+                        >
+                            <div className="absolute bottom-4 left-4 z-10">
+                                <div className="border border-white/20 bg-black/40 backdrop-blur-xs text-[10px] sm:text-[11px] font-mono tracking-[0.16em] text-white/80 uppercase px-3 py-1 font-medium">
+                                    PHOTO · SHUTTERING
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Right Card: Vertical Reach 100 m in solid green */}
+                    <div className="lg:col-span-5 xl:col-span-4 bg-[#52c86e] p-6 sm:p-8 md:p-10 flex flex-col justify-between text-[#070e1e]">
                         <div>
-                            <h3 className="text-[20px] font-medium leading-[1.2] tracking-[-0.02em] md:text-[22px] lg:text-[24px]">{c.name}</h3>
-                            <p className="mt-4 text-[14px] font-normal leading-[1.6] text-muted-foreground md:text-[15px]">{c.body}</p>
+                            <span className="font-mono text-xs font-bold tracking-[0.18em] uppercase text-[#070e1e]/80">
+                                VERTICAL REACH
+                            </span>
+                            <p className="mt-6 font-sans text-5xl sm:text-6xl font-bold tracking-tight text-[#070e1e] leading-none">
+                                100 m
+                            </p>
                         </div>
-                        <span className="mt-8 h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
-                    </article>
-                ))}
+
+                        <p className="mt-6 text-sm sm:text-[15px] font-semibold leading-relaxed text-[#070e1e]/90 max-w-xs">
+                            Two material lifts, one passenger-capable, plus a tower crane
+                        </p>
+                    </div>
+                </div>
+
+                {/* Bottom Categories: 3 Columns in Row 1 matching Attachment 1 */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7 mt-8">
+                    {equipmentCategories.map((cat) => (
+                        <div
+                            key={cat.title}
+                            className="bg-[#091224] border border-white/10 p-6 sm:p-7 flex flex-col justify-between"
+                        >
+                            <div className="w-full h-[2px] bg-[#4ade80] mb-5" />
+                            <h4 className="font-mono text-xs font-bold tracking-wider text-slate-400 uppercase mb-4">
+                                {cat.title}
+                            </h4>
+                            <div className="flex flex-col">
+                                {cat.items.map((item) => (
+                                    <div
+                                        key={item.name}
+                                        className="flex items-center justify-between py-3.5 border-b border-white/10 last:border-b-0"
+                                    >
+                                        <span className="text-sm sm:text-[15px] text-slate-200 font-normal">
+                                            {item.name}
+                                        </span>
+                                        <span className="font-mono text-xl sm:text-2xl font-bold text-white">
+                                            {item.count}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Category 4 matching Attachment 2 (SURVEY, SITE & POWER) */}
+                <div className="mt-8">
+                    <div className="w-full h-[2px] bg-[#4ade80] mb-8" />
+                    <div className="bg-[#091224] border border-white/10 p-6 sm:p-8">
+                        <h4 className="font-mono text-xs font-bold tracking-wider text-slate-400 uppercase mb-4">
+                            {surveyCategory.title}
+                        </h4>
+                        <div className="flex flex-col">
+                            {surveyCategory.items.map((item) => (
+                                <div
+                                    key={item.name}
+                                    className="flex items-center justify-between py-3.5 border-b border-white/10 last:border-b-0"
+                                >
+                                    <span className="text-sm sm:text-[15px] text-slate-200 font-normal">
+                                        {item.name}
+                                    </span>
+                                    <span className="font-mono text-xl sm:text-2xl font-bold text-white">
+                                        {item.count}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     );
 }
 
-function EquipmentCardItem({
-    sr,
-    item,
-    imageSrc,
-}: {
-    sr: string;
-    item: ApiEquipment;
-    imageSrc: string | null;
-}) {
-    const [isFlipped, setIsFlipped] = useState(false);
-    const touchStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
-    const isScrollingRef = useRef(false);
-    const lastTouchEndRef = useRef(0);
-
-    const handleTouchStart = (e: React.TouchEvent) => {
-        if (e.touches.length === 1) {
-            const touch = e.touches[0];
-            touchStartRef.current = {
-                x: touch.clientX,
-                y: touch.clientY,
-                time: Date.now(),
-            };
-            isScrollingRef.current = false;
-        }
-    };
-
-    const handleTouchMove = (e: React.TouchEvent) => {
-        if (!touchStartRef.current || e.touches.length !== 1) return;
-        const touch = e.touches[0];
-        const dx = touch.clientX - touchStartRef.current.x;
-        const dy = touch.clientY - touchStartRef.current.y;
-        if (Math.hypot(dx, dy) > 8) {
-            isScrollingRef.current = true;
-        }
-    };
-
-    const handleTouchEnd = (e: React.TouchEvent) => {
-        if (!touchStartRef.current) return;
-        const target = e.target as HTMLElement;
-        const isInteractive = target.closest("a, button, input, textarea, select");
-        if (isInteractive) {
-            touchStartRef.current = null;
-            return;
-        }
-
-        const duration = Date.now() - touchStartRef.current.time;
-        if (!isScrollingRef.current && duration < 500) {
-            lastTouchEndRef.current = Date.now();
-            setIsFlipped((prev) => !prev);
-        }
-        touchStartRef.current = null;
-    };
-
-    const handleClick = (e: React.MouseEvent) => {
-        const target = e.target as HTMLElement;
-        const isInteractive = target.closest("a, button, input, textarea, select");
-        if (isInteractive) return;
-
-        // Prevent double toggling if touchend just triggered
-        if (Date.now() - lastTouchEndRef.current < 600) {
-            return;
-        }
-
-        setIsFlipped((prev) => !prev);
-    };
-
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === "Enter" || e.key === " ") {
-            const target = e.target as HTMLElement;
-            const isInteractive = target.closest("a, button, input, textarea, select");
-            if (isInteractive && target !== e.currentTarget) return;
-
-            e.preventDefault();
-            setIsFlipped((prev) => !prev);
-        }
-    };
-
-    return (
-        <div
-            className={`equipment-card-perspective group relative min-h-[260px] w-full cursor-pointer select-none outline-none focus-visible:ring-2 focus-visible:ring-brand-green ${isFlipped ? "is-flipped" : ""
-                }`}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-            onClick={handleClick}
-            onKeyDown={handleKeyDown}
-            tabIndex={0}
-            role="button"
-            aria-label={`${item.name}, ${item.quantity} ${item.unit}. Click or tap to ${isFlipped ? "view details" : "view image"
-                }.`}
-            aria-pressed={isFlipped}
-        >
-            <div className={`equipment-card-inner ${isFlipped ? "is-flipped" : ""}`}>
-                <article className="equipment-card-front flex min-h-[260px] w-full flex-col justify-between border border-border bg-card p-6 transition-colors duration-300 group-hover:border-brand-green md:p-7">
-                    <div>
-                        <span className="font-mono text-3xl font-normal leading-none tracking-tight text-brand-green md:text-4xl lg:text-[40px]">
-                            {sr}
-                        </span>
-                        <h3 className="mt-4 text-[18px] font-medium leading-[1.2] tracking-[-0.02em] text-foreground md:text-[20px] lg:text-[22px]">
-                            {item.name}
-                        </h3>
-                    </div>
-
-                    <div>
-                        <div className="mt-6 flex items-center justify-between border-t border-border/60 pt-4 text-sm text-muted-foreground">
-                            <div className="flex items-center gap-2">
-                                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
-                                    Unit
-                                </span>
-                                <span className="inline-flex items-center rounded bg-brand-green/10 px-2 py-0.5 font-mono text-[11px] font-medium text-brand-green">
-                                    {item.unit}
-                                </span>
-                            </div>
-                            <div className="flex items-center gap-1.5">
-                                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-muted-foreground">
-                                    Qty
-                                </span>
-                                <span className="font-mono text-[18px] font-medium text-foreground md:text-[20px]">
-                                    {item.quantity}
-                                </span>
-                            </div>
-                        </div>
-                        <span className="mt-4 block h-1 w-14 bg-accent opacity-35 transition-opacity duration-300 group-hover:opacity-100" />
-                    </div>
-                </article>
-
-                <div className="equipment-card-back overflow-hidden border border-border bg-card transition-colors duration-300 group-hover:border-brand-green">
-                    {imageSrc ? (
-                        <>
-                            <img
-                                src={imageSrc}
-                                alt={item.name}
-                                loading="lazy"
-                                width={800}
-                                height={600}
-                                className="absolute inset-0 h-full w-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-ink/30" />
-                        </>
-                    ) : (
-                        <div className="flex h-full w-full items-center justify-center p-6 text-center font-mono text-xs uppercase tracking-wider text-muted-foreground">
-                            {item.name}
-                        </div>
-                    )}
-                </div>
-            </div>
-        </div>
-    );
-}
-
-export function Equipment({ items = [] }: { items?: ApiEquipment[] }) {
-    return (
-        <section id="equipment" className="px-6 py-24 md:px-12 md:py-32">
-            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-                <div>
-                    <p className="eyebrow">Plant & Machinery</p>
-                    <h2 className="mt-3 max-w-3xl text-[36px] font-medium leading-[1.1] tracking-[-0.025em] md:text-[44px] lg:text-[56px]">
-                        Equipment & Materials which we own
-                    </h2>
-                </div>
-                <p className="max-w-sm text-[14px] font-normal leading-[1.5] text-muted-foreground md:text-[15px]">
-                    Dedicated machinery and high-grade shuttering assets ensuring self-reliance, schedule reliability and consistent build quality.
-                </p>
-            </div>
-
-            <div className="mt-14 grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4">
-                {items.map((item, index) => {
-                    const sr = String(index + 1).padStart(2, "0");
-                    const imageSrc = mediaUrl(item.image);
-
-                    return (
-                        <EquipmentCardItem
-                            key={item.id ?? sr}
-                            sr={sr}
-                            item={item}
-                            imageSrc={imageSrc}
-                        />
-                    );
-                })}
-            </div>
-        </section>
-    );
-}
+export const Equipment = EquipmentFleet;
 
 const fallbackReviews: ApiReview[] = [
     {
@@ -698,75 +928,46 @@ const fallbackReviews: ApiReview[] = [
 
 export function Testimonials({ items = [] }: { items?: ApiReview[] }) {
     const list = items.length > 0 ? items : fallbackReviews;
-    const autoplay = useRef(
-        Autoplay({
-            delay: 2500,
-            stopOnInteraction: false,
-            stopOnMouseEnter: true,
-        })
-    );
 
     return (
-        <section className="px-6 py-24 md:px-12 md:py-32">
-            <div className="flex items-end justify-between gap-6">
-                <p className="eyebrow">What people say</p>
-            </div>
-
-            <Carousel
-                opts={{
-                    align: "start",
-                    loop: list.length > 1,
-                }}
-                plugins={list.length > 1 ? [autoplay.current] : []}
-                className="relative mt-12 w-full"
-            >
-                <CarouselContent className="-ml-4 md:-ml-6">
-                    {list.map((r) => {
-                        const photo = mediaUrl(r.photo);
-                        const video = mediaUrl(r.video);
-                        return (
-                            <CarouselItem
-                                key={r.id}
-                                className="basis-full pl-4 sm:basis-[85%] md:basis-[70%] lg:basis-[55%] md:pl-6"
-                            >
-                                <article className="flex h-full min-h-[280px] flex-col justify-between gap-8 border border-border bg-card p-7 md:min-h-[320px] md:p-10">
-                                    <div className="flex flex-col gap-6">
-                                        {r.type === "video" && video ? (
-                                            <video
-                                                src={video}
-                                                controls
-                                                poster={photo || undefined}
-                                                className="aspect-video w-full object-cover"
-                                            />
-                                        ) : photo ? (
-                                            <img
-                                                src={photo}
-                                                alt={r.name}
-                                                className="h-14 w-14 rounded-full object-cover"
-                                            />
-                                        ) : null}
-                                        <blockquote className="text-[18px] font-normal leading-[1.4] text-foreground tracking-[-0.01em] md:text-[20px] lg:text-[22px]">
-                                            “{r.description}”
-                                        </blockquote>
-                                    </div>
-                                    <p className="eyebrow text-muted-foreground">{r.name}</p>
-                                </article>
-                            </CarouselItem>
-                        );
-                    })}
-                </CarouselContent>
-
-                <div className="mt-8 flex items-center gap-3">
-                    <CarouselPrevious
-                        variant="outline"
-                        className="static translate-y-0 rounded-none border-border bg-transparent text-foreground hover:bg-transparent hover:text-brand-green disabled:opacity-30"
-                    />
-                    <CarouselNext
-                        variant="outline"
-                        className="static translate-y-0 rounded-none border-border bg-transparent text-foreground hover:bg-transparent hover:text-brand-green disabled:opacity-30"
-                    />
+        <section id="clients" className="bg-[#f8fafc] text-slate-900 py-20 sm:py-24 md:py-28 px-6 sm:px-12 md:px-16 border-t border-slate-200/80">
+            <div className="max-w-[1550px] mx-auto">
+                {/* Header matching Attachment 1 */}
+                <div>
+                    <p className="font-mono text-xs sm:text-[13px] font-bold tracking-[0.18em] text-[#1d4ed8] uppercase">
+                        ENDURING PARTNERSHIPS
+                    </p>
+                    <h2 className="mt-3 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-slate-900">
+                        What clients say.
+                    </h2>
                 </div>
-            </Carousel>
+
+                {/* 2-Column Cards Grid matching Attachment 1 */}
+                <div className="mt-12 sm:mt-14 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                    {list.slice(0, 2).map((r, idx) => (
+                        <article
+                            key={r.id || idx}
+                            className="bg-white border border-slate-200/80 shadow-xs p-8 sm:p-10 flex flex-col justify-between transition-all duration-300 hover:shadow-md"
+                            style={{
+                                borderLeftWidth: "4px",
+                                borderLeftColor: "#52c86e",
+                            }}
+                        >
+                            <div>
+                                <blockquote className="text-lg sm:text-xl md:text-[22px] font-bold text-slate-900 tracking-tight leading-snug">
+                                    “{r.description}”
+                                </blockquote>
+                            </div>
+
+                            <div className="mt-8 pt-4">
+                                <p className="text-xs sm:text-[13px] font-medium text-slate-500">
+                                    {r.name || "Client name"} · {idx === 0 ? "Office Construction" : "Project Consultancy"}
+                                </p>
+                            </div>
+                        </article>
+                    ))}
+                </div>
+            </div>
         </section>
     );
 }
@@ -775,7 +976,7 @@ const fallbackContact: ApiContact = {
     id: 0,
     phone: "+91 942 227 2181",
     email: "info@charulprojects.com",
-    location: "Nashik",
+    location: "Nashik, Maharashtra",
     maps_url: null,
     instagram: "https://www.instagram.com/charulprojects?igsi=a3hicnA5OHFpejR2",
     facebook: "https://www.linkedin.com/in/chinmay-deshpande-aa583375/?skipRedirect=true",
@@ -831,176 +1032,236 @@ export function Contact({ data }: { data?: ApiContact | null }) {
     const linkedinUrl = contact.facebook || "https://www.linkedin.com/in/chinmay-deshpande-aa583375/?skipRedirect=true";
 
     return (
-        <footer id="contact" className="ink-panel relative overflow-hidden px-6 py-24 md:px-12 md:py-32">
-            <h2 className="max-w-3xl text-[36px] font-medium leading-[1.1] tracking-[-0.025em] text-ink-foreground md:text-[44px] lg:text-[56px]">
-                Have a project to build?
-            </h2>
-
-            <div className="mt-16 grid gap-12 border-t border-ink-foreground/20 pt-12 lg:grid-cols-12 lg:gap-16">
-                <div className="flex flex-col gap-10 lg:col-span-5">
-                    <p className="eyebrow text-ink-foreground/50">Get in touch</p>
-
-                    {contact.phone ? (
-                        <a href={telHref} className="group block">
-                            <p className="eyebrow text-ink-foreground/50">Call</p>
-                            <p className="mt-2 text-[20px] font-medium tracking-[-0.02em] text-ink-foreground transition-colors group-hover:text-brand-green md:text-[24px] lg:text-[26px]">
-                                {contact.phone}
+        <footer id="contact" className="bg-[#050a17] text-white pt-20 sm:pt-24 md:pt-28 pb-12 sm:pb-16 px-6 sm:px-12 md:px-16 border-t border-white/5">
+            <div className="max-w-[1550px] mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+                    {/* Left Column: Contact info matching Attachment 2 */}
+                    <div className="lg:col-span-5 flex flex-col justify-between">
+                        <div>
+                            <p className="font-mono text-xs sm:text-[13px] font-bold tracking-[0.18em] text-[#4ade80] uppercase">
+                                CONTACT
                             </p>
-                        </a>
-                    ) : null}
-
-                    {contact.email ? (
-                        <a href={mailHref} className="group block">
-                            <p className="eyebrow text-ink-foreground/50">Email</p>
-                            <p className="mt-2 break-all text-[20px] font-medium tracking-[-0.02em] text-ink-foreground transition-colors group-hover:text-brand-green md:text-[24px] lg:text-[26px]">
-                                {contact.email}
+                            <h2 className="mt-3 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white leading-[1.15]">
+                                Planning a project?
+                                <br />
+                                Let&apos;s talk.
+                            </h2>
+                            <p className="mt-4 sm:mt-6 text-sm sm:text-base text-slate-400 max-w-md leading-relaxed">
+                                Share a few details and our team will respond with next steps.
                             </p>
-                        </a>
-                    ) : null}
+                        </div>
 
-                    <div>
-                        <p className="eyebrow text-ink-foreground/50">Location</p>
-                        <p className="mt-2 text-[20px] font-medium tracking-[-0.02em] text-ink-foreground md:text-[24px] lg:text-[26px]">Nashik</p>
-                        {contact.maps_url ? (
-                            <a
-                                href={contact.maps_url}
-                                target="_blank"
-                                rel="noreferrer"
-                                className="mt-1 block font-mono text-xs text-brand-green transition-colors hover:underline md:text-[13px]"
-                            >
-                                Google Maps location
-                            </a>
-                        ) : (
-                            <p className="mt-1 font-mono text-xs text-ink-foreground/50 md:text-[13px]">Google Maps location</p>
-                        )}
+                        <div className="mt-8 sm:mt-12 flex flex-col gap-2">
+                            {contact.phone ? (
+                                <a
+                                    href={telHref}
+                                    className="text-base sm:text-lg font-bold text-white hover:text-[#4ade80] transition-colors"
+                                >
+                                    {contact.phone}
+                                </a>
+                            ) : null}
+
+                            {contact.email ? (
+                                <a
+                                    href={mailHref}
+                                    className="text-sm sm:text-base text-white hover:text-[#4ade80] transition-colors"
+                                >
+                                    {contact.email}
+                                </a>
+                            ) : null}
+
+                            <p className="text-sm sm:text-base text-slate-400">
+                                Nashik, Maharashtra
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Right Column: Contact form box matching Attachment 2 */}
+                    <div className="lg:col-span-7">
+                        <div className="bg-[#091224] border border-white/10 p-6 sm:p-8 md:p-10 shadow-2xl">
+                            <form onSubmit={onSubmit} className="flex flex-col gap-5">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                    <div>
+                                        <label className="block text-xs font-medium text-slate-400 mb-2">
+                                            Name
+                                        </label>
+                                        <input
+                                            name="name"
+                                            required
+                                            className="w-full bg-[#131f38] border border-white/10 px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#4ade80] transition-colors"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-medium text-slate-400 mb-2">
+                                            Phone
+                                        </label>
+                                        <input
+                                            name="phone"
+                                            className="w-full bg-[#131f38] border border-white/10 px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#4ade80] transition-colors"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                    <div>
+                                        <label className="block text-xs font-medium text-slate-400 mb-2">
+                                            Email
+                                        </label>
+                                        <input
+                                            name="email"
+                                            type="email"
+                                            className="w-full bg-[#131f38] border border-white/10 px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#4ade80] transition-colors"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs font-medium text-slate-400 mb-2">
+                                            Firm name
+                                        </label>
+                                        <input
+                                            name="firm_name"
+                                            className="w-full bg-[#131f38] border border-white/10 px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#4ade80] transition-colors"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-medium text-slate-400 mb-2">
+                                        City
+                                    </label>
+                                    <input
+                                        name="city"
+                                        className="w-full bg-[#131f38] border border-white/10 px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#4ade80] transition-colors"
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className="block text-xs font-medium text-slate-400 mb-2">
+                                        Project notes
+                                    </label>
+                                    <textarea
+                                        name="message"
+                                        rows={4}
+                                        className="w-full bg-[#131f38] border border-white/10 px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-[#4ade80] transition-colors resize-y"
+                                    />
+                                </div>
+
+                                <div className="pt-2">
+                                    <button
+                                        type="submit"
+                                        disabled={status === "sending"}
+                                        className="bg-[#52c86e] hover:bg-[#43b55d] text-[#070e1e] font-semibold text-sm px-6 py-3.5 inline-flex items-center gap-2 transition-all duration-200 cursor-pointer disabled:opacity-60"
+                                    >
+                                        {status === "sending" ? "Sending..." : "Send inquiry →"}
+                                    </button>
+                                    {status === "sent" ? (
+                                        <p className="mt-3 font-mono text-xs text-[#4ade80]">
+                                            Received - we&apos;ll get back to you shortly.
+                                        </p>
+                                    ) : null}
+                                    {status === "error" ? (
+                                        <p className="mt-3 font-mono text-xs text-red-400">
+                                            {error}
+                                        </p>
+                                    ) : null}
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
-                <form
-                    onSubmit={onSubmit}
-                    className="flex flex-col gap-4 border border-ink-foreground/15 bg-ink-foreground/5 p-6 md:p-8 lg:col-span-7"
-                >
-                    <div className="mb-2">
-                        <p className="eyebrow text-brand-green">Project Details</p>
-                        <p className="mt-3 text-[14px] font-normal leading-[1.5] text-ink-foreground/60 md:text-[15px]">
-                            Tell us about the project, location, approximate size, timeline or anything else we should know.
+                {/* Footer divider and 4-column links matching Attachment 2 */}
+                <div className="mt-20 sm:mt-28 border-t border-white/10 pt-12 sm:pt-16">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+                        {/* Brand */}
+                        <div className="lg:col-span-5">
+                            <h3 className="font-bold tracking-wider text-white text-base sm:text-lg">
+                                CHARUL PROJECTS
+                            </h3>
+                            <p className="mt-3 text-xs sm:text-sm text-slate-400 leading-relaxed max-w-sm">
+                                Building Since 1997 · Trust · Discipline · Quality
+                            </p>
+                        </div>
+
+                        {/* Nav Links Column 1 */}
+                        <div className="lg:col-span-2">
+                            <ul className="flex flex-col gap-3 text-xs sm:text-sm text-slate-300">
+                                <li>
+                                    <a href="#about" className="hover:text-white transition-colors">
+                                        About Us
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#sectors" className="hover:text-white transition-colors">
+                                        Sectors
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#services" className="hover:text-white transition-colors">
+                                        Services
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Nav Links Column 2 */}
+                        <div className="lg:col-span-2">
+                            <ul className="flex flex-col gap-3 text-xs sm:text-sm text-slate-300">
+                                <li>
+                                    <a href="#projects" className="hover:text-white transition-colors">
+                                        Projects
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#process" className="hover:text-white transition-colors">
+                                        Process
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#contact" className="hover:text-white transition-colors">
+                                        Contact
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        {/* Column 3 (Contact & Social) */}
+                        <div className="lg:col-span-3">
+                            <ul className="flex flex-col gap-3 text-xs sm:text-sm text-slate-300">
+                                <li>
+                                    <a href={`mailto:${contact.email}`} className="hover:text-white transition-colors">
+                                        {contact.email}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href={instagramUrl}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="hover:text-white transition-colors"
+                                    >
+                                        Instagram
+                                    </a>
+                                </li>
+                                <li>
+                                    <a
+                                        href={linkedinUrl}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="hover:text-white transition-colors"
+                                    >
+                                        LinkedIn
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {/* Subfooter Copyright */}
+                    <div className="mt-14 sm:mt-18 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <p className="text-xs text-slate-500">
+                            © Charul Projects Pvt. Ltd. All rights reserved.
                         </p>
                     </div>
-
-                    <div className="grid gap-4 sm:grid-cols-2">
-                        <label className="block">
-                            <span className="eyebrow text-ink-foreground/40">Name</span>
-                            <input
-                                name="name"
-                                required
-                                placeholder="Your name"
-                                className="mt-2 w-full border border-ink-foreground/20 bg-transparent px-4 py-3 font-sans text-[14px] text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none md:text-[15px]"
-                            />
-                        </label>
-                        <label className="block">
-                            <span className="eyebrow text-ink-foreground/40">Phone</span>
-                            <input
-                                name="phone"
-                                placeholder="Mobile number"
-                                className="mt-2 w-full border border-ink-foreground/20 bg-transparent px-4 py-3 font-sans text-[14px] text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none md:text-[15px]"
-                            />
-                        </label>
-                    </div>
-
-                    <div className="grid gap-4 sm:grid-cols-2">
-                        <label className="block">
-                            <span className="eyebrow text-ink-foreground/40">Email</span>
-                            <input
-                                name="email"
-                                type="email"
-                                placeholder="you@company.com"
-                                className="mt-2 w-full border border-ink-foreground/20 bg-transparent px-4 py-3 font-sans text-[14px] text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none md:text-[15px]"
-                            />
-                        </label>
-                        <label className="block">
-                            <span className="eyebrow text-ink-foreground/40">Firm name</span>
-                            <input
-                                name="firm_name"
-                                placeholder="Company / Architecture firm"
-                                className="mt-2 w-full border border-ink-foreground/20 bg-transparent px-4 py-3 font-sans text-[14px] text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none md:text-[15px]"
-                            />
-                        </label>
-                    </div>
-
-                    <label className="block">
-                        <span className="eyebrow text-ink-foreground/40">City</span>
-                        <input
-                            name="city"
-                            placeholder="Nashik, Pune, Mumbai…"
-                            className="mt-2 w-full border border-ink-foreground/20 bg-transparent px-4 py-3 font-sans text-[14px] text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none md:text-[15px]"
-                        />
-                    </label>
-
-                    <label className="block">
-                        <span className="eyebrow text-ink-foreground/40">Project notes</span>
-                        <textarea
-                            name="message"
-                            rows={4}
-                            placeholder="Sector, location, approximate size, timeline or anything else we should know…"
-                            className="mt-2 w-full resize-y border border-ink-foreground/20 bg-transparent px-4 py-3 font-sans text-[14px] text-ink-foreground placeholder:text-ink-foreground/35 focus:border-brand-green focus:outline-none md:text-[15px]"
-                        />
-                    </label>
-
-                    <div className="mt-2 flex flex-wrap items-center gap-4">
-                        <button
-                            type="submit"
-                            disabled={status === "sending"}
-                            className="inline-flex w-fit items-center gap-3 bg-brand-green px-6 py-3 font-sans text-xs font-medium tracking-[0.10em] text-ink uppercase transition-opacity hover:opacity-85 disabled:opacity-60 md:text-[13px]"
-                        >
-                            {status === "sending" ? "Sending…" : "START YOUR PROJECT"}
-                        </button>
-                        {status === "sent" ? (
-                            <p className="font-mono text-sm text-brand-green">Received - we&apos;ll get back to you.</p>
-                        ) : null}
-                        {status === "error" ? <p className="font-mono text-sm text-red-300">{error}</p> : null}
-                    </div>
-                </form>
-            </div>
-
-            <div className="mt-20 flex flex-col gap-6 border-t border-ink-foreground/20 pt-8 sm:flex-row sm:items-center sm:justify-between">
-                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-8">
-                    <p className="eyebrow text-ink-foreground/40">Charul Projects · Est. 1997</p>
-                    <p className="font-mono text-xs text-ink-foreground/50 md:text-[13px]">Nashik</p>
-                    {contact.email ? (
-                        <a
-                            href={mailHref}
-                            className="font-mono text-xs text-ink-foreground/50 transition-colors hover:text-brand-green md:text-[13px]"
-                        >
-                            {contact.email}
-                        </a>
-                    ) : null}
-                </div>
-
-                <div className="flex items-center gap-6">
-                    {instagramUrl ? (
-                        <a
-                            href={instagramUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="eyebrow text-ink-foreground/60 transition-colors hover:text-brand-green"
-                        >
-                            Instagram
-                        </a>
-                    ) : (
-                        <span className="eyebrow text-ink-foreground/25">Instagram</span>
-                    )}
-                    {linkedinUrl ? (
-                        <a
-                            href={linkedinUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="eyebrow text-ink-foreground/60 transition-colors hover:text-brand-green"
-                        >
-                            LinkedIn
-                        </a>
-                    ) : (
-                        <span className="eyebrow text-ink-foreground/25">LinkedIn</span>
-                    )}
                 </div>
             </div>
         </footer>
