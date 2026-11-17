@@ -51,7 +51,7 @@ export default async function Home() {
       <HorizontalProcess items={data.process} />
 
       {/* Page 5: Equipment fleet & What clients say */}
-      <EquipmentFleet />
+      <EquipmentFleet items={data.equipment} />
       <Testimonials items={data.reviews} />
 
       {/* Page 6: Contact & Footer */}

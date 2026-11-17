@@ -4,7 +4,7 @@ import { useState } from "react";
 import { X } from "lucide-react";
 import { mediaUrl } from "@/lib/api";
 import type { ApiProject } from "@/lib/api/types";
-import { projects as fallbackProjects } from "./projects-data";
+import Image from "next/image";
 
 type MappedProject = {
     id: string;
@@ -16,55 +16,22 @@ type MappedProject = {
     year: string;
     subtitle: string;
     scope: string;
-    image: string;
+    image: string | null;
 };
 
 function mapProjects(apiProjects: ApiProject[]): MappedProject[] {
-    if (!apiProjects || apiProjects.length === 0) {
-        return fallbackProjects.map((p, i) => ({
-            id: `project-${i + 1}`,
-            index: p.index || String(i + 1).padStart(2, "0"),
-            sector: p.sector || "Project",
-            name: p.name,
-            blurb: p.blurb,
-            location: p.place,
-            year: p.year,
-            subtitle: p.subtitle || p.year,
-            scope: p.scope,
-            image: typeof p.image === "string" ? p.image : (p.image as { src: string })?.src || "/hero-construction.jpg",
-        }));
-    }
-
-    // Merge fallback details with API projects if available
-    return fallbackProjects.map((fallback, i) => {
-        const api = apiProjects[i];
-        if (!api) {
-            return {
-                id: `project-${i + 1}`,
-                index: fallback.index,
-                sector: fallback.sector,
-                name: fallback.name,
-                blurb: fallback.blurb,
-                location: fallback.place,
-                year: fallback.year,
-                subtitle: fallback.subtitle || fallback.year,
-                scope: fallback.scope,
-                image: typeof fallback.image === "string" ? fallback.image : (fallback.image as { src: string })?.src || "/hero-construction.jpg",
-            };
-        }
-        return {
-            id: `project-${api.id || i + 1}`,
-            index: String(i + 1).padStart(2, "0"),
-            sector: api.category_name || fallback.sector,
-            name: api.name || fallback.name,
-            blurb: api.description || fallback.blurb,
-            location: api.location || fallback.place,
-            year: String(api.year || fallback.year),
-            subtitle: fallback.subtitle || (api.location ? `${api.location} · ${api.year}` : String(api.year)),
-            scope: api.scope || fallback.scope,
-            image: mediaUrl(api.image) || (typeof fallback.image === "string" ? fallback.image : (fallback.image as { src: string })?.src || "/hero-construction.jpg"),
-        };
-    });
+    return apiProjects.map((p, i) => ({
+        id: `project-${p.id}`,
+        index: String(i + 1).padStart(2, "0"),
+        sector: p.category_name,
+        name: p.name,
+        blurb: p.description,
+        location: p.location,
+        year: String(p.year),
+        subtitle: [p.location, p.year].filter(Boolean).join(" · "),
+        scope: p.scope,
+        image: mediaUrl(p.image),
+    }));
 }
 
 export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
@@ -93,7 +60,7 @@ export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
                         href="#contact"
                         className="group inline-flex items-center gap-1.5 font-semibold text-sm sm:text-base text-[#1d4ed8] hover:text-[#1e40af] border-b border-blue-600/30 hover:border-blue-600 pb-0.5 transition-all duration-200"
                     >
-                        <span>View all 75+ projects</span>
+                        <span>View all {projects.length} projects</span>
                         <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
                     </a>
                 </div>
@@ -128,12 +95,15 @@ export function HorizontalProjects({ items = [] }: { items?: ApiProject[] }) {
                                 </span>
                             </div>
 
-                            {/* Top Right Photo Tag */}
-                            <div className="absolute top-3.5 right-3.5 z-10">
-                                <span className="inline-block bg-white/95 text-slate-700 text-[10px] font-mono font-semibold tracking-wider uppercase px-2.5 py-1 border border-slate-200/60 shadow-xs">
-                                    PHOTO
-                                </span>
-                            </div>
+                            {project.image && (
+                            <Image
+                                src={project.image}
+                                alt={project.name}
+                                fill
+                                sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                            />
+                            )}
                         </div>
 
                         {/* Card Info Area */}
