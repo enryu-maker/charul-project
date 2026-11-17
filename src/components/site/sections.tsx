@@ -477,6 +477,51 @@ export function WhatWeStandFor() {
     );
 }
 
+const missionVision = [
+    {
+        label: "VISION",
+        headline: "To set a trusted benchmark for construction execution.",
+        body: "To be recognized for reliable delivery, disciplined project management, quality construction, and responsible building practices, creating lasting value for our clients and the communities we build for.",
+    },
+    {
+        label: "MISSION",
+        headline: "To deliver every project with discipline, quality, and accountability, on time and with value for money.",
+        body: "Through structured planning, responsible execution, and a commitment to quality, we strive to deliver projects on time, with accountability and value, while building lasting trust with every client.",
+    },
+];
+
+export function MissionVision() {
+    return (
+        <section id="mission" className="bg-[#0b1426] text-white py-20 sm:py-24 md:py-28 px-6 sm:px-12 md:px-16">
+            <div className="max-w-[1550px] mx-auto">
+                <p className="font-mono text-xs sm:text-[13px] font-bold tracking-[0.18em] text-[#4ade80] uppercase">
+                    WHY WE BUILD
+                </p>
+                <h2 className="mt-3 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight">
+                    Mission &amp; vision.
+                </h2>
+
+                <div className="mt-12 sm:mt-14 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                    {missionVision.map((m) => (
+                        <article key={m.label} className="bg-[#091224] border border-white/10 p-8 sm:p-10 flex flex-col">
+                            <div className="w-full h-[2px] bg-[#4ade80] mb-6" />
+                            <span className="font-mono text-xs font-bold tracking-[0.18em] text-slate-400">
+                                {m.label}
+                            </span>
+                            <h3 className="mt-4 text-xl sm:text-2xl font-bold tracking-tight leading-snug">
+                                {m.headline}
+                            </h3>
+                            <p className="mt-4 text-sm sm:text-[15px] text-slate-300 leading-relaxed">
+                                {m.body}
+                            </p>
+                        </article>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+}
+
 const sectorsList = [
     { id: 1, name: "Residential" },
     { id: 2, name: "Commercial" },

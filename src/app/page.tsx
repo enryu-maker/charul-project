@@ -1,4 +1,4 @@
-import { SiteNav, Hero, Practice, Services, Stats, WhatWeStandFor, Sectors, CharulEdge, EquipmentFleet, Testimonials, Contact } from "@/components/site/sections";
+import { SiteNav, Hero, Practice, MissionVision, Services, Stats, WhatWeStandFor, Sectors, CharulEdge, EquipmentFleet, Testimonials, Contact } from "@/components/site/sections";
 import { HorizontalProjects } from "@/components/site/horizontal-projects";
 import { HorizontalProcess } from "@/components/site/horizontal-process";
 import { fetchSiteData } from "@/lib/api";
@@ -38,6 +38,7 @@ export default async function Home() {
       <Practice items={data.practice} />
       <Stats items={data.stats} />
       <WhatWeStandFor />
+      <MissionVision />
 
       {/* Page 2: Selected Work (Landmark developments) */}
       <HorizontalProjects items={data.projects} />
