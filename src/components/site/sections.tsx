@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect, useRef, FormEvent } from "react";
 import { Menu, X } from "lucide-react";
 import { createLead, mediaUrl } from "@/lib/api";
 import type {
@@ -424,6 +424,46 @@ export function Services({ items = [] }: { items?: ApiService[] } = {}) {
     );
 }
 
+/** Counts the leading number in values like "30+" or "25L+" up from 0 once scrolled into view. */
+function CountUp({ value }: { value: string }) {
+    const match = value.match(/^(\D*)(\d+(?:\.\d+)?)(.*)$/);
+    const target = match ? parseFloat(match[2]) : 0;
+    const [display, setDisplay] = useState(value);
+    const ref = useRef<HTMLSpanElement>(null);
+
+    useEffect(() => {
+        const el = ref.current;
+        if (!match || !el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const [, prefix, , suffix] = match;
+        const decimals = match[2].split(".")[1]?.length ?? 0;
+        let frame = 0;
+        setDisplay(`${prefix}${(0).toFixed(decimals)}${suffix}`);
+
+        const observer = new IntersectionObserver(([entry]) => {
+            if (!entry.isIntersecting) return;
+            observer.disconnect();
+            const start = performance.now();
+            const duration = 1600;
+            const tick = (now: number) => {
+                const t = Math.min((now - start) / duration, 1);
+                const eased = 1 - Math.pow(1 - t, 3);
+                setDisplay(`${prefix}${(target * eased).toFixed(decimals)}${suffix}`);
+                if (t < 1) frame = requestAnimationFrame(tick);
+            };
+            frame = requestAnimationFrame(tick);
+        }, { threshold: 0.4 });
+
+        observer.observe(el);
+        return () => {
+            observer.disconnect();
+            cancelAnimationFrame(frame);
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value]);
+
+    return <span ref={ref} className="tabular-nums">{display}</span>;
+}
+
 export function Stats({ items = [] }: { items?: ApiStat[] }) {
     const list = items;
 
@@ -434,7 +474,7 @@ export function Stats({ items = [] }: { items?: ApiStat[] }) {
                     <div key={s.id} className="flex flex-col">
                         <div className="w-full h-[2px] bg-[#4ade80] mb-6 opacity-90" />
                         <p className="font-sans text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white leading-none">
-                            {s.value}
+                            <CountUp value={s.value} />
                         </p>
                         <p className="mt-3 text-xs sm:text-sm font-normal text-slate-400">
                             {s.label}
